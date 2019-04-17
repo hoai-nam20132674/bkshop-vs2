@@ -5723,6 +5723,10 @@ table.focus-on tbody tr.focused th, table.focus-on tbody tr.focused td {
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+.icon-area:hover i {
+  width: 4rem;
+  font-size: 3rem;
+}
 
 .icon-area div:hover i,
 .icon-area div:hover span {

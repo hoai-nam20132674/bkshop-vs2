@@ -154,22 +154,24 @@
 							  	</div>
 							</div>
 							
-							@for($i=1;$i<4;$i++)
+							
 							<div class="file-upload">	
-							  	<div class="image-upload-wrap image-upload-wrap{{$i}}">
-								    <input class="file-upload-input file-upload-input{{$i}}" type='file' name="fimage[]" onchange="readURL{{$i}}(this);" accept="image/*" />
+							  	<div class="image-upload-wrap image-upload-wrap1">
+								    <input class="file-upload-input file-upload-input1" type='file' name="fimage[]" onchange="readURL1(this);" accept="image/*" />
 								    <div class="drag-text">
 								      <h3>Ảnh detail</h3>
 								    </div>
 							  	</div>
-							  	<div class="file-upload-content file-upload-content{{$i}}">
-							    	<img class="file-upload-image file-upload-image{{$i}}" src="#" alt="your image" />
-							    	<div class="image-title-wrap image-title-wrap{{$i}}">
-							      		<button type="button" onclick="removeUpload{{$i}}()" class="remove-image">Remove <span class="image-title image-title{{$i}} text-center">Uploaded Image</span></button>
+							  	<div class="file-upload-content file-upload-content1">
+							    	<img class="file-upload-image file-upload-image1" src="#" alt="your image" />
+							    	<div class="image-title-wrap image-title-wrap1">
+							      		<button type="button" onclick="removeUpload1()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button>
 							    	</div>
 							  	</div>
 							</div>
-							@endfor
+							<div id="more_image"></div>
+							<div class="icon-area" style="text-align: center; padding: 50px 0px; margin: 20px 0px; border: 4px dashed #1FB264;"><i class="fa fa-plus" onclick="more_image()"></i></div>
+							
 						</div>
 					</div>
 
@@ -197,4 +199,12 @@
 		<script type="text/javascript" src="{{asset('auth/js/app.js')}}"></script>
 		<script type="text/javascript" src="{{asset('auth/js/demo.js')}}"></script>
 		<script type="text/javascript" src="{{asset('auth/js/upload-image.js')}}"></script>
+		<script type="text/javascript">
+			var i =2;
+			function more_image(){
+				var more_image = $("#more_image");
+				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURL' + i + '(this);" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '"><button type="button" onclick="removeUpload' + i + '()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button></div></div></div>');
+				i++;
+			};
+		</script>
 @endsection

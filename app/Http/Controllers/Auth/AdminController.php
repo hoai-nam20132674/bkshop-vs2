@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Blog;
+use App\Systems;
 use App\Http\Requests\addBlogRequest;
 use App\Http\Requests\addUserRequest;
 use GuzzleHttp\Client;
@@ -17,7 +18,8 @@ class AdminController extends Controller
     	return view('auth.page-content.index');
     }
     public function addUser() {
-    	return view('auth.page-content.addUser');
+        $systems = Systems::select()->get();
+        return view('auth.page-content.addUser',['systems'=>$systems]);
     }
     public function addProduct() {
     	return view('auth.page-content.addProduct');

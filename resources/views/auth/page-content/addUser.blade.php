@@ -54,6 +54,14 @@
 								<label for="exampleInputEmail1">Confrim Password</label>
 								<input type="password" class="form-control" name="confirm_password" placeholder="nhập lại password" value="{{old('confirm_password')}}" required>
 							</div>
+							<div class="form-group">
+				                <label>Quản lý hệ thống</label>
+				                <select class="form-control" name="systems_id">
+				                	@foreach($systems as $st)
+				                    	<option value="{{$st->id}}">{{$st->name}}</option>
+				                    @endforeach
+				                </select>
+				            </div>
 							
 						</div>
 					</div>
