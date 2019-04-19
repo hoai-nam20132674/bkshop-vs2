@@ -8,6 +8,10 @@
 	<link rel="stylesheet" href="{{asset('auth/vendor/waves/waves.min.css')}}">
 	<link rel="stylesheet" href="{{asset('auth/vendor/switchery/dist/switchery.min.css')}}">
 	<link rel="stylesheet" href="{{asset('auth/css/upload-image.css')}}">
+
+	<!-- watches product -->
+	<link rel="stylesheet" href="{{asset('css/style_watches.css')}}">
+	<!-- end -->
 @endsection()
 @section('content')
 	<div class="content-area py-1">
@@ -28,8 +32,8 @@
 		    		</ul>
 		    	</div>
 		    	@endif
-				<form action="" method="POST" enctype="multipart/form-data">
-					<input type="hidden" name="_token" value="{{ csrf_token()}}">
+				<!-- <form action="" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="_token" value="{{ csrf_token()}}"> -->
 					<div class="row">
 						<div class="col-md-9">
 							<div class="row">
@@ -69,7 +73,7 @@
 								<label for="exampleInputEmail1">Seo description</label>
 								<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}">
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label for="exampleTextarea">Thông tin khuyến mãi</label>
 								<textarea class="form-control" name="sale" rows="3">{{old('sale')}}</textarea>
 								<script type="text/javascript">
@@ -107,7 +111,7 @@
 							       filebrowserFlashUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
 							       });
 							     </script>﻿
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label for="exampleTextarea">Giới thiệu sản phẩm</label>
 								<textarea class="form-control" name="content" rows="3">{{old('content')}}</textarea>
@@ -121,6 +125,70 @@
 							       });
 							     </script>﻿
 							</div>
+							<form action="{{URL::route('postAddProduct')}}" method="POST" enctype="multipart/form-data">
+							<input type="hidden" name="_token" value="{{ csrf_token()}}">
+							<div class="swatches">
+								<?php $i = 0;?>
+								@foreach($properties_type as $pptt)
+					                <div class="swatch clearfix" id="{{$i}}" style="position: relative;">
+					                  	<div class="header">{{$pptt->name}}</div>
+					                  	
+					                  	@foreach($properties as $ppt)
+					                  		@if($ppt->properties_type_id == $pptt->id)
+							                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
+								                    <input class="" id="{{$ppt->id}}" type="radio" name="properties[{{$i}}]" value="{{$ppt->id}}" checked />
+								                    <label for="{{$ppt->id}}">
+								                      {{$ppt->value}}
+								                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+								                    </label>
+							                  	</div>
+
+							                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
+							                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
+							                  	</div>
+							                @endif
+					                  	@endforeach
+					                  	<?php $i+=1;?>
+	
+					                </div>
+					            @endforeach
+					            <button type="submit" class="btn btn-primary">Submit</button>
+					        	</div>
+
+					            	
+
+				                <!-- <div class="swatch clearfix" id="1" data-option-index="1" style="position: relative;">
+				                  	<div class="header">Color</div>
+				                  	<div data-value="Blue" class="swatch-element color blue available">
+					                    <div class="tooltip">Blue</div>
+					                    <input quickbeam="color" id="swatch-1-blue" type="radio" name="option-1" value="Blue" checked  />
+					                    <label for="swatch-1-blue" style="border-color: blue;">
+					                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+					                      	<span style="background-color: blue;"></span>
+					                    </label>
+				                  	</div>
+				                  	<div data-value="Red" class="swatch-element color red available">
+					                    <div class="tooltip">Red</div>
+					                    <input quickbeam="color" id="swatch-1-red" type="radio" name="option-1" value="Red"  />
+					                    <label for="swatch-1-red" style="border-color: red;">
+					                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+					                      	<span style="background-color: red;"></span>
+					                    </label>
+				                  	</div>
+				                  	<div data-value="Yellow" class="swatch-element color yellow available">
+					                    <div class="tooltip">Yellow</div>
+					                    <input quickbeam="color" id="swatch-1-yellow" type="radio" name="option-1" value="Yellow"  />
+					                    <label for="swatch-1-yellow" style="border-color: yellow;">
+					                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+					                      	<span style="background-color: yellow;"></span>
+					                    </label>
+				                  	</div>
+				                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
+				                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
+				                  	</div>
+				                </div> -->
+				                <div class="guide"></div>
+				              </div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
@@ -175,8 +243,8 @@
 						</div>
 					</div>
 
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
+					<!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+				<!-- </form> -->
 			</div>
 			
 		</div>
@@ -199,6 +267,11 @@
 		<script type="text/javascript" src="{{asset('auth/js/app.js')}}"></script>
 		<script type="text/javascript" src="{{asset('auth/js/demo.js')}}"></script>
 		<script type="text/javascript" src="{{asset('auth/js/upload-image.js')}}"></script>
+
+		<!-- watches product -->
+		<!-- <script  src="{{asset('js/index.js')}}"></script> -->
+		<!-- end -->
+
 		<script type="text/javascript">
 			var i =2;
 			function more_image(){
@@ -206,5 +279,22 @@
 				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURL' + i + '(this);" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '"><button type="button" onclick="removeUpload' + i + '()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button></div></div></div>');
 				i++;
 			};
+		</script>
+		<script type="text/javascript">
+			$(".close").click(function(event) {
+			  	event.preventDefault();
+			  	var count = $(".swatch").length;
+			  	var id = $(this).parent('.swatch').attr('id');
+			  	var i = id;
+			  	for(i;i<count;i++){
+			  		id++;
+			  		$(this).parent('.swatch').remove();
+			  		var swatch = $(".swatch[id=" +id+ "]");
+			  		swatch.attr('id', i);
+			  		swatch.find('input').attr("name", "properties[" +i+ "]");
+
+			  	}
+			  
+			});
 		</script>
 @endsection

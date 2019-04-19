@@ -7,8 +7,11 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Blog;
 use App\Systems;
+use App\Properties;
+use App\PropertiesType;
 use App\Http\Requests\addBlogRequest;
 use App\Http\Requests\addUserRequest;
+use App\Http\Requests\addProductRequest;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
 
@@ -22,7 +25,9 @@ class AdminController extends Controller
         return view('auth.page-content.addUser',['systems'=>$systems]);
     }
     public function addProduct() {
-    	return view('auth.page-content.addProduct');
+        $properties = Properties::select()->get();
+        $properties_type = PropertiesType::select()->get();
+    	return view('auth.page-content.addProduct',['properties'=>$properties,'properties_type'=>$properties_type]);
     }
     public function addCategorie() {
     	return view('auth.page-content.addCategorie');
@@ -62,7 +67,9 @@ class AdminController extends Controller
         $user->addUser($request);
         echo "thêm user thành công";
     }
-    public function postAddProduct(){
+    public function postAddProduct(addProductRequest $request){
+        $count=$request->properties;
+        dd($count[1]);
 
     }
     public function postAddCategorie(){
