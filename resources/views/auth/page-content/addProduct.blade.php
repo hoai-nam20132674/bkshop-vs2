@@ -292,9 +292,7 @@
 			  		var swatch = $(".swatch[id=" +id+ "]");
 			  		swatch.attr('id', i);
 			  		swatch.find('input').attr("name", "properties[" +i+ "]");
-
 			  	}
-			  
 			});
 		</script>
 @endsection
