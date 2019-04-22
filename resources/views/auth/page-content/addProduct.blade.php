@@ -32,8 +32,8 @@
 		    		</ul>
 		    	</div>
 		    	@endif
-				<!-- <form action="" method="POST" enctype="multipart/form-data">
-					<input type="hidden" name="_token" value="{{ csrf_token()}}"> -->
+				<form action="{{URL::route('postAddProduct')}}" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
 						<div class="col-md-9">
 							<div class="row">
@@ -125,70 +125,104 @@
 							       });
 							     </script>﻿
 							</div>
-							<form action="{{URL::route('postAddProduct')}}" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="_token" value="{{ csrf_token()}}">
-							<div class="swatches">
-								<?php $i = 0;?>
-								@foreach($properties_type as $pptt)
-					                <div class="swatch clearfix" id="{{$i}}" style="position: relative;">
-					                  	<div class="header">{{$pptt->name}}</div>
-					                  	
-					                  	@foreach($properties as $ppt)
-					                  		@if($ppt->properties_type_id == $pptt->id)
-							                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
-								                    <input class="" id="{{$ppt->id}}" type="radio" name="properties[{{$i}}]" value="{{$ppt->id}}" checked />
-								                    <label for="{{$ppt->id}}">
-								                      {{$ppt->value}}
-								                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
-								                    </label>
-							                  	</div>
+							<div class="product_detail" id="1">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="swatches">
+											<?php $i = 0;?>
+											@foreach($properties_type as $pptt)
+								                <div class="swatch clearfix" id="{{$i}}" product-detail="1" style="position: relative;">
+								                  	<div class="header">{{$pptt->name}}</div>
+								                  	
+								                  	@foreach($properties as $ppt)
+								                  		@if($ppt->properties_type_id == $pptt->id)
+										                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
+											                    <input class="" id="{{$ppt->id}}" type="radio" name="properties[{{$i}}]" value="{{$ppt->id}}" checked />
+											                    <label for="{{$ppt->id}}">
+											                      {{$ppt->value}}
+											                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+											                    </label>
+										                  	</div>
 
-							                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
-							                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
-							                  	</div>
-							                @endif
-					                  	@endforeach
-					                  	<?php $i+=1;?>
-	
-					                </div>
-					            @endforeach
-					            <button type="submit" class="btn btn-primary">Submit</button>
-					        	</div>
+										                  	
+										                @endif
+								                  	@endforeach
+								                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
+								                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
+								                  	</div>
+								                  	<?php $i+=1;?>
+				
+								                </div>
+								            @endforeach
+								            <div class="more-swatch"></div>
+								            
+								       	</div>
+							       </div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="tag-properties-type">
+											@foreach($properties_type as $pptt)
+												<span class="tag tag-primary tag-swatch">{{$pptt->name}}</span>
+												<div class="swatch-root display-none" swatch-recoment="1">
+													<div class="swatch clearfix " id="" swatch-recoment="1" style="position: relative;">
+									                  	<div class="header">{{$pptt->name}}</div>
+									                  	
+									                  	@foreach($properties as $ppt)
+									                  		@if($ppt->properties_type_id == $pptt->id)
+											                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
+												                    <input class="" id="{{$ppt->id}}" type="radio" name="" value="{{$ppt->id}}" checked />
+												                    <label for="{{$ppt->id}}">
+												                      {{$ppt->value}}
+												                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+												                    </label>
+											                  	</div>
 
-					            	
+											                  	
+											                @endif
+									                  	@endforeach
+									                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
+									                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
+									                  	</div>
+									                </div>
+									            </div>	
+											@endforeach
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="more_product_detail"></div>
 
-				                <!-- <div class="swatch clearfix" id="1" data-option-index="1" style="position: relative;">
-				                  	<div class="header">Color</div>
-				                  	<div data-value="Blue" class="swatch-element color blue available">
-					                    <div class="tooltip">Blue</div>
-					                    <input quickbeam="color" id="swatch-1-blue" type="radio" name="option-1" value="Blue" checked  />
-					                    <label for="swatch-1-blue" style="border-color: blue;">
-					                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
-					                      	<span style="background-color: blue;"></span>
-					                    </label>
-				                  	</div>
-				                  	<div data-value="Red" class="swatch-element color red available">
-					                    <div class="tooltip">Red</div>
-					                    <input quickbeam="color" id="swatch-1-red" type="radio" name="option-1" value="Red"  />
-					                    <label for="swatch-1-red" style="border-color: red;">
-					                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
-					                      	<span style="background-color: red;"></span>
-					                    </label>
-				                  	</div>
-				                  	<div data-value="Yellow" class="swatch-element color yellow available">
-					                    <div class="tooltip">Yellow</div>
-					                    <input quickbeam="color" id="swatch-1-yellow" type="radio" name="option-1" value="Yellow"  />
-					                    <label for="swatch-1-yellow" style="border-color: yellow;">
-					                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
-					                      	<span style="background-color: yellow;"></span>
-					                    </label>
-				                  	</div>
-				                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
-				                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
-				                  	</div>
-				                </div> -->
-				                <div class="guide"></div>
-				              </div>
+				            <div class="guide"></div>
+				            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">THÊM THUỘC TÍNH</button>
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="exampleModalLabel">THÊM THUỘC TÍNH CHO SẢN PHẨM</h4>
+										</div>
+										<div class="modal-body">
+											<form>
+												<div class="form-group">
+													<label for="recipient-name" class="form-control-label">TÊN THUỘC TÍNH</label>
+													<input type="text" class="form-control" id="recipient-name">
+												</div>
+												<div class="form-group">
+													<label for="message-text" class="form-control-label">GIÁ TRỊ</label>
+													<input type="text" class="form-control" id="recipient-name">
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary">Send message</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
@@ -243,8 +277,8 @@
 						</div>
 					</div>
 
-					<!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-				<!-- </form> -->
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
 			</div>
 			
 		</div>
@@ -283,7 +317,8 @@
 		<script type="text/javascript">
 			$(".close").click(function(event) {
 			  	event.preventDefault();
-			  	var count = $(".swatch").length;
+			  	var count = $(".swatch[product-detail=1]").length;
+			  	console.log(count);
 			  	var id = $(this).parent('.swatch').attr('id');
 			  	var i = id;
 			  	for(i;i<count;i++){
@@ -293,6 +328,14 @@
 			  		swatch.attr('id', i);
 			  		swatch.find('input').attr("name", "properties[" +i+ "]");
 			  	}
+			});
+			$(".tag-swatch").click(function(event) {
+				event.preventDefault();
+				var count = $(".swatch[product-detail=1]").length;
+				var html = $(".swatch-root[swatch-recoment=1]").html();
+				$(".more-swatch").append(html);
+				console.log(html);
+				
 			});
 		</script>
 @endsection

@@ -69,7 +69,7 @@ class AdminController extends Controller
     }
     public function postAddProduct(addProductRequest $request){
         $count=$request->properties;
-        dd($count);
+        dd(count($count));
 
     }
     public function postAddCategorie(){

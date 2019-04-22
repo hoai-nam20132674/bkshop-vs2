@@ -679,11 +679,6 @@ summary {
   outline: 0 none;
 }
 
-body {
-  background-color: #fff;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 img {
   max-width: 100%;
@@ -770,10 +765,11 @@ body {
   font-family: "montserratlight", sans-serif;
   background-color: #fff;
   color: #16161a;
-  font-size: 81.25%;
+  font-size: 100%;
   line-height: 184.61538%;
   overflow-x: hidden;
   position: relative;
+
 }
 
 ._cont {
@@ -4190,8 +4186,19 @@ footer .socials {
     background-position: center -70px;
   }
 }
+.product_detail {
+  margin: 10px 0px;
+  border: 1px dotted blue;
+}
+.tag-properties-type{
+  margin: 0px 10px;
+}
+.display-none{
+  display: none;
+}
 .swatches {
-  margin: 17px 0 80px;
+  margin: 10px 0 10px;
+  font-size: 80%;
 }
 
 .selector-wrapper,
@@ -4204,6 +4211,9 @@ footer .socials {
   margin: 10px;
   padding: 10px;
   border: 1px dotted #000;
+}
+.swatch:first-child {
+  /*margin-left: 0px;*/
 }
 
 .swatch:hover {
@@ -4222,6 +4232,7 @@ footer .socials {
   text-transform: uppercase;
   color: #000;
   background: #fff0;
+  font-weight: bold;
 }
 
 .swatch input {
