@@ -125,13 +125,13 @@
 							       });
 							     </script>﻿
 							</div>
-							<div class="product_detail" id="1">
+							<div class="product_detail" id="0">
 								<div class="row">
 									<div class="col-md-12">
 										<div class="swatches">
 											<?php $i = 0;?>
 											@foreach($properties_type as $pptt)
-								                <div class="swatch clearfix" id="{{$i}}" product-detail="1" style="position: relative;">
+								                <div class="swatch clearfix" id="{{$i}}" swatch-select="{{$i}}" product-with-swatch-select="0" style="position: relative;">
 								                  	<div class="header">{{$pptt->name}}</div>
 								                  	
 								                  	@foreach($properties as $ppt)
@@ -153,8 +153,10 @@
 								                  	<?php $i+=1;?>
 				
 								                </div>
+								                @break
 								            @endforeach
-								            <div class="more-swatch"></div>
+
+								            <div class="more-swatch" product-detail="0"></div>
 								            
 								       	</div>
 							       </div>
@@ -162,10 +164,11 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="tag-properties-type">
+											<?php $i =0; ?>
 											@foreach($properties_type as $pptt)
-												<span class="tag tag-primary tag-swatch">{{$pptt->name}}</span>
-												<div class="swatch-root display-none" swatch-recoment="1">
-													<div class="swatch clearfix " id="" swatch-recoment="1" style="position: relative;">
+												<span class="tag tag-primary tag-swatch" swatch-recoment="{{$i}}">{{$pptt->name}}</span>
+												<div class="swatch-root display-none" swatch-recoment="{{$i}}" >
+													<div class="swatch clearfix " id="" swatch-recoment="{{$i}}" style="position: relative;">
 									                  	<div class="header">{{$pptt->name}}</div>
 									                  	
 									                  	@foreach($properties as $ppt)
@@ -185,7 +188,9 @@
 									                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
 									                  	</div>
 									                </div>
-									            </div>	
+									            </div>
+									            <?php $i++; ?>
+
 											@endforeach
 										</div>
 									</div>
@@ -194,35 +199,7 @@
 							<div class="more_product_detail"></div>
 
 				            <div class="guide"></div>
-				            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">THÊM THUỘC TÍNH</button>
-							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-											<h4 class="modal-title" id="exampleModalLabel">THÊM THUỘC TÍNH CHO SẢN PHẨM</h4>
-										</div>
-										<div class="modal-body">
-											<form>
-												<div class="form-group">
-													<label for="recipient-name" class="form-control-label">TÊN THUỘC TÍNH</label>
-													<input type="text" class="form-control" id="recipient-name">
-												</div>
-												<div class="form-group">
-													<label for="message-text" class="form-control-label">GIÁ TRỊ</label>
-													<input type="text" class="form-control" id="recipient-name">
-												</div>
-											</form>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-primary">Send message</button>
-										</div>
-									</div>
-								</div>
-							</div>
+				            
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
@@ -315,27 +292,42 @@
 			};
 		</script>
 		<script type="text/javascript">
+
+			// xóa một thuộc tính sản phẩm
 			$(".close").click(function(event) {
 			  	event.preventDefault();
-			  	var count = $(".swatch[product-detail=1]").length;
-			  	console.log(count);
+			  	var product_detail_number = $(this).parent().attr('product-with-swatch-select');
+			  	var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
 			  	var id = $(this).parent('.swatch').attr('id');
+			  	console.log(id);
 			  	var i = id;
-			  	for(i;i<count;i++){
+			  	for(i;i<count_swatch_select;i++){
 			  		id++;
 			  		$(this).parent('.swatch').remove();
 			  		var swatch = $(".swatch[id=" +id+ "]");
 			  		swatch.attr('id', i);
+			  		swatch.attr('swatch-select', i);
 			  		swatch.find('input').attr("name", "properties[" +i+ "]");
 			  	}
+			  	
 			});
+			// end xóa một thuộc tính sản phẩm
+
+			// thêm một thuộc tính sản phẩm
 			$(".tag-swatch").click(function(event) {
 				event.preventDefault();
-				var count = $(".swatch[product-detail=1]").length;
-				var html = $(".swatch-root[swatch-recoment=1]").html();
-				$(".more-swatch").append(html);
-				console.log(html);
+				var tag_id = $(this).attr("swatch-recoment");
+				var product_detail_number = $(this).parent().parent().parent().parent().attr('id');
+				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
+				var html = $(".swatch-root[swatch-recoment=" +tag_id+ "]").html();
+				$(".more-swatch[product-detail="+product_detail_number+"]").append(html);
+				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
+				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
+				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
+				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties[" +count_swatch_select+ "]");
+				// console.log(delete_swatch_recoment);
 				
 			});
+			// end thêm một thuộc tính sản phẩm
 		</script>
 @endsection
