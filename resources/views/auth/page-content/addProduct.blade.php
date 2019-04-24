@@ -35,7 +35,7 @@
 				<form action="{{URL::route('postAddProduct')}}" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-9 0848384333">
 							<div class="row">
 
 								<div class="col-md-3">
@@ -125,80 +125,57 @@
 							       });
 							     </script>﻿
 							</div>
-							<div class="product_detail" id="0">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="swatches">
-											<?php $i = 0;?>
-											@foreach($properties_type as $pptt)
-								                <div class="swatch clearfix" id="{{$i}}" swatch-select="{{$i}}" product-with-swatch-select="0" style="position: relative;">
-								                  	<div class="header">{{$pptt->name}}</div>
-								                  	
-								                  	@foreach($properties as $ppt)
-								                  		@if($ppt->properties_type_id == $pptt->id)
-										                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
-											                    <input class="" id="{{$ppt->id}}" type="radio" name="properties[{{$i}}]" value="{{$ppt->id}}" checked />
-											                    <label for="{{$ppt->id}}">
-											                      {{$ppt->value}}
-											                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
-											                    </label>
-										                  	</div>
-
+							<div class="form-group product_line">
+								<div class="product_detail" id="0" style="position: relative;">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="swatches" product-detail="0" >
+												
+									            
+									            
+									       	</div>
+								       </div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="tag-properties-type">
+												<?php $i =0; ?>
+												@foreach($properties_type as $pptt)
+													<span class="tag tag-primary tag-swatch" swatch-recoment="{{$i}}"><a>{{$pptt->name}}</a></span>
+													<div class="swatch-root display-none" swatch-recoment="{{$i}}" >
+														<div class="swatch clearfix " id="" swatch-recoment="{{$i}}" style="position: relative;">
+										                  	<div class="header">{{$pptt->name}}</div>
 										                  	
-										                @endif
-								                  	@endforeach
-								                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
-								                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
-								                  	</div>
-								                  	<?php $i+=1;?>
-				
-								                </div>
-								                @break
-								            @endforeach
+										                  	@foreach($properties as $ppt)
+										                  		@if($ppt->properties_type_id == $pptt->id)
+												                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
+													                    <input class="" id="{{$i}}" type="radio" name="" value="{{$ppt->id}}" />
+													                    <label for="{{$i}}">
+													                      {{$ppt->value}}
+													                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+													                    </label>
+												                  	</div>
+												                  	<?php $i++; ?>
+												                @endif
+										                  	@endforeach
+										                  	<div class="close close-swatch" style="position: absolute; top: 0px; right: 0px;" >
+										                  		<div title="XÓA THUỘC TÍNH"><i class="fa fa-close"></i></div>
+										                  	</div>
+										                </div>
+										            </div>
+										            <?php $i++; ?>
 
-								            <div class="more-swatch" product-detail="0"></div>
-								            
-								       	</div>
-							       </div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="tag-properties-type">
-											<?php $i =0; ?>
-											@foreach($properties_type as $pptt)
-												<span class="tag tag-primary tag-swatch" swatch-recoment="{{$i}}">{{$pptt->name}}</span>
-												<div class="swatch-root display-none" swatch-recoment="{{$i}}" >
-													<div class="swatch clearfix " id="" swatch-recoment="{{$i}}" style="position: relative;">
-									                  	<div class="header">{{$pptt->name}}</div>
-									                  	
-									                  	@foreach($properties as $ppt)
-									                  		@if($ppt->properties_type_id == $pptt->id)
-											                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
-												                    <input class="" id="{{$ppt->id}}" type="radio" name="" value="{{$ppt->id}}" checked />
-												                    <label for="{{$ppt->id}}">
-												                      {{$ppt->value}}
-												                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
-												                    </label>
-											                  	</div>
-
-											                  	
-											                @endif
-									                  	@endforeach
-									                  	<div class="close" style="position: absolute; top: 0px; right: 0px;" >
-									                  		<div data-toggle="tooltip" data-placement="top" data-original-title="XÓA THUỘC TÍNH" title data-color="tooltip-danger"><i class="fa fa-close"></i></div>
-									                  	</div>
-									                </div>
-									            </div>
-									            <?php $i++; ?>
-
-											@endforeach
+												@endforeach
+											</div>
 										</div>
 									</div>
+									<div class="close close-product-detail" style="position: absolute; top: 0px; right: 0px;" >
+				                  		<div title="XÓA THUỘC TÍNH"><i class="fa fa-close"></i></div>
+				                  	</div>
 								</div>
 							</div>
-							<div class="more_product_detail"></div>
-
-				            <div class="guide"></div>
+							<a><div class="icon-area add-product-line" style="text-align: center; padding: 0px 0px; margin: 20px 0px; border: 2px dashed #1FB264;"><i class="fa fa-plus"></i></div></a>
+							
 				            
 						</div>
 						<div class="col-md-3">
@@ -290,16 +267,38 @@
 				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURL' + i + '(this);" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '"><button type="button" onclick="removeUpload' + i + '()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button></div></div></div>');
 				i++;
 			};
+			// thêm product line
+			$(".add-product-line").click(function(event) {
+				event.preventDefault();
+				var product_detail_number = $(".product_detail").length;
+				var id=product_detail_number;
+				var html = $(".product_detail[id=0]").html();
+				$(".product_line").append('<div class="product_detail" id="'+id+'">'+html+'</div>');
+				var line = $(".product_line").children(".product_detail[id="+id+"]");
+				line.children().children().children(".swatches").attr('product-detail',id);
+				line.children().children().children().children(".swatch").attr('product-with-swatch-select',id);
+				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
+				var i =0;
+				var swatches = $(".swatches[product-detail=" +product_detail_number+ "]");
+				for(i;i<count_swatch_select;i++){
+			  		
+			  		var swatch = swatches.children(".swatch[id="+i+"]");
+			  		swatch.children().children("input").attr("name", "properties"+product_detail_number+"[" +i+ "]");
+			  		
+			  	}
+				// console.log(html);
+				console.log(count_swatch_select);
+			});
+			// end product line
 		</script>
 		<script type="text/javascript">
 
 			// xóa một thuộc tính sản phẩm
-			$(".close").click(function(event) {
+			$('.swatches').on('click', '.close-swatch', function(event) {
 			  	event.preventDefault();
 			  	var product_detail_number = $(this).parent().attr('product-with-swatch-select');
 			  	var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
 			  	var id = $(this).parent('.swatch').attr('id');
-			  	console.log(id);
 			  	var i = id;
 			  	for(i;i<count_swatch_select;i++){
 			  		id++;
@@ -307,10 +306,10 @@
 			  		var swatch = $(".swatch[id=" +id+ "]");
 			  		swatch.attr('id', i);
 			  		swatch.attr('swatch-select', i);
-			  		swatch.find('input').attr("name", "properties[" +i+ "]");
+			  		swatch.find('input').attr("name", "properties"+product_detail_number+"[" +i+ "]");
 			  	}
-			  	
 			});
+
 			// end xóa một thuộc tính sản phẩm
 
 			// thêm một thuộc tính sản phẩm
@@ -320,12 +319,11 @@
 				var product_detail_number = $(this).parent().parent().parent().parent().attr('id');
 				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
 				var html = $(".swatch-root[swatch-recoment=" +tag_id+ "]").html();
-				$(".more-swatch[product-detail="+product_detail_number+"]").append(html);
-				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
-				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
-				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
-				$(".more-swatch[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties[" +count_swatch_select+ "]");
-				// console.log(delete_swatch_recoment);
+				$(".swatches[product-detail="+product_detail_number+"]").append(html);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties"+product_detail_number+"[" +count_swatch_select+ "]");
 				
 			});
 			// end thêm một thuộc tính sản phẩm

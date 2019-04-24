@@ -68,8 +68,14 @@ class AdminController extends Controller
         echo "thêm user thành công";
     }
     public function postAddProduct(addProductRequest $request){
-        $count=$request->properties;
-        dd(count($count));
+        $count=$request->properties0;
+        if($count){
+            dd('tồn tại');
+        }
+        else{
+            dd('không tồn tại');
+        }
+        
 
     }
     public function postAddCategorie(){
