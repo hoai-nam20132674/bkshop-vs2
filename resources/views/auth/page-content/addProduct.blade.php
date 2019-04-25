@@ -85,33 +85,7 @@
 							       filebrowserFlashUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
 							       });
 							     </script>﻿
-							</div>
-							<div class="form-group">
-								<label for="exampleTextarea">Thông tin sản phẩm</label>
-								<textarea class="form-control" name="ttsp" rows="3">{{old('ttsp')}}</textarea>
-								<script type="text/javascript">
-							      var editor = CKEDITOR.replace('ttsp',{
-							       language:'vi',
-							       filebrowserImageBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-							       });
-							     </script>﻿
-							</div>
-							<div class="form-group">
-								<label for="exampleTextarea">Thông số kỹ thuật</label>
-								<textarea class="form-control" name="tskt" rows="3">{{old('tskt')}}</textarea>
-								<script type="text/javascript">
-							      var editor = CKEDITOR.replace('tskt',{
-							       language:'vi',
-							       filebrowserImageBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-							       });
-							     </script>﻿
-							</div> -->
+							</div>-->
 							<div class="form-group">
 								<label for="exampleTextarea">Giới thiệu sản phẩm</label>
 								<textarea class="form-control" name="content" rows="3">{{old('content')}}</textarea>
@@ -139,7 +113,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="tag-properties-type">
-												<?php $i =0; $j=0; ?>
+												<?php $i =1; $j=0; ?>
 												@foreach($properties_type as $pptt)
 													<span class="tag tag-primary tag-swatch btn btn-primary" swatch-recoment="{{$j}}" display="block"><a>{{$pptt->name}}</a></span>
 													<div class="swatch-root display-none" swatch-recoment="{{$j}}" >
@@ -149,7 +123,7 @@
 										                  	@foreach($properties as $ppt)
 										                  		@if($ppt->properties_type_id == $pptt->id)
 												                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
-													                    <input class="" id="{{$i}}" type="radio" name="" value="{{$ppt->id}}" />
+													                    <input id="{{$i}}" type="radio" name="" value="{{$ppt->id}}" checked />
 													                    <label for="{{$i}}">
 													                      {{$ppt->value}}
 													                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
@@ -163,7 +137,7 @@
 										                  	</div>
 										                </div>
 										            </div>
-										            <?php $i++; $j++; ?>
+										            <?php $j++; ?>
 
 												@endforeach
 											</div>
@@ -319,24 +293,41 @@
 			
 			$(document).on('click', '.add-product-line', function(event) {
 				event.preventDefault();
-				var product_detail_number = $(".product_detail").length;
-				var id=product_detail_number;
-				var html = $(".product_detail[id=0]").html();
-				$(".product_line").append('<div class="product_detail" id="'+id+'" style="position: relative;">'+html+'</div>');
-				var line = $(".product_line").children(".product_detail[id="+id+"]");
-				line.children().children().children(".swatches").attr('product-detail',id);
-				line.children().children().children().children(".swatch").attr('product-with-swatch-select',id);
-				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
-				var i =0;
-				var swatches = $(".swatches[product-detail=" +product_detail_number+ "]");
-				for(i;i<count_swatch_select;i++){
-			  		
-			  		var swatch = swatches.children(".swatch[id="+i+"]");
-			  		swatch.children().children("input").attr("name", "properties"+product_detail_number+"[" +i+ "]");
-			  		
+				var count_product_detail = $(".product_detail").length;
+				var id=count_product_detail;
+				$(".tag-swatch").css('display','none');
+				$(".close-swatch").css('display','none');
+				if(count_product_detail==10){
+
+				}
+				else{
+					var html = $(".product_detail[id=0]").html();
+					var count_input = $(".product_detail[id=0]").children().children().children().children().children().children("input").length;
+					$(".product_line").append('<div class="product_detail" id="'+id+'" style="position: relative;">'+html+'</div>');
+					var line = $(".product_line").children(".product_detail[id="+id+"]");
+					line.children().children().children(".swatches").attr('product-detail',id);
+					line.children().children().children().children(".swatch").attr('product-with-swatch-select',id);
+					var count_swatch_select = $(".swatch[product-with-swatch-select="+count_product_detail+"]").length;
+					var i =0;
+					var j =1;
+					var k =1;
+					var swatches = $(".swatches[product-detail=" +count_product_detail+ "]");
+					for(i;i<count_swatch_select;i++){
+				  		
+				  		var swatch = swatches.children(".swatch[id="+i+"]");
+				  		swatch.children().children("input").attr("name", "properties"+count_product_detail+"[" +i+ "]");
+				  		
+				  	}
+
+				  	
+				  	for(j;j<=count_input;j++){
+				  		$(".swatches[product-detail=" +count_product_detail+ "]").children().children().children("input[id="+j+"]").attr("id","input"+j+"for"+count_product_detail);
+				  		$(".swatches[product-detail=" +count_product_detail+ "]").children().children().children("label[for="+j+"]").attr("for","input"+j+"for"+count_product_detail);
+				  	}
+					
+					
 			  	}
-				// console.log(html);
-				// console.log(count_swatch_select);
+			  	console.log(count_product_detail);
 			});
 			// end product line
 			// -------------------------------------------------------------------------------
@@ -345,8 +336,42 @@
 				event.preventDefault();
 			  	var product_detail_number = $(this).parent().attr('id');
 			  	var count_product_detail = $(".product_detail").length;
-			  	console.log(product_detail_number);
-			  	console.log(count_product_detail);
+			  	var i =product_detail_number;
+			  	var id = $(this).parent('.product_detail').attr('id');
+			  	var count_input = $(".product_detail[id=0]").children().children().children().children().children().children("input").length;
+			  	if(id == 0){
+
+			  	}
+			  	else if(count_product_detail ==2){
+			  		$(".tag-swatch").css('display','');
+			  		$(".close-swatch").css('display','');
+			  		for(i;i<count_product_detail;i++){
+				  		product_detail_number++;
+				  		$(this).parent('.product_detail').remove();
+				  		var product_detail = $(".product_detail[id=" +product_detail_number+ "]");
+				  		product_detail.attr('id', i);
+				  		product_detail.children().children().children(".swatches").attr("product-detail",i);
+				  	}
+			  	}
+			  	else{
+				  	for(i;i<count_product_detail;i++){
+				  		var j =1;
+				  		product_detail_number++;
+				  		$(this).parent('.product_detail').remove();
+				  		
+				  		for(j;j<=count_input;j++){
+					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id="+j+"]").attr("id","input"+j+"for"+i);
+					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for="+j+"]").attr("for","input"+j+"for"+i);
+					  	}
+				  		var product_detail = $(".product_detail[id=" +product_detail_number+ "]");
+				  		product_detail.attr('id', i);
+				  		product_detail.children().children().children(".swatches").attr("product-detail",i);
+				  		product_detail.children().children().children().children(".swatch").attr("product-with-swatch-select",i);
+				  		
+				  	}
+				}
+			  	// console.log(product_detail_number);
+			  	// console.log(count_product_detail);
 			});
 			// end xóa line sản phẩm
 			// -------------------------------------------------------------------------------
