@@ -139,11 +139,11 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="tag-properties-type">
-												<?php $i =0; ?>
+												<?php $i =0; $j=0; ?>
 												@foreach($properties_type as $pptt)
-													<span class="tag tag-primary tag-swatch" swatch-recoment="{{$i}}"><a>{{$pptt->name}}</a></span>
-													<div class="swatch-root display-none" swatch-recoment="{{$i}}" >
-														<div class="swatch clearfix " id="" swatch-recoment="{{$i}}" style="position: relative;">
+													<span class="tag tag-primary tag-swatch btn btn-primary" swatch-recoment="{{$j}}" display="block"><a>{{$pptt->name}}</a></span>
+													<div class="swatch-root display-none" swatch-recoment="{{$j}}" >
+														<div class="swatch clearfix " id="" swatch-recoment="{{$j}}" style="position: relative;">
 										                  	<div class="header">{{$pptt->name}}</div>
 										                  	
 										                  	@foreach($properties as $ppt)
@@ -163,7 +163,7 @@
 										                  	</div>
 										                </div>
 										            </div>
-										            <?php $i++; ?>
+										            <?php $i++; $j++; ?>
 
 												@endforeach
 											</div>
@@ -174,7 +174,7 @@
 				                  	</div>
 								</div>
 							</div>
-							<a><div class="icon-area add-product-line" style="text-align: center; padding: 0px 0px; margin: 20px 0px; border: 2px dashed #1FB264;"><i class="fa fa-plus"></i></div></a>
+							<a id="add-product-line"><div class="icon-area add-product-line" style="text-align: center; padding: 0px 0px; margin: 20px 0px; border: 2px dashed #1FB264;"><i class="fa fa-plus"></i></div></a>
 							
 				            
 						</div>
@@ -267,13 +267,62 @@
 				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURL' + i + '(this);" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '"><button type="button" onclick="removeUpload' + i + '()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button></div></div></div>');
 				i++;
 			};
+			
+		</script>
+		<script type="text/javascript">
+
+			
+			// -------------------------------------------------------------------------------
+
+			// thêm một thuộc tính sản phẩm
+			$(document).on('click', '.tag-swatch[display="block"]', function(event) {
+			// $('.tag-properties-type').on('click', '.tag-swatch[display="block"]', function(event) {
+				event.preventDefault();
+				var tag_id = $(this).attr("swatch-recoment");
+				// $(this).css("display","none");
+				$(this).attr("display","none");
+				var product_detail_number = $(this).parent().parent().parent().parent().attr('id');
+				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
+				var html = $(".swatch-root[swatch-recoment=" +tag_id+ "]").html();
+				$(".swatches[product-detail="+product_detail_number+"]").append(html);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
+				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties"+product_detail_number+"[" +count_swatch_select+ "]");
+				
+			});
+			// end thêm một thuộc tính sản phẩm
+			// -------------------------------------------------------------------------------
+			// xóa một thuộc tính sản phẩm
+			$(document).on('click', '.close-swatch', function(event) {
+			// $('.swatches').on('click', '.close-swatch', function(event) {
+			  	event.preventDefault();
+			  	var product_detail_number = $(this).parent().attr('product-with-swatch-select');
+			  	var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
+			  	var swatch_recoment_number = $(this).parent('.swatch').attr('swatch-recoment');
+			  	var id = $(this).parent('.swatch').attr('id');
+			  	var i = id;
+			  	for(i;i<count_swatch_select;i++){
+			  		id++;
+			  		$(this).parent('.swatch').remove();
+			  		var swatch = $(".swatch[id=" +id+ "]");
+			  		swatch.attr('id', i);
+			  		swatch.attr('swatch-select', i);
+			  		swatch.find('input').attr("name", "properties"+product_detail_number+"[" +i+ "]");
+			  	}
+			  	$(".tag-swatch[swatch-recoment="+swatch_recoment_number+"]").attr('display','block');
+			});
+
+			// end xóa một thuộc tính sản phẩm
+			// -------------------------------------------------------------------------------
 			// thêm product line
-			$(".add-product-line").click(function(event) {
+			
+			$(document).on('click', '.add-product-line', function(event) {
 				event.preventDefault();
 				var product_detail_number = $(".product_detail").length;
 				var id=product_detail_number;
 				var html = $(".product_detail[id=0]").html();
-				$(".product_line").append('<div class="product_detail" id="'+id+'">'+html+'</div>');
+				$(".product_line").append('<div class="product_detail" id="'+id+'" style="position: relative;">'+html+'</div>');
 				var line = $(".product_line").children(".product_detail[id="+id+"]");
 				line.children().children().children(".swatches").attr('product-detail',id);
 				line.children().children().children().children(".swatch").attr('product-with-swatch-select',id);
@@ -287,45 +336,19 @@
 			  		
 			  	}
 				// console.log(html);
-				console.log(count_swatch_select);
+				// console.log(count_swatch_select);
 			});
 			// end product line
-		</script>
-		<script type="text/javascript">
-
-			// xóa một thuộc tính sản phẩm
-			$('.swatches').on('click', '.close-swatch', function(event) {
-			  	event.preventDefault();
-			  	var product_detail_number = $(this).parent().attr('product-with-swatch-select');
-			  	var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
-			  	var id = $(this).parent('.swatch').attr('id');
-			  	var i = id;
-			  	for(i;i<count_swatch_select;i++){
-			  		id++;
-			  		$(this).parent('.swatch').remove();
-			  		var swatch = $(".swatch[id=" +id+ "]");
-			  		swatch.attr('id', i);
-			  		swatch.attr('swatch-select', i);
-			  		swatch.find('input').attr("name", "properties"+product_detail_number+"[" +i+ "]");
-			  	}
-			});
-
-			// end xóa một thuộc tính sản phẩm
-
-			// thêm một thuộc tính sản phẩm
-			$(".tag-swatch").click(function(event) {
+			// -------------------------------------------------------------------------------
+			// xóa product_line sản phẩm
+			$(document).on('click', '.close-product-detail', function(event) {
 				event.preventDefault();
-				var tag_id = $(this).attr("swatch-recoment");
-				var product_detail_number = $(this).parent().parent().parent().parent().attr('id');
-				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
-				var html = $(".swatch-root[swatch-recoment=" +tag_id+ "]").html();
-				$(".swatches[product-detail="+product_detail_number+"]").append(html);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties"+product_detail_number+"[" +count_swatch_select+ "]");
-				
+			  	var product_detail_number = $(this).parent().attr('id');
+			  	var count_product_detail = $(".product_detail").length;
+			  	console.log(product_detail_number);
+			  	console.log(count_product_detail);
 			});
-			// end thêm một thuộc tính sản phẩm
+			// end xóa line sản phẩm
+			// -------------------------------------------------------------------------------
 		</script>
 @endsection
