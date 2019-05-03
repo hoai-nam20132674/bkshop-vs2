@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="{{asset('auth/vendor/jscrollpane/jquery.jscrollpane.css')}}">
 	<link rel="stylesheet" href="{{asset('auth/vendor/waves/waves.min.css')}}">
 	<link rel="stylesheet" href="{{asset('auth/vendor/switchery/dist/switchery.min.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/css/upload-image.css')}}">
 @endsection()
 @section('content')
 	<div class="content-area py-1">
@@ -79,6 +80,23 @@
 							
 						</div>
 						<div class="col-md-3">
+							<div class="file-upload">
+							  	<!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button> -->
+								
+							  	<div class="image-upload-wrap image-upload-wrap0">
+								    <input class="file-upload-input file-upload-input0" type='file' name="share_image" onchange="readURL(this);" accept="image/*" />
+								    <div class="drag-text">
+								      <h3>Ảnh đại diện </h3>
+								    </div>
+							  	</div>
+							  	<div class="file-upload-content file-upload-content0">
+							    	<img class="file-upload-image file-upload-image0" src="#" alt="your image" />
+							    	<div class="image-title-wrap image-title-wrap0">
+							      		<button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title image-title0 text-center">Uploaded Image</span></button>
+							    	</div>
+							  	</div>
+							</div>
+							<br>
 							<div class="form-group">
 								<select class="form-control" name="parent_id">
 									<option value="0">Thư Mục Gốc</option>
@@ -87,22 +105,7 @@
 									
 								</select>
 							</div>
-							<fieldset class="form-group">
-									
-									<label>
-										<input type="radio" name="type" value="0" checked>
-										Tin Tức
-									</label>
-									<label>
-										<input type="radio" name="type" value="1">
-										List Sản phẩm
-									</label>
-									<label>
-										<input type="radio" name="type" value="2">
-										List tin tức
-									</label>
-								
-							</fieldset>
+							
 							<div class="checkbox">
 								<label>
 									<input type="radio" id="optionsRadios1" name="display" value="1" checked>Hiển thị
@@ -138,4 +141,5 @@
 		<!-- Neptune JS -->
 		<script type="text/javascript" src="{{asset('auth/js/app.js')}}"></script>
 		<script type="text/javascript" src="{{asset('auth/js/demo.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/js/upload-image.js')}}"></script>
 @endsection

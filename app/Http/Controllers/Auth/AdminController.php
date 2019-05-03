@@ -9,11 +9,15 @@ use App\Blog;
 use App\Systems;
 use App\Properties;
 use App\PropertiesType;
+use App\Categories;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\addBlogRequest;
 use App\Http\Requests\addUserRequest;
 use App\Http\Requests\addProductRequest;
+use App\Http\Requests\addCategorieRequest;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
+use Illuminate\Support\Facades\Input;
 
 class AdminController extends Controller
 {
@@ -68,17 +72,33 @@ class AdminController extends Controller
         echo "thêm user thành công";
     }
     public function postAddProduct(addProductRequest $request){
-        $count=$request->properties0;
-        if($count){
-            dd('tồn tại');
-        }
-        else{
-            dd('không tồn tại');
-        }
+
+        $i=0;
+        $count=$request->properties1[1];
+        dd($count);
+        
         
 
     }
-    public function postAddCategorie(){
+    public function postAddCategorie(addCategorieRequest $request){
+        $cate = new Categories;
+        $cate->name = $request->name;
+        $cate->url = $request->url;
+        $cate->seo_description = $request->seo_description;
+        $cate->seo_keyword = $request->seo_keyword;
+        $cate->title = $request->title;
+        $cate->parent_id = $request->parent_id;
+        $cate->users_id = Auth::user()->id;
+        if(Input::hasFile('share_image')){
+            $file = Input::file('share_image');
+            $file_name = $file->getClientOriginalName();
+            $file->move('uploads/images/share_image/',$file_name);
+            $cate->share_image=$file_name;
+        }
+        else{
+            $cate->share_image='null';
+        }
+        $cate->save();
 
     }
     public function postAddBlog(addBlogRequest $request){

@@ -119,17 +119,17 @@
 													<div class="swatch-root display-none" swatch-recoment="{{$j}}" >
 														<div class="swatch clearfix " id="" swatch-recoment="{{$j}}" style="position: relative;">
 										                  	<div class="header">{{$pptt->name}}</div>
-										                  	
+										                  	<?php $k=1;?>
 										                  	@foreach($properties as $ppt)
 										                  		@if($ppt->properties_type_id == $pptt->id)
-												                  	<div data-value="{{$ppt->value}}" class="swatch-element plain m available">
-													                    <input id="{{$i}}" type="radio" name="" value="{{$ppt->id}}" checked />
+												                  	<div input-number="{{$k}}" data-value="{{$ppt->value}}" class="swatch-element plain m available">
+													                    <input id="{{$i}}" type="radio" name="" value="{{$ppt->id}}"/>
 													                    <label for="{{$i}}">
 													                      {{$ppt->value}}
 													                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
 													                    </label>
 												                  	</div>
-												                  	<?php $i++; ?>
+												                  	<?php $i++; $k++; ?>
 												                @endif
 										                  	@endforeach
 										                  	<div class="close close-swatch" style="position: absolute; top: 0px; right: 0px;" >
@@ -258,11 +258,25 @@
 				var product_detail_number = $(this).parent().parent().parent().parent().attr('id');
 				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
 				var html = $(".swatch-root[swatch-recoment=" +tag_id+ "]").html();
+				var count_input_swatch_focus = $(".swatch-root[swatch-recoment=" +tag_id+ "]").children().children().children("input").length;
+				var count_input = $(".swatches[product-detail="+product_detail_number+"]").children().children().children("input").length;
 				$(".swatches[product-detail="+product_detail_number+"]").append(html);
 				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
 				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
 				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
 				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties"+product_detail_number+"[" +count_swatch_select+ "]");
+				var i=1;
+				var j = count_input_swatch_focus;
+				var k = count_input;
+				k++;
+				for(i;i<=j;i++){
+					$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children(".swatch-element[input-number="+i+"]").children("input").attr("id",k);
+					$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children(".swatch-element[input-number="+i+"]").children("label").attr("for",k);
+					k++;
+
+				}
+				// console.log(i);
+
 				
 			});
 			// end thêm một thuộc tính sản phẩm
@@ -276,15 +290,28 @@
 			  	var swatch_recoment_number = $(this).parent('.swatch').attr('swatch-recoment');
 			  	var id = $(this).parent('.swatch').attr('id');
 			  	var i = id;
+			  	var count_input_swatch_before_remove = 0;
+			  	for(var j =0;j<id;j++){
+			  		var count_input_swatch = $(".swatch[id=" +j+ "]").children().children("input").length;
+			  		count_input_swatch_before_remove = count_input_swatch_before_remove+count_input_swatch;
+			  	}
+			  	count_input_swatch_before_remove++;
 			  	for(i;i<count_swatch_select;i++){
 			  		id++;
 			  		$(this).parent('.swatch').remove();
 			  		var swatch = $(".swatch[id=" +id+ "]");
+			  		var count_input_swatch_after = swatch.children().children("input").length;
+			  		for(var q=1;q<=count_input_swatch_after;q++){
+			  			swatch.children(".swatch-element[input-number="+q+"]").children("input").attr("id",count_input_swatch_before_remove);
+			  			swatch.children(".swatch-element[input-number="+q+"]").children("label").attr("for",count_input_swatch_before_remove);
+			  			count_input_swatch_before_remove++;
+			  		}
 			  		swatch.attr('id', i);
 			  		swatch.attr('swatch-select', i);
 			  		swatch.find('input').attr("name", "properties"+product_detail_number+"[" +i+ "]");
 			  	}
 			  	$(".tag-swatch[swatch-recoment="+swatch_recoment_number+"]").attr('display','block');
+			  	
 			});
 
 			// end xóa một thuộc tính sản phẩm
@@ -323,11 +350,12 @@
 				  	for(j;j<=count_input;j++){
 				  		$(".swatches[product-detail=" +count_product_detail+ "]").children().children().children("input[id="+j+"]").attr("id","input"+j+"for"+count_product_detail);
 				  		$(".swatches[product-detail=" +count_product_detail+ "]").children().children().children("label[for="+j+"]").attr("for","input"+j+"for"+count_product_detail);
+				  		
 				  	}
 					
 					
 			  	}
-			  	console.log(count_product_detail);
+			  	// console.log(count_product_detail);
 			});
 			// end product line
 			// -------------------------------------------------------------------------------
@@ -360,8 +388,12 @@
 				  		$(this).parent('.product_detail').remove();
 				  		
 				  		for(j;j<=count_input;j++){
-					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id="+j+"]").attr("id","input"+j+"for"+i);
-					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for="+j+"]").attr("for","input"+j+"for"+i);
+				  			var z = j;
+				  			z--;
+
+					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("name","properties"+i+"["+z+"]");
+					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("id","input"+j+"for"+i);
+					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for=input"+j+"for"+product_detail_number+"]").attr("for","input"+j+"for"+i);
 					  	}
 				  		var product_detail = $(".product_detail[id=" +product_detail_number+ "]");
 				  		product_detail.attr('id', i);
