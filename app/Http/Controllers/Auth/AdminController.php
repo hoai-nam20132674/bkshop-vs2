@@ -74,8 +74,8 @@ class AdminController extends Controller
     public function postAddProduct(addProductRequest $request){
 
         $i=0;
-        $count=$request->properties1[1];
-        dd($count);
+        $test = Input::get('properties0');
+        dd($test);
         
         
 
