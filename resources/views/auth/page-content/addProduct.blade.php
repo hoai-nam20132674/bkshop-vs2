@@ -108,6 +108,18 @@
 									            
 									            
 									       	</div>
+									       	<div class="">
+									       		<div class="form-group" style="width: 50%; float: left; position: relative; padding: 0px 10px;">
+													<!-- <label for="exampleInputEmail1">Số lượng</label> -->
+													<span class="tag tag-danger btn btn-danger" style="position: absolute; top: 0px; left: 10px; width: 60px; height: 31px; padding: 10px 0px;">SỐ LƯỢNG</span>
+													<input style="padding-left: 70px;" type="text" class="form-control" name="amount" placeholder="" value="{{old('amount')}}">
+												</div>
+												<div class="form-group" style="width: 50%; float: right; position: relative; padding: 0px 10px;">
+													<!-- <label for="exampleInputEmail1">Số lượng</label> -->
+													<span class="tag tag-danger btn btn-danger" style="position: absolute; top: 0px; left: 10px; width: 60px; height: 31px; padding: 10px 0px;">GIÁ</span>
+													<input style="padding-left: 70px;" type="text" class="form-control" name="price" placeholder="" value="{{old('price')}}">
+												</div>
+									       	</div>
 								       </div>
 									</div>
 									<div class="row">
@@ -366,7 +378,7 @@
 			  	var count_product_detail = $(".product_detail").length;
 			  	var i =product_detail_number;
 			  	var id = $(this).parent('.product_detail').attr('id');
-			  	var count_input = $(".product_detail[id=0]").children().children().children().children().children().children("input").length;
+			  	// var count_input = $(".product_detail[id=0]").children().children().children().children().children().children("input").length;
 			  	if(id == 0){
 
 			  	}
@@ -383,18 +395,23 @@
 			  	}
 			  	else{
 				  	for(i;i<count_product_detail;i++){
-				  		var j =1;
+				  		var w = 0;
 				  		product_detail_number++;
 				  		$(this).parent('.product_detail').remove();
-				  		
-				  		for(j;j<=count_input;j++){
-				  			var z = j;
-				  			z--;
+				  		var count_swatch = $(".swatches[product-detail=" +product_detail_number+ "]").children(".swatch").length;
+				  		for(w;w<count_swatch;w++){
+				  			var j =1;
+				  			var r = w;
+				  			var count_input = $(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input").length;
+					  		for(j;j<=count_input;j++){
+					  			var z = j;
+					  			z--;
+						  		$(".swatches[product-detail=" +product_detail_number+ "]").children(".swatch[swatch-select="+r+"]").children().children("input").attr("name","properties"+i+"["+r+"]");
+						  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("id","input"+j+"for"+i);
+						  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for=input"+j+"for"+product_detail_number+"]").attr("for","input"+j+"for"+i);
+						  	}
 
-					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("name","properties"+i+"["+z+"]");
-					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("id","input"+j+"for"+i);
-					  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for=input"+j+"for"+product_detail_number+"]").attr("for","input"+j+"for"+i);
-					  	}
+						}
 				  		var product_detail = $(".product_detail[id=" +product_detail_number+ "]");
 				  		product_detail.attr('id', i);
 				  		product_detail.children().children().children(".swatches").attr("product-detail",i);
