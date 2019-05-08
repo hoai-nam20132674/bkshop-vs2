@@ -419,7 +419,7 @@
 	        
 	    </script>
 	    <script type="text/javascript">
-	    	$("div.alert").delay(500).slideUp();
+	    	$("div.alert").delay(5000).slideUp();
 	    </script>
 	</body>
 </html>

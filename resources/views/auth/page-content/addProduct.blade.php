@@ -32,11 +32,16 @@
 		    		</ul>
 		    	</div>
 		    	@endif
+		    	@if( Session::has('flash_message'))
+                    <div class="alert alert-{{ Session::get('flash_level')}}">
+                        {{ Session::get('flash_message')}}
+                    </div>
+                @endif
 				<form action="{{URL::route('postAddProduct')}}" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
 						<div class="col-md-9 0848384333">
-							<div class="row">
+							<!-- <div class="row">
 
 								<div class="col-md-3">
 									<a href="http://bkshop.vn/" target="_blank">
@@ -50,29 +55,50 @@
 										<input type="text" class="form-control" name="url" placeholder="Nhập Url" value="{{old('url')}}">
 									</div>
 								</div>
+							</div> -->
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group" style="position: relative;">
+										<!-- <label for="exampleInputEmail1">Số lượng</label> -->
+										<span class="tag tag-primary btn btn-primary" style="position: absolute; top: 0px; width: 150px; height: 31px; padding: 7px 0px; font-size: 15px;">https://bkshop.vn/</span>
+										<input style="padding-left: 160px;" type="text" class="form-control" name="url" placeholder="link sản phẩm" value="{{old('url')}}">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Tên sản phẩm</label>
+										<input type="text" class="form-control" name="name" placeholder="Nhập tiêu đề danh mục" value="{{old('name')}}">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Tiêu đề</label>
+										<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="{{old('title')}}">
+									</div>
+									
+									<div class="form-group">
+										<label for="exampleInputEmail1">Seo keywords</label>
+										<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="{{old('seo_keyword')}}">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Seo description</label>
+										<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="file-upload">	
+									  	<div class="image-upload-wrap image-upload-wrap100">
+										    <input class="file-upload-input file-upload-input100" type='file' name="image-share" onchange="readURLTest(this,100);" accept="image/*" />
+										    <div class="drag-text">
+										      <h3>Ảnh chia sẻ mạng xã hội</h3>
+										    </div>
+									  	</div>
+									  	<div class="file-upload-content file-upload-content100" style="position: relative;">
+									    	<img class="file-upload-image file-upload-image100" src="#" alt="your image" />
+									    	<div class="image-title-wrap image-title-wrap100" style="position: absolute;top: 0px; right: 0px;">
+									      		<button type="button" onclick="removeUploadTest(100)" class="remove-image">Remove</button>
+									    	</div>
+									  	</div>
+									</div>
+								</div>
 							</div>
 							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Tên sản phẩm</label>
-								<input type="text" class="form-control" name="name" placeholder="Nhập tiêu đề danh mục" value="{{old('name')}}">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Giá</label>
-								<input type="text" class="form-control" name="price" placeholder="Nhập tiêu đề danh mục" value="{{old('price')}}">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Tiêu đề</label>
-								<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="{{old('title')}}">
-							</div>
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Seo keywords</label>
-								<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="{{old('seo_keyword')}}">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Seo description</label>
-								<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}">
-							</div>
 							<!-- <div class="form-group">
 								<label for="exampleTextarea">Thông tin khuyến mãi</label>
 								<textarea class="form-control" name="sale" rows="3">{{old('sale')}}</textarea>
@@ -108,16 +134,16 @@
 									            
 									            
 									       	</div>
-									       	<div class="">
+									       	<div class="price_amount">
 									       		<div class="form-group" style="width: 50%; float: left; position: relative; padding: 0px 10px;">
 													<!-- <label for="exampleInputEmail1">Số lượng</label> -->
 													<span class="tag tag-danger btn btn-danger" style="position: absolute; top: 0px; left: 10px; width: 60px; height: 31px; padding: 10px 0px;">SỐ LƯỢNG</span>
-													<input style="padding-left: 70px;" type="text" class="form-control" name="amount" placeholder="" value="{{old('amount')}}">
+													<input style="padding-left: 70px;" type="number" class="form-control" name="amount[]" placeholder="" value="{{old('amount[]')}}">
 												</div>
 												<div class="form-group" style="width: 50%; float: right; position: relative; padding: 0px 10px;">
 													<!-- <label for="exampleInputEmail1">Số lượng</label> -->
 													<span class="tag tag-danger btn btn-danger" style="position: absolute; top: 0px; left: 10px; width: 60px; height: 31px; padding: 10px 0px;">GIÁ</span>
-													<input style="padding-left: 70px;" type="text" class="form-control" name="price" placeholder="" value="{{old('price')}}">
+													<input style="padding-left: 70px;" type="number" class="form-control" name="price[]" placeholder="" value="{{old('price[]')}}">
 												</div>
 									       	</div>
 								       </div>
@@ -166,7 +192,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<select class="form-control" name="categorie_id">
+								<select class="form-control" name="categories_id">
 									
 									<option value="10">danh mục1</option>
 									<option value="10">danh mục2</option>
@@ -183,15 +209,15 @@
 							
 							<div class="file-upload">	
 							  	<div class="image-upload-wrap image-upload-wrap0">
-								    <input class="file-upload-input file-upload-input0" type='file' name="image" onchange="readURL(this);" accept="image/*" />
+								    <input class="file-upload-input file-upload-input0" type='file' name="image" onchange="readURLTest(this,0);" accept="image/*" />
 								    <div class="drag-text">
 								      <h3>Ảnh đại diện </h3>
 								    </div>
 							  	</div>
-							  	<div class="file-upload-content file-upload-content0">
+							  	<div class="file-upload-content file-upload-content0" style="position: relative;">
 							    	<img class="file-upload-image file-upload-image0" src="#" alt="your image" />
-							    	<div class="image-title-wrap image-title-wrap0">
-							      		<button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title image-title0 text-center">Uploaded Image</span></button>
+							    	<div class="image-title-wrap image-title-wrap0" style="position: absolute;top: 0px; right: 0px;">
+							      		<button type="button" onclick="removeUploadTest(0)" class="remove-image">Remove</button>
 							    	</div>
 							  	</div>
 							</div>
@@ -199,15 +225,15 @@
 							
 							<div class="file-upload">	
 							  	<div class="image-upload-wrap image-upload-wrap1">
-								    <input class="file-upload-input file-upload-input1" type='file' name="fimage[]" onchange="readURL1(this);" accept="image/*" />
+								    <input class="file-upload-input file-upload-input1" type='file' name="image-detail[]" onchange="readURLTest(this,1);" accept="image/*" />
 								    <div class="drag-text">
 								      <h3>Ảnh detail</h3>
 								    </div>
 							  	</div>
-							  	<div class="file-upload-content file-upload-content1">
+							  	<div class="file-upload-content file-upload-content1" style="position: relative;">
 							    	<img class="file-upload-image file-upload-image1" src="#" alt="your image" />
-							    	<div class="image-title-wrap image-title-wrap1">
-							      		<button type="button" onclick="removeUpload1()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button>
+							    	<div class="image-title-wrap image-title-wrap1" style="position: absolute;top: 0px; right: 0px;">
+							      		<button type="button" onclick="removeUploadTest(1)" class="remove-image">Remove</button>
 							    	</div>
 							  	</div>
 							</div>
@@ -250,179 +276,10 @@
 			var i =2;
 			function more_image(){
 				var more_image = $("#more_image");
-				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURL' + i + '(this);" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '"><button type="button" onclick="removeUpload' + i + '()" class="remove-image">Remove <span class="image-title image-title text-center">Uploaded Image</span></button></div></div></div>');
+				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURLTest(this,' + i + ');" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '" style="position: relative;"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '" style="position: absolute;top: 0px; right: 0px;"><button type="button" onclick="removeUploadTest(' + i + ')" class="remove-image">Remove</button></div></div></div>');
 				i++;
 			};
 			
 		</script>
-		<script type="text/javascript">
-
-			
-			// -------------------------------------------------------------------------------
-
-			// thêm một thuộc tính sản phẩm
-			$(document).on('click', '.tag-swatch[display="block"]', function(event) {
-			// $('.tag-properties-type').on('click', '.tag-swatch[display="block"]', function(event) {
-				event.preventDefault();
-				var tag_id = $(this).attr("swatch-recoment");
-				// $(this).css("display","none");
-				$(this).attr("display","none");
-				var product_detail_number = $(this).parent().parent().parent().parent().attr('id');
-				var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
-				var html = $(".swatch-root[swatch-recoment=" +tag_id+ "]").html();
-				var count_input_swatch_focus = $(".swatch-root[swatch-recoment=" +tag_id+ "]").children().children().children("input").length;
-				var count_input = $(".swatches[product-detail="+product_detail_number+"]").children().children().children("input").length;
-				$(".swatches[product-detail="+product_detail_number+"]").append(html);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
-				$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties"+product_detail_number+"[" +count_swatch_select+ "]");
-				var i=1;
-				var j = count_input_swatch_focus;
-				var k = count_input;
-				k++;
-				for(i;i<=j;i++){
-					$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children(".swatch-element[input-number="+i+"]").children("input").attr("id",k);
-					$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children(".swatch-element[input-number="+i+"]").children("label").attr("for",k);
-					k++;
-
-				}
-				// console.log(i);
-
-				
-			});
-			// end thêm một thuộc tính sản phẩm
-			// -------------------------------------------------------------------------------
-			// xóa một thuộc tính sản phẩm
-			$(document).on('click', '.close-swatch', function(event) {
-			// $('.swatches').on('click', '.close-swatch', function(event) {
-			  	event.preventDefault();
-			  	var product_detail_number = $(this).parent().attr('product-with-swatch-select');
-			  	var count_swatch_select = $(".swatch[product-with-swatch-select="+product_detail_number+"]").length;
-			  	var swatch_recoment_number = $(this).parent('.swatch').attr('swatch-recoment');
-			  	var id = $(this).parent('.swatch').attr('id');
-			  	var i = id;
-			  	var count_input_swatch_before_remove = 0;
-			  	for(var j =0;j<id;j++){
-			  		var count_input_swatch = $(".swatch[id=" +j+ "]").children().children("input").length;
-			  		count_input_swatch_before_remove = count_input_swatch_before_remove+count_input_swatch;
-			  	}
-			  	count_input_swatch_before_remove++;
-			  	for(i;i<count_swatch_select;i++){
-			  		id++;
-			  		$(this).parent('.swatch').remove();
-			  		var swatch = $(".swatch[id=" +id+ "]");
-			  		var count_input_swatch_after = swatch.children().children("input").length;
-			  		for(var q=1;q<=count_input_swatch_after;q++){
-			  			swatch.children(".swatch-element[input-number="+q+"]").children("input").attr("id",count_input_swatch_before_remove);
-			  			swatch.children(".swatch-element[input-number="+q+"]").children("label").attr("for",count_input_swatch_before_remove);
-			  			count_input_swatch_before_remove++;
-			  		}
-			  		swatch.attr('id', i);
-			  		swatch.attr('swatch-select', i);
-			  		swatch.find('input').attr("name", "properties"+product_detail_number+"[" +i+ "]");
-			  	}
-			  	$(".tag-swatch[swatch-recoment="+swatch_recoment_number+"]").attr('display','block');
-			  	
-			});
-
-			// end xóa một thuộc tính sản phẩm
-			// -------------------------------------------------------------------------------
-			// thêm product line
-			
-			$(document).on('click', '.add-product-line', function(event) {
-				event.preventDefault();
-				var count_product_detail = $(".product_detail").length;
-				var id=count_product_detail;
-				$(".tag-swatch").css('display','none');
-				$(".close-swatch").css('display','none');
-				if(count_product_detail==10){
-
-				}
-				else{
-					var html = $(".product_detail[id=0]").html();
-					var count_input = $(".product_detail[id=0]").children().children().children().children().children().children("input").length;
-					$(".product_line").append('<div class="product_detail" id="'+id+'" style="position: relative;">'+html+'</div>');
-					var line = $(".product_line").children(".product_detail[id="+id+"]");
-					line.children().children().children(".swatches").attr('product-detail',id);
-					line.children().children().children().children(".swatch").attr('product-with-swatch-select',id);
-					var count_swatch_select = $(".swatch[product-with-swatch-select="+count_product_detail+"]").length;
-					var i =0;
-					var j =1;
-					var k =1;
-					var swatches = $(".swatches[product-detail=" +count_product_detail+ "]");
-					for(i;i<count_swatch_select;i++){
-				  		
-				  		var swatch = swatches.children(".swatch[id="+i+"]");
-				  		swatch.children().children("input").attr("name", "properties"+count_product_detail+"[" +i+ "]");
-				  		
-				  	}
-
-				  	
-				  	for(j;j<=count_input;j++){
-				  		$(".swatches[product-detail=" +count_product_detail+ "]").children().children().children("input[id="+j+"]").attr("id","input"+j+"for"+count_product_detail);
-				  		$(".swatches[product-detail=" +count_product_detail+ "]").children().children().children("label[for="+j+"]").attr("for","input"+j+"for"+count_product_detail);
-				  		
-				  	}
-					
-					
-			  	}
-			  	// console.log(count_product_detail);
-			});
-			// end product line
-			// -------------------------------------------------------------------------------
-			// xóa product_line sản phẩm
-			$(document).on('click', '.close-product-detail', function(event) {
-				event.preventDefault();
-			  	var product_detail_number = $(this).parent().attr('id');
-			  	var count_product_detail = $(".product_detail").length;
-			  	var i =product_detail_number;
-			  	var id = $(this).parent('.product_detail').attr('id');
-			  	// var count_input = $(".product_detail[id=0]").children().children().children().children().children().children("input").length;
-			  	if(id == 0){
-
-			  	}
-			  	else if(count_product_detail ==2){
-			  		$(".tag-swatch").css('display','');
-			  		$(".close-swatch").css('display','');
-			  		for(i;i<count_product_detail;i++){
-				  		product_detail_number++;
-				  		$(this).parent('.product_detail').remove();
-				  		var product_detail = $(".product_detail[id=" +product_detail_number+ "]");
-				  		product_detail.attr('id', i);
-				  		product_detail.children().children().children(".swatches").attr("product-detail",i);
-				  	}
-			  	}
-			  	else{
-				  	for(i;i<count_product_detail;i++){
-				  		var w = 0;
-				  		product_detail_number++;
-				  		$(this).parent('.product_detail').remove();
-				  		var count_swatch = $(".swatches[product-detail=" +product_detail_number+ "]").children(".swatch").length;
-				  		for(w;w<count_swatch;w++){
-				  			var j =1;
-				  			var r = w;
-				  			var count_input = $(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input").length;
-					  		for(j;j<=count_input;j++){
-					  			var z = j;
-					  			z--;
-						  		$(".swatches[product-detail=" +product_detail_number+ "]").children(".swatch[swatch-select="+r+"]").children().children("input").attr("name","properties"+i+"["+r+"]");
-						  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("id","input"+j+"for"+i);
-						  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for=input"+j+"for"+product_detail_number+"]").attr("for","input"+j+"for"+i);
-						  	}
-
-						}
-				  		var product_detail = $(".product_detail[id=" +product_detail_number+ "]");
-				  		product_detail.attr('id', i);
-				  		product_detail.children().children().children(".swatches").attr("product-detail",i);
-				  		product_detail.children().children().children().children(".swatch").attr("product-with-swatch-select",i);
-				  		
-				  	}
-				}
-			  	// console.log(product_detail_number);
-			  	// console.log(count_product_detail);
-			});
-			// end xóa line sản phẩm
-			// -------------------------------------------------------------------------------
-		</script>
+		<script type="text/javascript" src="{{asset('auth/js/add-remove-product-line.js')}}"></script>
 @endsection

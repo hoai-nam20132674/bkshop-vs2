@@ -54,6 +54,7 @@
 								<label for="exampleInputEmail1">Confrim Password</label>
 								<input type="password" class="form-control" name="confirm_password" placeholder="nhập lại password" value="{{old('confirm_password')}}" required>
 							</div>
+							@if(Auth::user()->role ==1 && Auth::user()->id == Auth::user()->parent_id)
 							<div class="form-group">
 				                <label>Quản lý hệ thống</label>
 				                <select class="form-control" name="systems_id">
@@ -62,7 +63,27 @@
 				                    @endforeach
 				                </select>
 				            </div>
-							
+				            @elseif(Auth::user()->role ==0 && Auth::user()->parent_id ==1)
+				            <div class="form-group">
+				                <label>Quản lý hệ thống</label>
+				                <select class="form-control" name="systems_id">
+				                	@foreach($systems as $st)
+				                		@if($st->id ==1)
+				                		@else
+				                    	<option value="{{$st->id}}">{{$st->name}}</option>
+				                    	@endif
+				                    @endforeach
+				                </select>
+				            </div>
+				            @elseif(Auth::user()->role ==1 && Auth::user()->id != Auth::user()->parent_id)
+				            <div class="form-group">
+				                <label>Quản lý hệ thống</label>
+				                <select class="form-control" name="systems_id">
+				                    <option value="{{$system->id}}">{{$system->name}}</option>
+				                </select>
+				            </div>
+				            @else
+				            @endif
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Submit</button>

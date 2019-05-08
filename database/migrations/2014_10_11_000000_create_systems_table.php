@@ -15,6 +15,7 @@ class CreateSystemsTable extends Migration
     {
         Schema::create('systems', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->string('logo');
             $table->string('shortcut_logo');
             $table->string('share_image');

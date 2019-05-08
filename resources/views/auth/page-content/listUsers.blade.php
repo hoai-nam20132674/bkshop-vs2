@@ -43,18 +43,23 @@
 						<?php 
 							$i=1;
 						?>
-						
-						
-						<tr>
-							<td >{{$i++}}</td>	
-							<td>Nguyễn Hoài Nam</td>
-							<td>namnguyen20132674@gmail.com</td>
-							<td class="text-center">
-								<a onclick="return confirmDelete('Bạn có chắc muốn xóa dịch vụ này không')" title="Xóa thành viên"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
-								<a href="{{ URL::route('editUser')}}" title="Sửa thành viên"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
-							</td>
-						</tr>
-						
+						@if(Auth::user()->role==1 && Auth::user()->id == Auth::user()->parent_id)
+							@foreach($users as $us)
+								@if($us->id == Auth::user()->id)
+								@else
+								<tr>
+									<td>{{$i++}}</td>	
+									<td>{{$us->name}}</td>
+									<td>{{$us->email}}</td>
+									<td class="text-center">
+										<a onclick="return confirmDelete('Bạn có chắc muốn xóa dịch vụ này không')" title="Xóa thành viên"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
+										<a href="{{ URL::route('editUser')}}" title="Sửa thành viên"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
+									</td>
+								</tr>
+								@endif
+							@endforeach
+						@else
+						@endif
 					</tbody>
 				</table>
 			</div>

@@ -10,6 +10,7 @@ use App\Systems;
 use App\Properties;
 use App\PropertiesType;
 use App\Categories;
+use App\Products;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\addBlogRequest;
 use App\Http\Requests\addUserRequest;
@@ -26,7 +27,8 @@ class AdminController extends Controller
     }
     public function addUser() {
         $systems = Systems::select()->get();
-        return view('auth.page-content.addUser',['systems'=>$systems]);
+        $system = Systems::where('id',Auth::user()->systems_id)->get()->first();
+        return view('auth.page-content.addUser',['systems'=>$systems,'system'=>$system]);
     }
     public function addProduct() {
         $properties = Properties::select()->get();
@@ -47,9 +49,11 @@ class AdminController extends Controller
     	return view('auth.page-content.listCategories');
     }
     public function listUsers() {
-    	return view('auth.page-content.listUsers');
+        $users = User::select()->get();
+    	return view('auth.page-content.listUsers',['users'=>$users]);
     }
     public function listBlogs() {
+        
         return view('auth.page-content.listBlogs');
     }
     // --------------------
@@ -67,18 +71,19 @@ class AdminController extends Controller
     }
     // ----------------------
     public function postAddUser(addUserRequest $request){
-        $user = new User;
-        $user->addUser($request);
-        echo "thêm user thành công";
+        if(Auth::user()->role == 0 && Auth::user()->parent_id !=1){
+            return redirect('auth/danh-sach-tai-khoan-quan-tri')->with(['flash_level'=>'danger','flash_message'=>'Bạn không có quyền thêm tài khoản']);
+        }
+        else{
+            $user = new User;
+            $user->addUser($request);
+            return redirect('auth/danh-sach-tai-khoan-quan-tri')->with(['flash_level'=>'success','flash_message'=>'Thêm tài khoản thành công']);
+        }
     }
     public function postAddProduct(addProductRequest $request){
-
-        $i=0;
-        $test = Input::get('properties0');
-        dd($test);
-        
-        
-
+        $product = new Products;
+        $product->addProduct($request);
+        return redirect('auth/danh-sach-san-pham')->with(['flash_level'=>'success','flash_message'=>'Thêm sản phẩm thành công']);
     }
     public function postAddCategorie(addCategorieRequest $request){
         $cate = new Categories;

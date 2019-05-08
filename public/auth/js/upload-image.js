@@ -132,6 +132,40 @@ $('.image-upload-wrap3').bind('dragover', function () {
     $('.image-upload-wrap3').removeClass('image-dropping');
 });
 
+function readURLTest(input,i) {
+  if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $(".image-upload-wrap"+i+"").hide();
+
+      $(".file-upload-image"+i+"").attr('src', e.target.result);
+      $(".file-upload-content"+i+"").show();
+
+      $(".image-title"+i+"").html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUploadTest(i);
+  }
+}
+
+function removeUploadTest(i) {
+  $(".file-upload-input"+i+"").replaceWith($(".file-upload-input"+i+"").clone());
+  $(".file-upload-content"+i+"").hide();
+  $(".image-upload-wrap"+i+"").show();
+  $(".image-upload-wrap"+i+"").bind('dragover', function () {
+    $(".image-upload-wrap"+i+"").addClass('image-dropping');
+  });
+  $(".image-upload-wrap"+i+"").bind('dragleave', function () {
+    $(".image-upload-wrap"+i+"").removeClass('image-dropping');
+});
+}
+
+
 
 $(document).ready(function(){
   $('.edit-image').addClass('display-none');
