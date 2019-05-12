@@ -27,6 +27,8 @@ class CreateProductsTable extends Migration
             $table->integer('rate');
             $table->boolean('display');
             $table->integer('views');
+            $table->integer('price');
+            $table->integer('amount');
             $table->timestamps();
         });
     }

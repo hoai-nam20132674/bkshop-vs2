@@ -22,8 +22,9 @@ class CreateCategoriesTable extends Migration
             $table->string('title');
             $table->string('share_image');
             $table->integer('parent_id');
-            $table->integer('users_id')->unsigned();
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('systems_id')->unsigned();
+            $table->foreign('systems_id')->references('id')->on('systems')->onDelete('cascade');
+            $table->boolean('display');
             $table->timestamps();
         });
     }

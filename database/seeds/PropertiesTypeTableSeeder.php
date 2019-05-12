@@ -14,16 +14,20 @@ class PropertiesTypeTableSeeder extends Seeder
         //
         DB::table('properties_type')->insert([
         	[
-        		'name' =>'SIZE'
+        		'name' =>'SIZE',
+                'systems_id'=>'2'
         	],
         	[
-        		'name' =>'COLOR'
+        		'name' =>'COLOR',
+                'systems_id'=>'2'
         	],
         	[
-        		'name' =>'DÀI'
+        		'name' =>'DÀI',
+                'systems_id'=>'2'
         	],
         	[
-        		'name' =>'RỘNG'
+        		'name' =>'RỘNG',
+                'systems_id'=>'2'
         	]
         	
         	]

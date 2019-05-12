@@ -35,8 +35,8 @@
 						<tr>
 							<th>Tên danh mục</th>
 							<th>Url</th>
-							<th class="text-center">enable</th>
-							<th class="text-center">disable</th>
+							<th class="text-center">Hiển thị</th>
+							<th class="text-center">Tắt hiển thị</th>
 							<th class="text-center" style="padding: 0px; background: green;">
 								<a href="{{URL::route('addCategorie')}}" title="Thêm danh mục" style="color: green;"><i class="ion-android-add" style=" font-size:30px;color:#fff;"></i></a>
 							</th>
@@ -44,11 +44,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						
+						@foreach($category as $cate)
 						<tr>
-							<td>tên danh mục</td>
-							<td>link</td>
-							@if(0)
+							<td>{{$cate->name}}</td>
+							<td>{{$cate->url}}</td>
+							@if($cate->display==0)
 								<td class="text-center">
 									<div class="checkbox">
 										<label>
@@ -90,19 +90,13 @@
 								    document.getElementById("enable1").checked = false;
 								}
 							</script>
-							@if(0)
-							<td class="text-center">
-								<a style="pointer-events: none;cursor: default;" onclick="return confirmDelete('Bạn có chắc muốn xóa danh mục này không')" href="{{ URL::route('deleteCategorie')}}" title="Xóa danh mục"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
-								<a style="pointer-events: none;cursor: default;" href="{{ URL::route('editCategorie')}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
-							</td>
-							@else
+							
 							<td class="text-center">
 								<a onclick="return confirmDelete('Bạn có chắc muốn xóa danh mục này không')" href="{{ URL::route('deleteCategorie')}}" title="Xóa danh mục"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
 								<a href="{{ URL::route('editCategorie')}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
 							</td>
-							@endif
 						</tr>
-						
+						@endforeach
 					</tbody>
 				</table>
 			</div>

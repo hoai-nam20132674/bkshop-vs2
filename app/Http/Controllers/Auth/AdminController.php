@@ -32,11 +32,13 @@ class AdminController extends Controller
     }
     public function addProduct() {
         $properties = Properties::select()->get();
-        $properties_type = PropertiesType::select()->get();
-    	return view('auth.page-content.addProduct',['properties'=>$properties,'properties_type'=>$properties_type]);
+        $properties_type = PropertiesType::where('systems_id',Auth::user()->systems_id)->get();
+        $category = Categories::where('systems_id',Auth::user()->systems_id)->get();
+    	return view('auth.page-content.addProduct',['properties'=>$properties,'properties_type'=>$properties_type,'category'=>$category]);
     }
     public function addCategorie() {
-    	return view('auth.page-content.addCategorie');
+        $category = Categories::where('systems_id',Auth::user()->systems_id)->get();
+    	return view('auth.page-content.addCategorie',['category'=>$category]);
     }
     public function addBlog() {
         return view('auth.page-content.addBlog');
@@ -46,7 +48,8 @@ class AdminController extends Controller
     	return view('auth.page-content.listProducts');
     }
     public function listCategories() {
-    	return view('auth.page-content.listCategories');
+        $category = Categories::where('systems_id', Auth::user()->systems_id)->get();
+    	return view('auth.page-content.listCategories',['category'=>$category]);
     }
     public function listUsers() {
         $users = User::select()->get();
@@ -84,26 +87,21 @@ class AdminController extends Controller
         $product = new Products;
         $product->addProduct($request);
         return redirect('auth/danh-sach-san-pham')->with(['flash_level'=>'success','flash_message'=>'Thêm sản phẩm thành công']);
+        // $i = 0;
+        // $properties = $request->properties;
+        // $price = Input::get('price');
+        // if(isset($properties)){
+        //     dd(count($properties));
+        // }
+        // else{
+        //     echo "không tồn tại properties0";
+        // }
+        
     }
     public function postAddCategorie(addCategorieRequest $request){
         $cate = new Categories;
-        $cate->name = $request->name;
-        $cate->url = $request->url;
-        $cate->seo_description = $request->seo_description;
-        $cate->seo_keyword = $request->seo_keyword;
-        $cate->title = $request->title;
-        $cate->parent_id = $request->parent_id;
-        $cate->users_id = Auth::user()->id;
-        if(Input::hasFile('share_image')){
-            $file = Input::file('share_image');
-            $file_name = $file->getClientOriginalName();
-            $file->move('uploads/images/share_image/',$file_name);
-            $cate->share_image=$file_name;
-        }
-        else{
-            $cate->share_image='null';
-        }
-        $cate->save();
+        $cate->addCategorie($request);
+        return redirect('auth/danh-sach-danh-muc')->with(['flash_level'=>'success','flash_message'=>'Thêm danh mục thành công']);
 
     }
     public function postAddBlog(addBlogRequest $request){

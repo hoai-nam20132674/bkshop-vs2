@@ -30,6 +30,7 @@ class CreateSystemsTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('email');
+            $table->boolean('display');
             $table->longText('script');
             $table->timestamps();
         });

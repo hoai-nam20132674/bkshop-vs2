@@ -38,6 +38,7 @@
                     </div>
                 @endif
 				<form action="{{URL::route('postAddProduct')}}" method="POST" enctype="multipart/form-data">
+					
 					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
 						<div class="col-md-9 0848384333">
@@ -84,7 +85,7 @@
 								<div class="col-md-4">
 									<div class="file-upload">	
 									  	<div class="image-upload-wrap image-upload-wrap100">
-										    <input class="file-upload-input file-upload-input100" type='file' name="image-share" onchange="readURLTest(this,100);" accept="image/*" />
+										    <input class="file-upload-input file-upload-input100" type='file' name="image-share" onchange="readURLTest(this,100);" accept="image/*" required />
 										    <div class="drag-text">
 										      <h3>Ảnh chia sẻ mạng xã hội</h3>
 										    </div>
@@ -161,7 +162,7 @@
 										                  	@foreach($properties as $ppt)
 										                  		@if($ppt->properties_type_id == $pptt->id)
 												                  	<div input-number="{{$k}}" data-value="{{$ppt->value}}" class="swatch-element plain m available">
-													                    <input id="{{$i}}" type="radio" name="" value="{{$ppt->id}}"/>
+													                    <input id="{{$i}}" type="radio" name="" value="{{$ppt->id}}" required />
 													                    <label for="{{$i}}">
 													                      {{$ppt->value}}
 													                      	<img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
@@ -192,10 +193,11 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
+								<label>Danh mục sản phẩm</label>
 								<select class="form-control" name="categories_id">
-									
-									<option value="10">danh mục1</option>
-									<option value="10">danh mục2</option>
+									@foreach($category as $cate)
+										<option value="{{$cate->id}}">{{$cate->name}}</option>
+									@endforeach
 								</select>
 							</div>
 							<div class="checkbox">
@@ -209,7 +211,7 @@
 							
 							<div class="file-upload">	
 							  	<div class="image-upload-wrap image-upload-wrap0">
-								    <input class="file-upload-input file-upload-input0" type='file' name="image" onchange="readURLTest(this,0);" accept="image/*" />
+								    <input class="file-upload-input file-upload-input0" type='file' name="image" onchange="readURLTest(this,0);" accept="image/*" required />
 								    <div class="drag-text">
 								      <h3>Ảnh đại diện </h3>
 								    </div>
