@@ -30,13 +30,13 @@ class addProductRequest extends FormRequest
             'url' => 'required|unique:categories,url',
             'name' => 'required',
             'title' => 'required',
-            'price'=> 'required',
-            'amount' =>'required',
+            'price' => 'required',
+            'amount' => 'required',
             'content' => 'required',
-            'seo_keyword'=>'required',
-            'seo_description'=>'required',
-            'image'=>'required|image|mimes:jpg,png,gif,jpeg',
-            'image-detail'=>'image|mimes:jpg,png,gif,jpeg'
+            'seo_keyword' => 'required',
+            'seo_description' => 'required',
+            'image' => 'image|mimes:jpg,png,gif,jpeg',
+            'image_detail' => 'image|mimes:jpg,png,gif,jpeg'
         ];
     }
     public function messages(){
@@ -53,8 +53,8 @@ class addProductRequest extends FormRequest
             'image.required' => 'Vui lòng chọn ảnh đại diện',
             'image.image' =>'Định dạng ảnh đại diện không đúng',
             'image.mimes' => 'Định dạng ảnh đại diện không đúng',
-            'image-detail.image' =>'Định dạng ảnh 2 không đúng',
-            'image-detail.mimes' => 'Định dạng ảnh 2 không đúng'
+            'image_detail.image' =>'Định dạng ảnh chi tiết không đúng',
+            'image_detail.mimes' => 'Định dạng ảnh chi tiết không đúng'
         ];
     }
 }

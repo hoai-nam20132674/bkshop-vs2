@@ -69,8 +69,9 @@ class Products extends Model
         $img_avatar->url = $avatar;
         $img_avatar->products_id = $pr->id;
         $img_avatar->save();
-        if(Input::hasFile('image-detail')){
-            foreach(Input::file('image-detail') as $file){
+        // if(Input::hasFile('image-detail')){
+            $files = $request->file('image_detail');
+            foreach($files as $file){
                 if(isset($file)){
                     $file_name = $file->getClientOriginalName();
                     $file->move('uploads/images/products/detail/',$file_name);
@@ -81,8 +82,7 @@ class Products extends Model
                     $img_detail->save();
                 }
             }
-        }
-        else{}
+        // }
 
 
     }

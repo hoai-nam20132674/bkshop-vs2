@@ -139,12 +139,12 @@
 									       		<div class="form-group" style="width: 50%; float: left; position: relative; padding: 0px 10px;">
 													<!-- <label for="exampleInputEmail1">Số lượng</label> -->
 													<span class="tag tag-danger btn btn-danger" style="position: absolute; top: 0px; left: 10px; width: 60px; height: 31px; padding: 10px 0px;">SỐ LƯỢNG</span>
-													<input style="padding-left: 70px;" type="number" class="form-control" name="amount[]" placeholder="" value="{{old('amount[]')}}">
+													<input style="padding-left: 70px;" type="number" class="form-control" name="amount[]" placeholder="" value="{{old('amount[]')}}" required>
 												</div>
 												<div class="form-group" style="width: 50%; float: right; position: relative; padding: 0px 10px;">
 													<!-- <label for="exampleInputEmail1">Số lượng</label> -->
 													<span class="tag tag-danger btn btn-danger" style="position: absolute; top: 0px; left: 10px; width: 60px; height: 31px; padding: 10px 0px;">GIÁ</span>
-													<input style="padding-left: 70px;" type="number" class="form-control" name="price[]" placeholder="" value="{{old('price[]')}}">
+													<input style="padding-left: 70px;" type="number" class="form-control" name="price[]" placeholder="" value="{{old('price[]')}}" required>
 												</div>
 									       	</div>
 								       </div>
@@ -227,7 +227,7 @@
 							
 							<div class="file-upload">	
 							  	<div class="image-upload-wrap image-upload-wrap1">
-								    <input class="file-upload-input file-upload-input1" type='file' name="image-detail[]" onchange="readURLTest(this,1);" accept="image/*" />
+								    <input class="file-upload-input file-upload-input1" type='file' name="image_detail[]" onchange="readURLTest(this,1);" accept="image/*" />
 								    <div class="drag-text">
 								      <h3>Ảnh detail</h3>
 								    </div>
