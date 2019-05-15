@@ -46,67 +46,69 @@
 						</tr>
 					</thead>
 					<tbody>
-						
-						<tr>
-							<td ><img src="https://cuong.com.vn/uploads/products/thumbs/final-vertu-s-rose-golg-kim-cuong.jpg" width="100%"></td>
-							<td>Tên sản phẩm</td>
-							<td>10.000.000 đ</td>
-							<td><a href="" target="_blank">link</a></td>
-							@if(1)
-								<td class="text-center">
-									<div class="checkbox">
-										<label>
-											<input onclick="enable1()" value="1" class="enable_product" id="enable1" type="checkbox">
-										</label>
-									</div>
-								</td>
-								<td class="text-center">
-									<div class="checkbox">
-										<label>
-											<input onclick="disable1()" class="disable_product" value="1" id="disable1" type="checkbox" checked>
-										</label>
-									</div>
-								</td>
-							@else
-								<td class="text-center">
-									<div class="checkbox">
-										<label>
-											<input onclick="enable1()" class="enable_product" value="1" id="enable1" type="checkbox" checked>
-										</label>
-									</div>
-								</td>
-								<td class="text-center">
-									<div class="checkbox">
-										<label>
-											<input onclick="disable1()" value="1" class="disable_product" id="disable1" type="checkbox">
-										</label>
-									</div>
-								</td>
-							@endif
-							<script type="text/javascript">
-								function enable1() {
-								    document.getElementById("enable1").checked = true;
-								    document.getElementById("disable1").checked = false;
-								}
+						@foreach($products as $pr)
+							<tr>
+								
+								<td><img src="{{asset('/uploads/images/products/avatar/'.$pr["avatar"])}}"  width="100%" /></td>
+										
+								<td>{{$pr->name}}</td>
+								<td>{{$pr->price}} đ</td>
+								<td><a href="" target="_blank">link</a></td>
+								@if($pr->display==0)
+									<td class="text-center">
+										<div class="checkbox">
+											<label>
+												<input onclick="enable1()" value="1" class="enable_product" id="enable1" type="checkbox">
+											</label>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="checkbox">
+											<label>
+												<input onclick="disable1()" class="disable_product" value="1" id="disable1" type="checkbox" checked>
+											</label>
+										</div>
+									</td>
+								@else
+									<td class="text-center">
+										<div class="checkbox">
+											<label>
+												<input onclick="enable1()" class="enable_product" value="1" id="enable1" type="checkbox" checked>
+											</label>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="checkbox">
+											<label>
+												<input onclick="disable1()" value="1" class="disable_product" id="disable1" type="checkbox">
+											</label>
+										</div>
+									</td>
+								@endif
+								<script type="text/javascript">
+									function enable1() {
+									    document.getElementById("enable1").checked = true;
+									    document.getElementById("disable1").checked = false;
+									}
 
-								function disable1() {
-								    document.getElementById("disable1").checked = true;
-								    document.getElementById("enable1").checked = false;
-								}
-							</script>
-							@if(0)
-							<td class="text-center">
-								<a style="pointer-events: none;cursor: default;" onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
-								<a style="pointer-events: none;cursor: default;" href="" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
-							</td>
-							@else
-							<td class="text-center">
-								<a onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
-								<a href="{{URL::route('editProduct')}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
-							</td>
-							@endif
-						</tr>
-						
+									function disable1() {
+									    document.getElementById("disable1").checked = true;
+									    document.getElementById("enable1").checked = false;
+									}
+								</script>
+								@if(0)
+								<td class="text-center">
+									<a style="pointer-events: none;cursor: default;" onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
+									<a style="pointer-events: none;cursor: default;" href="" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
+								</td>
+								@else
+								<td class="text-center">
+									<a onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
+									<a href="{{URL::route('editProduct')}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
+								</td>
+								@endif
+							</tr>
+						@endforeach
 					</tbody>
 				</table>
 			</div>

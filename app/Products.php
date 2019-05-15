@@ -7,6 +7,8 @@ use App\ImageShare;
 use App\ImagesProducts;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Client;
+use GuzzleHttp\Message\Response;
 
 class Products extends Model
 {
@@ -57,7 +59,19 @@ class Products extends Model
             $pr->amount = $request->amount[0];
             $pr->save();
         }
-        
+        if(Input::hasFile('image_detail')){
+            foreach(Input::file('image_detail') as $file){
+                if(isset($file)){
+                    $file_name = $file->getClientOriginalName();
+                    $file->move('uploads/images/products/detail/',$file_name);
+                    $img_detail = new ImagesProducts;
+                    $img_detail->role = 0;
+                    $img_detail->url = $file_name;
+                    $img_detail->products_id = $pr->id;
+                    $img_detail->save();
+                }
+            }
+        }
         
     	$request->file('image-share')->move('uploads/images/products/image_share/',$image_share);
         $img_share = new ImageShare;
@@ -69,22 +83,6 @@ class Products extends Model
         $img_avatar->url = $avatar;
         $img_avatar->products_id = $pr->id;
         $img_avatar->save();
-        // if(Input::hasFile('image-detail')){
-            $files = $request->file('image_detail');
-            foreach($files as $file){
-                if(isset($file)){
-                    $file_name = $file->getClientOriginalName();
-                    $file->move('uploads/images/products/detail/',$file_name);
-                    $img_detail = new ImagesProducts;
-                    $img_detail->role = 0;
-                    $img_detail->url = $file_name;
-                    $img_detail->products_id = $pr->id;
-                    $img_detail->save();
-                }
-            }
-        // }
-
-
     }
     public function countAmount($countProperties,$request){
         $countAmount = 0;

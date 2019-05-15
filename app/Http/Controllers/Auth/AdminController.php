@@ -11,6 +11,8 @@ use App\Properties;
 use App\PropertiesType;
 use App\Categories;
 use App\Products;
+use App\ImagesProducts;
+use App\ImageShare;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\addBlogRequest;
 use App\Http\Requests\addUserRequest;
@@ -45,7 +47,20 @@ class AdminController extends Controller
     }
     // -------------------
     public function listProducts() {
-    	return view('auth.page-content.listProducts');
+        $categories = Categories::where('systems_id',Auth::user()->systems_id)->get();
+        $cate_id = array();
+        $pr_id = array();
+        $i=0;
+        $j=0;
+        foreach($categories as $cate){
+            $cate_id[$i] = $cate->id;
+            $i++;
+        }
+        $products = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->whereIn('products.categories_id',$cate_id)->where('images_products.role',1)
+            ->select('products.*', 'images_products.url AS avatar')
+            ->get();
+    	return view('auth.page-content.listProducts',['products'=>$products]);
+        
     }
     public function listCategories() {
         $category = Categories::where('systems_id', Auth::user()->systems_id)->get();
@@ -87,17 +102,10 @@ class AdminController extends Controller
         $product = new Products;
         $product->addProduct($request);
         return redirect('auth/danh-sach-san-pham')->with(['flash_level'=>'success','flash_message'=>'Thêm sản phẩm thành công']);
-        // $i = 0;
-        // $properties = $request->properties;
-        // $price = Input::get('price');
-        // if(isset($properties)){
-        //     dd(count($properties));
-        // }
-        // else{
-        //     echo "không tồn tại properties0";
-        // }
         
     }
+
+
     public function postAddCategorie(addCategorieRequest $request){
         $cate = new Categories;
         $cate->addCategorie($request);

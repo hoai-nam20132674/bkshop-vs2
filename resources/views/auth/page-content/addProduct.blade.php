@@ -62,24 +62,24 @@
 									<div class="form-group" style="position: relative;">
 										<!-- <label for="exampleInputEmail1">Số lượng</label> -->
 										<span class="tag tag-primary btn btn-primary" style="position: absolute; top: 0px; width: 150px; height: 31px; padding: 7px 0px; font-size: 15px;">https://bkshop.vn/</span>
-										<input style="padding-left: 160px;" type="text" class="form-control" name="url" placeholder="link sản phẩm" value="{{old('url')}}">
+										<input style="padding-left: 160px;" type="text" class="form-control" name="url" placeholder="link sản phẩm" value="{{old('url')}}" required >
 									</div>
 									<div class="form-group">
 										<label for="exampleInputEmail1">Tên sản phẩm</label>
-										<input type="text" class="form-control" name="name" placeholder="Nhập tiêu đề danh mục" value="{{old('name')}}">
+										<input type="text" class="form-control" name="name" placeholder="Nhập tiêu đề danh mục" value="{{old('name')}}" required>
 									</div>
 									<div class="form-group">
 										<label for="exampleInputEmail1">Tiêu đề</label>
-										<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="{{old('title')}}">
+										<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="{{old('title')}}" required >
 									</div>
 									
 									<div class="form-group">
 										<label for="exampleInputEmail1">Seo keywords</label>
-										<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="{{old('seo_keyword')}}">
+										<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="{{old('seo_keyword')}}" required >
 									</div>
 									<div class="form-group">
 										<label for="exampleInputEmail1">Seo description</label>
-										<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}">
+										<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}" required >
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -278,7 +278,7 @@
 			var i =2;
 			function more_image(){
 				var more_image = $("#more_image");
-				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="fimage[]" onchange="readURLTest(this,' + i + ');" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '" style="position: relative;"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '" style="position: absolute;top: 0px; right: 0px;"><button type="button" onclick="removeUploadTest(' + i + ')" class="remove-image">Remove</button></div></div></div>');
+				more_image.append('<div class="file-upload"><div class="image-upload-wrap image-upload-wrap' + i + '"><input class="file-upload-input file-upload-input' + i + '" type="file" name="image_detail[]" onchange="readURLTest(this,' + i + ');" accept="image/*" /><div class="drag-text"><h3>Ảnh detail</h3></div></div><div class="file-upload-content file-upload-content' + i + '" style="position: relative;"><img class="file-upload-image file-upload-image' + i + '" src="#" alt="your image" /><div class="image-title-wrap image-title-wrap' + i + '" style="position: absolute;top: 0px; right: 0px;"><button type="button" onclick="removeUploadTest(' + i + ')" class="remove-image">Remove</button></div></div></div>');
 				i++;
 			};
 			
