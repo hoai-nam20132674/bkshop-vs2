@@ -115,7 +115,7 @@
 							</div>-->
 							<div class="form-group">
 								<label for="exampleTextarea">Giới thiệu sản phẩm</label>
-								<textarea class="form-control" name="content" rows="3">{{old('content')}}</textarea>
+								<textarea class="form-control" name="content" rows="3" required >{{old('content')}}</textarea>
 								<script type="text/javascript">
 							      var editor = CKEDITOR.replace('content',{
 							       language:'vi',
