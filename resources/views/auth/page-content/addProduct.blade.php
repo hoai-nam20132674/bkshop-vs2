@@ -81,6 +81,22 @@
 										<label for="exampleInputEmail1">Seo description</label>
 										<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}" required >
 									</div>
+									<div class="form-group">
+										<label>Danh mục sản phẩm</label>
+										<select class="form-control" name="categories_id">
+											@foreach($category as $cate)
+												<option value="{{$cate->id}}">{{$cate->name}}</option>
+											@endforeach
+										</select>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="display" value="1" checked>Hiển thị
+										</label>
+										<label>
+											<input type="radio" name="display" value="0">Tắt hiển thị
+										</label>
+									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="file-upload">	
@@ -99,23 +115,10 @@
 									</div>
 								</div>
 							</div>
-							
-							<!-- <div class="form-group">
-								<label for="exampleTextarea">Thông tin khuyến mãi</label>
-								<textarea class="form-control" name="sale" rows="3">{{old('sale')}}</textarea>
-								<script type="text/javascript">
-							      var editor = CKEDITOR.replace('sale',{
-							       language:'vi',
-							       filebrowserImageBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-							       });
-							     </script>﻿
-							</div>-->
+							<br>
 							<div class="form-group">
 								<label for="exampleTextarea">Giới thiệu sản phẩm</label>
-								<textarea class="form-control" name="content" rows="3" required >{{old('content')}}</textarea>
+								<textarea class="form-control" name="content" rows="3" required>{{old('content')}}</textarea>
 								<script type="text/javascript">
 							      var editor = CKEDITOR.replace('content',{
 							       language:'vi',
@@ -192,22 +195,7 @@
 				            
 						</div>
 						<div class="col-md-3">
-							<div class="form-group">
-								<label>Danh mục sản phẩm</label>
-								<select class="form-control" name="categories_id">
-									@foreach($category as $cate)
-										<option value="{{$cate->id}}">{{$cate->name}}</option>
-									@endforeach
-								</select>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="radio" name="display" value="1" checked>Hiển thị
-								</label>
-								<label>
-									<input type="radio" name="display" value="0">Tắt hiển thị
-								</label>
-							</div>
+							
 							
 							<div class="file-upload">	
 							  	<div class="image-upload-wrap image-upload-wrap0">

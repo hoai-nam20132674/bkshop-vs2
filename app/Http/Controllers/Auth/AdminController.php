@@ -33,10 +33,21 @@ class AdminController extends Controller
         return view('auth.page-content.addUser',['systems'=>$systems,'system'=>$system]);
     }
     public function addProduct() {
-        $properties = Properties::select()->get();
-        $properties_type = PropertiesType::where('systems_id',Auth::user()->systems_id)->get();
         $category = Categories::where('systems_id',Auth::user()->systems_id)->get();
-    	return view('auth.page-content.addProduct',['properties'=>$properties,'properties_type'=>$properties_type,'category'=>$category]);
+        if(count($category)==0){
+            return redirect('auth/them-danh-muc')->with(['flash_level'=>'danger','flash_message'=>'Vui lòng tạo danh mục sản phẩm trước khi thêm sản phẩm cho hệ thống của quý khách']);
+        }
+        else{
+            $properties_type = PropertiesType::where('systems_id',Auth::user()->systems_id)->get();
+            $properties_type_id = array();
+            $i=0;
+            foreach($properties_type as $prt){
+                $properties_type_id[$i] = $prt->id;
+                $i++;
+            }
+            $properties = Properties::whereIn('properties_type_id',$properties_type_id)->get();
+        	return view('auth.page-content.addProduct',['properties'=>$properties,'properties_type'=>$properties_type,'category'=>$category]);
+        }
     }
     public function addCategorie() {
         $category = Categories::where('systems_id',Auth::user()->systems_id)->get();

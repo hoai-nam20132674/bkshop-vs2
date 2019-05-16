@@ -28,6 +28,11 @@
 		    		</ul>
 		    	</div>
 		    	@endif
+		    	@if( Session::has('flash_message'))
+	                <div class="alert alert-{{ Session::get('flash_level')}}">
+	                    {{ Session::get('flash_message')}}
+	                </div>
+	            @endif
 				<form action="{{URL::route('postAddCategorie')}}" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
