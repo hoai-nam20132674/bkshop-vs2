@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="section-title">
 				<h2>
-					Giá tốt hôm nay
+					SẢN PHẨM MỚI
 				</h2>
 			</div>
 			<div class="e-tabs not-dqtab ajax-tab-1"  data-section="ajax-tab-1">
@@ -22,23 +22,23 @@
 								</ul>
 								<ul class="tabs tabs-title ajax clearfix hidden-xs">
 									
-									<li class="tab-link has-content" data-tab="tab-1" data-url="/smartphone">
+									<li class="tab-link has-content" data-tab="tab-1" data-url="">
 										<span>Mobile & Tablet</span>
 									</li>
 									
-									<li class="tab-link " data-tab="tab-2" data-url="/smartphone">
+									<li class="tab-link has-content" data-tab="tab-2" data-url="">
 										<span>Điện thoại thông minh</span>
 									</li>
 									
-									<li class="tab-link " data-tab="tab-3" data-url="/thoi-trang-nam">
+									<li class="tab-link has-content" data-tab="tab-3" data-url="">
 										<span>Thời trang</span>
 									</li>
 									
-									<li class="tab-link " data-tab="tab-4" data-url="/laptop">
+									<li class="tab-link has-content" data-tab="tab-4" data-url="">
 										<span>Máy tính & Laptop</span>
 									</li>
 									
-									<li class="tab-link " data-tab="tab-5" data-url="/san-pham-noi-bat">
+									<li class="tab-link has-content" data-tab="tab-5" data-url="">
 										<span>Sức khỏe & Sắc đẹp</span>
 									</li>
 									
