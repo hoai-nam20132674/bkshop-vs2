@@ -21,10 +21,12 @@ class CreateCategoriesTable extends Migration
             $table->string('seo_keyword');
             $table->string('title');
             $table->string('share_image');
+            $table->string('avatar');
             $table->integer('parent_id');
             $table->integer('systems_id')->unsigned();
             $table->foreign('systems_id')->references('id')->on('systems')->onDelete('cascade');
             $table->boolean('display');
+            $table->boolean('highlights');
             $table->timestamps();
         });
     }

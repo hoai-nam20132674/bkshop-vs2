@@ -22,9 +22,14 @@ class Categories extends Model
         $cate->systems_id = Auth::user()->systems_id;
         $file = Input::file('image_share');
         $file_name = $file->getClientOriginalName();
-        $file->move('uploads/images/share_image/',$file_name);
+        $file->move('uploads/images/categories/share_image/',$file_name);
         $cate->share_image=$file_name;
+        $avatar = Input::file('avatar');
+        $ava_name = $avatar->getClientOriginalName();
+        $avatar->move('uploads/images/categories/avatar/',$ava_name);
+        $cate->avatar = $ava_name;
         $cate->display = $request->display;
+        $cate->highlights = $request->highlights;
         $cate->save();
         $img_share = new ImageShare;
         $img_share->url = $file_name;

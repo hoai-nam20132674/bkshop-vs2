@@ -32,6 +32,8 @@ class Products extends Model
         $pr->rate = 0;
         $pr->display = $request->display;
         $pr->views = 0;
+        $pr->orders = 0;
+        $pr->highlights = $request->highlights;
         $properties = $request->properties;
         if(isset($properties)){
             $pr->price = 0;
@@ -58,6 +60,11 @@ class Products extends Model
             $pr->price = $request->price[0];
             $pr->amount = $request->amount[0];
             $pr->save();
+            $productDetail = new ProductsDetail;
+            $productDetail->price = $request->price[0];
+            $productDetail->amount = $request->amount[0];
+            $productDetail->products_id = $pr->id;
+            $productDetail->save();
         }
         if(Input::hasFile('image_detail')){
             foreach(Input::file('image_detail') as $file){

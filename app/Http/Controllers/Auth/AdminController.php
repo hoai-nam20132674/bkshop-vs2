@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Blog;
 use App\Systems;
 use App\Properties;
 use App\PropertiesType;
@@ -13,8 +12,8 @@ use App\Categories;
 use App\Products;
 use App\ImagesProducts;
 use App\ImageShare;
+use App\HomeSystems;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\addBlogRequest;
 use App\Http\Requests\addUserRequest;
 use App\Http\Requests\addProductRequest;
 use App\Http\Requests\addCategorieRequest;
@@ -53,8 +52,10 @@ class AdminController extends Controller
         $category = Categories::where('systems_id',Auth::user()->systems_id)->get();
     	return view('auth.page-content.addCategorie',['category'=>$category]);
     }
-    public function addBlog() {
-        return view('auth.page-content.addBlog');
+    public function addHomeSystem(){
+        $systems = Systems::where('display',1)->get();
+        $home_system = HomeSystems::select()->get();
+        return view('auth.page-content.addHomeSystem',['systems'=>$systems, 'home_system'=>$home_system]);
     }
     // -------------------
     public function listProducts() {
@@ -78,25 +79,20 @@ class AdminController extends Controller
     	return view('auth.page-content.listCategories',['category'=>$category]);
     }
     public function listUsers() {
-        $users = User::select()->get();
+        $users = User::where('systems_id',Auth::user()->systems_id)->get();
     	return view('auth.page-content.listUsers',['users'=>$users]);
     }
-    public function listBlogs() {
-        
-        return view('auth.page-content.listBlogs');
-    }
     // --------------------
-    public function editUser() {
-        return view('auth.page-content.editUser');
+    public function editUser($id) {
+        $user=User::where('id',$id)->get()->first();
+        return view('auth.page-content.editUser',['user'=>$user]);
     }
     public function editProduct() {
         return view('auth.page-content.editProduct');
     }
-    public function editCategorie() {
-        return view('auth.page-content.editCategorie');
-    }
-    public function editBlog() {
-        return view('auth.page-content.editBlog');
+    public function editCategorie($id) {
+        $cate = Categories::where('id',$id)->get()->first();
+        return view('auth.page-content.editCategorie',['cate'=>$cate]);
     }
     // ----------------------
     public function postAddUser(addUserRequest $request){
@@ -120,13 +116,8 @@ class AdminController extends Controller
     public function postAddCategorie(addCategorieRequest $request){
         $cate = new Categories;
         $cate->addCategorie($request);
-        return redirect('auth/danh-sach-danh-muc')->with(['flash_level'=>'success','flash_message'=>'Thêm danh mục thành công']);
+        return redirect()->route('listCategories')->with(['flash_level'=>'success','flash_message'=>'Thêm danh mục thành công']);
 
-    }
-    public function postAddBlog(addBlogRequest $request){
-        $blog = new Blog;
-        $blog->addBlog($request);
-        echo "thêm tin tức thành công";
     }
     public function postEditUser(){
 
@@ -137,7 +128,10 @@ class AdminController extends Controller
     public function postEditCategorie(){
 
     }
-    public function postEditBlog(){
+    public function postAddHomeSystem(Request $request){
+        $home_system = new HomeSystems;
+        $home_system->addHomeSystem($request);
+        return redirect('auth/trang-chu')->with(['flash_level'=>'success','flash_message'=>'Cài đặt danh mục hệ thống nổi bật trang chủ thành công']);
 
     }
 

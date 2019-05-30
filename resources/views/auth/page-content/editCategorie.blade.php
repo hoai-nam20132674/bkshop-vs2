@@ -37,117 +37,103 @@
 								<div class="row">
 
 									<div class="col-md-3">
-										<a href="http://bkshop.vn/" target="_blank"><button class="btn btn-primary" style="width: 100%;">http://bkshop.vn/</button></a>
+										<a href="http://bkshop.vn/" target="_blank">
+											<div style="background: #0275d8;" class="text-center">
+												<span style="color: #fff; font-size:20px; ">http://bkshop.vn/</span>
+											</div>
+										</a>
 									</div>
 									<div class="col-md-9">
 										<div class="form-group">	
-											<input type="text" class="form-control" name="url" placeholder="Nhập Url" value="cuong.vn">
+											<input type="text" class="form-control" name="url" placeholder="Nhập Url" value="{{$cate->url}}" required>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Tên danh mục</label>
-									<input type="text" class="form-control" name="name" placeholder="Nhập tên danh mục" value="tên danh mục">
+									<input type="text" class="form-control" name="name" placeholder="Nhập tên danh mục" value="{{$cate->name}}" required>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Tiêu đề</label>
-									<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="title">
+									<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="{{$cate->title}}" required>
 								</div>
 								
 								<div class="form-group">
 									<label for="exampleInputEmail1">Keywords</label>
-									<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="seo_keyword">
-
+									<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="{{$cate->seo_keyword}}" required>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Description</label>
-									<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="seo_description">
+									<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{$cate->seo_description}}" required>
 								</div>
-								<div class="form-group">
-									<label for="exampleTextarea">Nội dung</label>
-									<textarea class="form-control" name="content" rows="10" >content</textarea>
-									<script type="text/javascript">
-								      var editor = CKEDITOR.replace('content',{
-								       language:'vi',
-								       filebrowserImageBrowseUrl : '../../../auth/ckfinder/ckfinder.html?type=Images',
-								       filebrowserFlashBrowseUrl : '../../../auth/ckfinder/ckfinder.html?type=Flash',
-								       filebrowserImageUploadUrl : '../../../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-								       filebrowserFlashUploadUrl : '../../../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-								       });
-								     </script>﻿
+								<div class="checkbox">
+									@if($cate->highlights ==1 )
+										<label>
+											<input type="radio" name="highlights" value="1" checked>Nổi bật
+										</label>
+										<label>
+											<input type="radio" name="highlights" value="0">Không nổi bật
+										</label>
+									@else
+										<label>
+											<input type="radio" name="highlights" value="1" >Nổi bật
+										</label>
+										<label>
+											<input type="radio" name="highlights" value="0" checked>Không nổi bật
+										</label>
+									@endif
 								</div>
+								
 								
 							</div>
 							<div class="col-md-3">
+								<div class="file-upload">	
+								  	<div class="image-upload-wrap image-upload-wrap1000">
+									    <input class="file-upload-input file-upload-input1000" type='file' name="avatar" onchange="readURLTest(this,1000);" accept="image/*" required />
+									    <div class="drag-text">
+									      <h3>Ảnh Đại Diện</h3>
+									    </div>
+								  	</div>
+								  	<div class="file-upload-content file-upload-content1000" style="position: relative;">
+								    	<img class="file-upload-image file-upload-image1000" src="#" alt="your image" />
+								    	<div class="image-title-wrap image-title-wrap1000" style="position: absolute;top: 0px; right: 0px;">
+								      		<button type="button" onclick="removeUploadTest(1000)" class="remove-image">Remove</button>
+								    	</div>
+								  	</div>
+								</div>
+								<div class="file-upload">	
+								  	<div class="image-upload-wrap image-upload-wrap100">
+									    <input class="file-upload-input file-upload-input100" type='file' name="image_share" onchange="readURLTest(this,100);" accept="image/*" required />
+									    <div class="drag-text">
+									      <h3>Ảnh chia sẻ mạng xã hội</h3>
+									    </div>
+								  	</div>
+								  	<div class="file-upload-content file-upload-content100" style="position: relative;">
+								    	<img class="file-upload-image file-upload-image100" src="#" alt="your image" />
+								    	<div class="image-title-wrap image-title-wrap100" style="position: absolute;top: 0px; right: 0px;">
+								      		<button type="button" onclick="removeUploadTest(100)" class="remove-image">Remove</button>
+								    	</div>
+								  	</div>
+								</div>
+
+								<br>
 								<div class="form-group">
 									<select class="form-control" name="parent_id">
-										
-					                    <option value="0">Thư mục gốc</option>
-					                    
-										<option value="id">danh mục</option>
-										
+										<option value="0">Thư Mục Gốc</option>
+										@foreach($category as $cate)
+											<option value="{{$cate->id}}">$cate->name</option>
+										@endforeach
 									</select>
 								</div>
-								<fieldset class="form-group">
-									@if(0)
-										<label>
-											<input type="radio" name="type" value="0" checked>
-											Tin Tức
-										</label>
-										<label>
-											<input type="radio" name="type" value="1">
-											List Sản phẩm
-										</label>
-										<label>
-										<input type="radio" name="type" value="2">
-											List tin tức
-										</label>
-									@elseif(2)
-										<label>
-											<input type="radio" name="type" id="optionsRadios1" value="0">
-											Tin Tức
-										</label>
-										<label>
-											<input type="radio" name="type" id="optionsRadios2" value="1">
-											List Sản phẩm
-										</label>
-										<label>
-										<input type="radio" name="type" value="2" checked>
-											List tin tức
-										</label>
-
-									@else
-										<label>
-											<input type="radio" name="type" id="optionsRadios1" value="0">
-											Tin Tức
-										</label>
-										<label>
-											<input type="radio" name="type" id="optionsRadios2" value="1" checked>
-											List Sản phẩm
-										</label>
-										<label>
-											<input type="radio" name="type" value="2">
-											List tin tức
-										</label>
-									
-									@endif
-								</fieldset>
+								
 								<div class="checkbox">
-									@if(0)
-										<label>
-											<input type="radio"  name="display" value="1" >Hiển thị
-										</label>
-										<label>
-											<input type="radio"  name="display" value="0" checked>Tắt hiển thị
-										</label>
-									@else 
-										<label>
-											<input type="radio"  name="display" value="1" checked >Hiển thị
-										</label>
-										<label>
-											<input type="radio"  name="display" value="0" >Tắt hiển thị
-										</label>
-									@endif
+									<label>
+										<input type="radio" id="optionsRadios1" name="display" value="1" checked>Hiển thị
+									</label>
+									<label>
+										<input type="radio" id="optionsRadios2" name="display" value="0">Tắt hiển thị
+									</label>
+									
 								</div>
 							</div>
 						</div>

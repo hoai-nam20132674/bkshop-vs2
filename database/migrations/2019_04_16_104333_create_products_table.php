@@ -25,6 +25,8 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('share_image');
             $table->integer('rate');
+            $table->integer('orders');
+            $table->boolean('highlights');
             $table->boolean('display');
             $table->integer('views');
             $table->integer('price');

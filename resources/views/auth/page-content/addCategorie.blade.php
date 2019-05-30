@@ -69,10 +69,32 @@
 								<label for="exampleInputEmail1">Description</label>
 								<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{old('seo_description')}}" required>
 							</div>
+							<div class="checkbox">
+								<label>
+									<input type="radio" name="highlights" value="1" checked>Nổi bật
+								</label>
+								<label>
+									<input type="radio" name="highlights" value="0">Không nổi bật
+								</label>
+							</div>
 							
 							
 						</div>
 						<div class="col-md-3">
+							<div class="file-upload">	
+							  	<div class="image-upload-wrap image-upload-wrap1000">
+								    <input class="file-upload-input file-upload-input1000" type='file' name="avatar" onchange="readURLTest(this,1000);" accept="image/*" required />
+								    <div class="drag-text">
+								      <h3>Ảnh Đại Diện</h3>
+								    </div>
+							  	</div>
+							  	<div class="file-upload-content file-upload-content1000" style="position: relative;">
+							    	<img class="file-upload-image file-upload-image1000" src="#" alt="your image" />
+							    	<div class="image-title-wrap image-title-wrap1000" style="position: absolute;top: 0px; right: 0px;">
+							      		<button type="button" onclick="removeUploadTest(1000)" class="remove-image">Remove</button>
+							    	</div>
+							  	</div>
+							</div>
 							<div class="file-upload">	
 							  	<div class="image-upload-wrap image-upload-wrap100">
 								    <input class="file-upload-input file-upload-input100" type='file' name="image_share" onchange="readURLTest(this,100);" accept="image/*" required />
@@ -87,12 +109,13 @@
 							    	</div>
 							  	</div>
 							</div>
+
 							<br>
 							<div class="form-group">
 								<select class="form-control" name="parent_id">
 									<option value="0">Thư Mục Gốc</option>
 									@foreach($category as $cate)
-										<option value="{{$cate->id}}">$cate->name</option>
+										<option value="{{$cate->id}}">{{$cate->name}}</option>
 									@endforeach
 								</select>
 							</div>

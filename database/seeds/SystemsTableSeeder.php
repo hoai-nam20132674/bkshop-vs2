@@ -30,7 +30,8 @@ class SystemsTableSeeder extends Seeder
         		'phone' => 'số điện thoại',
         		'email' => 'namnguyen20132674@gmail.com',
                 'display' =>1,
-        		'script' => 'javascript'
+        		'script' => 'javascript',
+                'highlights'=>0
         	],
             [ 
                 'name' =>'Giầy nike',
@@ -49,7 +50,8 @@ class SystemsTableSeeder extends Seeder
                 'phone' => 'số điện thoại',
                 'email' => 'namnguyen20132674@gmail.com',
                 'display' =>1,
-                'script' => 'javascript'
+                'script' => 'javascript',
+                'highlights'=>0
             ]
         	
         	]

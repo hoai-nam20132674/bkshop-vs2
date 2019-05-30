@@ -18,6 +18,7 @@ class CreateSlidesTable extends Migration
             $table->integer('systems_id')->unsigned();
             $table->foreign('systems_id')->references('id')->on('systems')->onDelete('cascade');
             $table->string('url_image');
+            $table->string('url');
             $table->timestamps();
         });
     }

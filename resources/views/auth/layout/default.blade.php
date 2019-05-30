@@ -7,6 +7,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 		<meta name="description" content="">
 		<meta name="author" content="">
+		<link rel="shortcut icon" href="{{asset('uploads/images/icon/icon-short-cut.jpg')}}">
 
 		<!-- Title -->
 		<title>BKSHOP ADMIN</title>
@@ -49,10 +50,16 @@
 								<span class="s-text">HỆ THỐNG</span>
 							</a>
 							<ul>
-								<li><a href="">Menu</a></li>
-								<li><a href="">Slide Header</a></li>
+								<li><a href="#">Menu</a></li>
+								<li><a href="#">Slide Header</a></li>
 								<li><a href="{{url('/admin/ckfinder/ckfinder.html?type=Images&CKEditor=content&CKEditorFuncNum=1&langCode=vi')}}" target="_blank">Media</a></li>
-								<li><a href="">Cài đặt hệ thống</a></li>
+								<li><a href="#">Cài đặt hệ thống</a></li>
+
+
+								@if(Auth::user()->systems_id == 1)
+								<li><a href="{{URL::route('addHomeSystem')}}">Hệ thống nổi bật</a></li>
+								@else
+								@endif
 							</ul>
 						</li>
 
@@ -72,14 +79,7 @@
 								<span class="s-text">Sản phẩm</span>
 							</a>
 						</li>
-						<li class="with-sub">
-							<a href="{{URL::route('listBlogs')}}" class="waves-effect  waves-light">
-								<span class="s-caret"><i class="fa fa-angle-down"></i></span>
-								<span class="s-icon"><i class="ti-pencil-alt"></i></span>
-								<span class="tag tag-danger">50</span>
-								<span class="s-text">Tin tức</span>
-							</a>
-						</li>
+						
 						<li class="with-sub">
 							<a href="#" class="waves-effect  waves-light">
 								<span class="s-caret"><i class="fa fa-angle-down"></i></span>
@@ -294,7 +294,7 @@
 									</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="#"><i class="ti-help mr-0-5"></i> Help</a>
-									<a class="dropdown-item" href="{{url('/logout')}}"><i class="ti-power-off mr-0-5"></i> Sign out</a>
+									<a class="dropdown-item" href="{{URL::route('logout')}}"><i class="ti-power-off mr-0-5"></i> Sign out</a>
 								</div>
 							</li>
 						</ul>

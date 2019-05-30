@@ -97,6 +97,14 @@
 											<input type="radio" name="display" value="0">Tắt hiển thị
 										</label>
 									</div>
+									<div class="checkbox">
+										<label>
+											<input type="radio" name="highlights" value="1" checked>Nổi bật
+										</label>
+										<label>
+											<input type="radio" name="highlights" value="0">Không nổi bật
+										</label>
+									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="file-upload">	
@@ -122,10 +130,10 @@
 								<script type="text/javascript">
 							      var editor = CKEDITOR.replace('content',{
 							       language:'vi',
-							       filebrowserImageBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../admin/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
+							       filebrowserImageBrowseUrl : '../auth/ckfinder/ckfinder.html?type=Images',
+							       filebrowserFlashBrowseUrl : '../auth/ckfinder/ckfinder.html?type=Flash',
+							       filebrowserImageUploadUrl : '../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+							       filebrowserFlashUploadUrl : '../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
 							       });
 							     </script>﻿
 							</div>
