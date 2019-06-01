@@ -1,43 +1,21 @@
+
 <div class="col-xs-12 details-product">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-5">
 			<div class="relative product-image-block ">
 				<div class="large-image">
 
-					<a href="https://bizweb.dktcdn.net/thumb/1024x1024/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" data-rel="prettyPhoto[product-gallery]">
-						<img id="zoom_01" src="https://bizweb.dktcdn.net/thumb/large/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" alt="Bộ kem dưỡng da Vichy Green">
+					<a href="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" data-rel="prettyPhoto[product-gallery]">
+						<img id="zoom_01" src="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" alt="{{$products->title}}">
 					</a>							
 					<div class="hidden">
 						
-
+						@foreach($images as $image)
 						<div class="item">
-							<a href="https://bizweb.dktcdn.net/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" data-image="https://bizweb.dktcdn.net/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" data-rel="prettyPhoto[product-gallery]">										
+							<a href="{{asset('uploads/images/products/detail/'.$image->url)}}" data-image="{{asset('uploads/images/products/detail/'.$products->avatar)}}" data-zoom-image="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" data-rel="prettyPhoto[product-gallery]">										
 							</a>
-						</div>	
-						
-
-						<div class="item">
-							<a href="https://bizweb.dktcdn.net/100/266/879/products/15-3140b4c2-bf67-48d9-b3ac-76fe7f544c63-a63a215d-7322-4aea-9766-64df0a83a138-c9d8af8b-eb0d-4a32-bdfb-c319f7557afb-3cdf2d59-523e-4d6d-a4f0-310a5ce8d7a5.jpg?v=1509336635723" data-image="https://bizweb.dktcdn.net/100/266/879/products/15-3140b4c2-bf67-48d9-b3ac-76fe7f544c63-a63a215d-7322-4aea-9766-64df0a83a138-c9d8af8b-eb0d-4a32-bdfb-c319f7557afb-3cdf2d59-523e-4d6d-a4f0-310a5ce8d7a5.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/100/266/879/products/15-3140b4c2-bf67-48d9-b3ac-76fe7f544c63-a63a215d-7322-4aea-9766-64df0a83a138-c9d8af8b-eb0d-4a32-bdfb-c319f7557afb-3cdf2d59-523e-4d6d-a4f0-310a5ce8d7a5.jpg?v=1509336635723" data-rel="prettyPhoto[product-gallery]">										
-							</a>
-						</div>	
-						
-
-						<div class="item">
-							<a href="https://bizweb.dktcdn.net/100/266/879/products/11-b0629fc1-15ea-4207-956e-9e523d7bda6c-6ed62d78-a09e-4113-9b75-18aeb7496f60-1c5fc319-0044-49f8-9723-d89486d84b2e-0282fc40-1003-405d-b4e0-acb0d0974838.jpg?v=1509336635723" data-image="https://bizweb.dktcdn.net/100/266/879/products/11-b0629fc1-15ea-4207-956e-9e523d7bda6c-6ed62d78-a09e-4113-9b75-18aeb7496f60-1c5fc319-0044-49f8-9723-d89486d84b2e-0282fc40-1003-405d-b4e0-acb0d0974838.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/100/266/879/products/11-b0629fc1-15ea-4207-956e-9e523d7bda6c-6ed62d78-a09e-4113-9b75-18aeb7496f60-1c5fc319-0044-49f8-9723-d89486d84b2e-0282fc40-1003-405d-b4e0-acb0d0974838.jpg?v=1509336635723" data-rel="prettyPhoto[product-gallery]">										
-							</a>
-						</div>	
-						
-
-						<div class="item">
-							<a href="https://bizweb.dktcdn.net/100/266/879/products/22-3e443df3-e99d-4269-abc3-6be63a9c7213-2850d299-aa31-4609-9b69-8b525b884f76-1d813913-ef6f-4e6f-a1a8-f390e9a3ed0c-c3ce39bb-8cb3-4ad1-877b-fd4adf157e66.jpg?v=1509336635723" data-image="https://bizweb.dktcdn.net/100/266/879/products/22-3e443df3-e99d-4269-abc3-6be63a9c7213-2850d299-aa31-4609-9b69-8b525b884f76-1d813913-ef6f-4e6f-a1a8-f390e9a3ed0c-c3ce39bb-8cb3-4ad1-877b-fd4adf157e66.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/100/266/879/products/22-3e443df3-e99d-4269-abc3-6be63a9c7213-2850d299-aa31-4609-9b69-8b525b884f76-1d813913-ef6f-4e6f-a1a8-f390e9a3ed0c-c3ce39bb-8cb3-4ad1-877b-fd4adf157e66.jpg?v=1509336635723" data-rel="prettyPhoto[product-gallery]">										
-							</a>
-						</div>	
-						
-
-						<div class="item">
-							<a href="https://bizweb.dktcdn.net/100/266/879/products/16-a3901950-c513-4c50-b242-5c1f24f334ac-042010c1-6bba-4532-8d30-2031b6bf1d7a-665f2905-397a-44ae-b35b-fa043d6b202c-de30838f-4955-4a0f-b8d7-86dd645799af.jpg?v=1509336635723" data-image="https://bizweb.dktcdn.net/100/266/879/products/16-a3901950-c513-4c50-b242-5c1f24f334ac-042010c1-6bba-4532-8d30-2031b6bf1d7a-665f2905-397a-44ae-b35b-fa043d6b202c-de30838f-4955-4a0f-b8d7-86dd645799af.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/100/266/879/products/16-a3901950-c513-4c50-b242-5c1f24f334ac-042010c1-6bba-4532-8d30-2031b6bf1d7a-665f2905-397a-44ae-b35b-fa043d6b202c-de30838f-4955-4a0f-b8d7-86dd645799af.jpg?v=1509336635723" data-rel="prettyPhoto[product-gallery]">										
-							</a>
-						</div>	
+						</div>
+						@endforeach
 						
 					</div>
 				</div>						
@@ -46,39 +24,18 @@
 					
 
 					<div class="item">
-						<a class="thumb-link" href="javascript:void(0);" data-image="https://bizweb.dktcdn.net/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/thumb/1024x1024/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723">
-							<img  src="https://bizweb.dktcdn.net/thumb/medium/100/266/879/products/21-06313806-ef67-4a30-a7cc-7ff839258fbd-2d957b54-f59b-46d6-a893-59ddfb0042ca-ed90a187-2be5-4e1a-99ba-1ad09aed7e9a-5ecdc5aa-a189-4ce3-ae5c-18e0c2190f4b.jpg?v=1509336635723" alt="Bộ kem dưỡng da Vichy Green">
+						<a class="thumb-link" href="javascript:void(0);" data-image="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" data-zoom-image="{{asset('uploads/images/products/avatar/'.$products->avatar)}}">
+							<img  src="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" alt="{{$products->title}}">
 						</a>
 					</div>
 					
-
-					<div class="item">
-						<a class="thumb-link" href="javascript:void(0);" data-image="https://bizweb.dktcdn.net/100/266/879/products/15-3140b4c2-bf67-48d9-b3ac-76fe7f544c63-a63a215d-7322-4aea-9766-64df0a83a138-c9d8af8b-eb0d-4a32-bdfb-c319f7557afb-3cdf2d59-523e-4d6d-a4f0-310a5ce8d7a5.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/thumb/1024x1024/100/266/879/products/15-3140b4c2-bf67-48d9-b3ac-76fe7f544c63-a63a215d-7322-4aea-9766-64df0a83a138-c9d8af8b-eb0d-4a32-bdfb-c319f7557afb-3cdf2d59-523e-4d6d-a4f0-310a5ce8d7a5.jpg?v=1509336635723">
-							<img  src="https://bizweb.dktcdn.net/thumb/medium/100/266/879/products/15-3140b4c2-bf67-48d9-b3ac-76fe7f544c63-a63a215d-7322-4aea-9766-64df0a83a138-c9d8af8b-eb0d-4a32-bdfb-c319f7557afb-3cdf2d59-523e-4d6d-a4f0-310a5ce8d7a5.jpg?v=1509336635723" alt="Bộ kem dưỡng da Vichy Green">
-						</a>
-					</div>
-					
-
-					<div class="item">
-						<a class="thumb-link" href="javascript:void(0);" data-image="https://bizweb.dktcdn.net/100/266/879/products/11-b0629fc1-15ea-4207-956e-9e523d7bda6c-6ed62d78-a09e-4113-9b75-18aeb7496f60-1c5fc319-0044-49f8-9723-d89486d84b2e-0282fc40-1003-405d-b4e0-acb0d0974838.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/thumb/1024x1024/100/266/879/products/11-b0629fc1-15ea-4207-956e-9e523d7bda6c-6ed62d78-a09e-4113-9b75-18aeb7496f60-1c5fc319-0044-49f8-9723-d89486d84b2e-0282fc40-1003-405d-b4e0-acb0d0974838.jpg?v=1509336635723">
-							<img  src="https://bizweb.dktcdn.net/thumb/medium/100/266/879/products/11-b0629fc1-15ea-4207-956e-9e523d7bda6c-6ed62d78-a09e-4113-9b75-18aeb7496f60-1c5fc319-0044-49f8-9723-d89486d84b2e-0282fc40-1003-405d-b4e0-acb0d0974838.jpg?v=1509336635723" alt="Bộ kem dưỡng da Vichy Green">
-						</a>
-					</div>
-					
-
-					<div class="item">
-						<a class="thumb-link" href="javascript:void(0);" data-image="https://bizweb.dktcdn.net/100/266/879/products/22-3e443df3-e99d-4269-abc3-6be63a9c7213-2850d299-aa31-4609-9b69-8b525b884f76-1d813913-ef6f-4e6f-a1a8-f390e9a3ed0c-c3ce39bb-8cb3-4ad1-877b-fd4adf157e66.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/thumb/1024x1024/100/266/879/products/22-3e443df3-e99d-4269-abc3-6be63a9c7213-2850d299-aa31-4609-9b69-8b525b884f76-1d813913-ef6f-4e6f-a1a8-f390e9a3ed0c-c3ce39bb-8cb3-4ad1-877b-fd4adf157e66.jpg?v=1509336635723">
-							<img  src="https://bizweb.dktcdn.net/thumb/medium/100/266/879/products/22-3e443df3-e99d-4269-abc3-6be63a9c7213-2850d299-aa31-4609-9b69-8b525b884f76-1d813913-ef6f-4e6f-a1a8-f390e9a3ed0c-c3ce39bb-8cb3-4ad1-877b-fd4adf157e66.jpg?v=1509336635723" alt="Bộ kem dưỡng da Vichy Green">
-						</a>
-					</div>
-					
-
-					<div class="item">
-						<a class="thumb-link" href="javascript:void(0);" data-image="https://bizweb.dktcdn.net/100/266/879/products/16-a3901950-c513-4c50-b242-5c1f24f334ac-042010c1-6bba-4532-8d30-2031b6bf1d7a-665f2905-397a-44ae-b35b-fa043d6b202c-de30838f-4955-4a0f-b8d7-86dd645799af.jpg?v=1509336635723" data-zoom-image="https://bizweb.dktcdn.net/thumb/1024x1024/100/266/879/products/16-a3901950-c513-4c50-b242-5c1f24f334ac-042010c1-6bba-4532-8d30-2031b6bf1d7a-665f2905-397a-44ae-b35b-fa043d6b202c-de30838f-4955-4a0f-b8d7-86dd645799af.jpg?v=1509336635723">
-							<img  src="https://bizweb.dktcdn.net/thumb/medium/100/266/879/products/16-a3901950-c513-4c50-b242-5c1f24f334ac-042010c1-6bba-4532-8d30-2031b6bf1d7a-665f2905-397a-44ae-b35b-fa043d6b202c-de30838f-4955-4a0f-b8d7-86dd645799af.jpg?v=1509336635723" alt="Bộ kem dưỡng da Vichy Green">
-						</a>
-					</div>
-					
+					@foreach($images as $image)
+						<div class="item">
+							<a class="thumb-link" href="javascript:void(0);" data-image="{{asset('uploads/images/products/detail/'.$image->url)}}" data-zoom-image="{{asset('uploads/images/products/detail/'.$image->url)}}">
+								<img  src="{{asset('uploads/images/products/detail/'.$image->url)}}" alt="{{$products->title}}">
+							</a>
+						</div>
+					@endforeach
 				</div>
 				
 			</div>
@@ -117,10 +74,11 @@
 
 
 			<div class="price-box">
-				
-				<span class="special-price"><span class="price product-price">600.000₫</span> </span> <!-- Giá Khuyến mại -->
-				<span class="old-price"><del class="price product-price-old" >790.000₫</del> </span> <!-- Giá gốc -->
-				
+				@if($products->price != $products->maxPrice)
+					<span class="special-price"><span class="price product-price">{{$products->price}}₫ - {{$products->maxPrice}}₫</span> </span> <!-- Giá Khuyến mại -->
+				@else
+					<span class="old-price"><del class="price product-price-old" >790.000₫</del> </span> <!-- Giá gốc -->
+				@endif
 			</div>
 
 			@include('front-end.layout.swatch')
@@ -173,7 +131,7 @@
 				
 				
 				
-				<div class="contact">Gọi <a href="tel:1800.6601">1800.6601</a> để được tư vấn miễn phí</div>
+				<div class="contact">Gọi <a href="tel:0342911168">0342911168</a> để được tư vấn miễn phí</div>
 
 				
 				
@@ -182,3 +140,4 @@
 		</div>
 	</div>				
 </div>
+

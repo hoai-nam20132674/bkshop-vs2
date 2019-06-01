@@ -2,7 +2,7 @@
   <div class="header-bar">
     <div class="fix-height-img hidden-xs">
       <a href="#">
-        <img src="https://bizweb.dktcdn.net/100/266/879/themes/720483/assets/topbar.png?1558087405072" alt="Zomart">
+        <img src="{{asset('uploads/images/systems/topbar.png')}}" alt="Zomart">
       </a>
     </div>
     <div class="header-bar-inner">
@@ -11,7 +11,7 @@
           <div class="col-md-6 col-sm-6 col-xs-2 hidden-sm">          
             <ul class="list-inline message hidden-sm hidden-xs">
               <li>
-                <p><i class="fa mobile fa-phone"></i>Bán hàng trực tuyến: <a href="callto:(04)55806780">(04) 5580 6780</a> - <a href="callto:(08)58006770">(08) 5800 6770</a></p>
+                <p><i class="fa mobile fa-phone"></i>Bán hàng trực tuyến: <a href="callto:{{$system->phone}}">{{$system->phone}}</a></p>
               </li>
             </ul>
           </div>
@@ -67,15 +67,15 @@
             </form>
             <div class="header-tag hidden-sm hidden-xs">
               <b>Từ khóa phổ biến:</b> 
-              <a href="/search?q=m%C3%A1y%20t%C3%ADnh%20b%E1%BA%A3ng">máy tính bảng</a>, 
-              <a href="/search?q=iphone">iphone</a>, 
-              <a href="/search?q=%C4%91%E1%BB%93%20b%E1%BB%89m%20s%E1%BB%AFa">đồ bỉm sữa</a>, 
-              <a href="/search?q=khuy%E1%BA%BFn%20m%E1%BA%A1i">khuyến mại</a>, 
-              <a href="/search?q=n%E1%BB%99i%20th%E1%BA%A5t">nội thất</a>, 
-              <a href="/search?q=th%E1%BB%9Di%20trang">thời trang</a>, 
-              <a href="/search?q=m%E1%BB%B9%20ph%E1%BA%A9m">mỹ phẩm</a>, 
-              <a href="/search?q=%C4%91%E1%BB%93%20gia%20d%E1%BB%A5ng">đồ gia dụng</a>, 
-              <a href="/search?q=th%E1%BB%B1c%20ph%E1%BA%A9m">thực phẩm</a>
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=máy tính bảng">máy tính bảng</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=iphone">iphone</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=đồ bỉm sữa">đồ bỉm sữa</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=khuyến mại">khuyến mại</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=nội thất">nội thất</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=thời trang">thời trang</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=mỹ phẩm">mỹ phẩm</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=đồ gia dụng">đồ gia dụng</a>, 
+              <a href="/search:danh%20mục:0.tất%20cả.tìm%20kiếm=thực phẩm">thực phẩm</a>
             </div>
           </div> 
         </div>

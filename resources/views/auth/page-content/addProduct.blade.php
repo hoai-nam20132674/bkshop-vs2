@@ -60,7 +60,6 @@
 							<div class="row">
 								<div class="col-md-8">
 									<div class="form-group" style="position: relative;">
-										<!-- <label for="exampleInputEmail1">Số lượng</label> -->
 										<span class="tag tag-primary btn btn-primary" style="position: absolute; top: 0px; width: 150px; height: 31px; padding: 7px 0px; font-size: 15px;">https://bkshop.vn/</span>
 										<input style="padding-left: 160px;" type="text" class="form-control" name="url" placeholder="link sản phẩm" value="{{old('url')}}" required >
 									</div>

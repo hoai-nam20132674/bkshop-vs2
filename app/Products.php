@@ -35,8 +35,9 @@ class Products extends Model
         $pr->orders = 0;
         $pr->highlights = $request->highlights;
         $properties = $request->properties;
+        $price = $request->price;
         if(isset($properties)){
-            $pr->price = 0;
+            $pr->price = $this->minPrice(count($price),$request);
             $pr->amount = $this->countAmount(count($properties),$request);
             $pr->save();
             for($i=0;$i<count($properties);$i++){
@@ -97,5 +98,14 @@ class Products extends Model
             $countAmount = $countAmount + $request->amount[$i];
         }
         return $countAmount;
+    }
+    public function minPrice($countPrice, $request){
+        $minPrice = $request->price[0];
+        for($i=0;$i<$countPrice;$i++){
+            if($request->price[$i]<$minPrice){
+                $minPrice = $request->price[$i];
+            }
+        }
+        return $minPrice;
     }
 }

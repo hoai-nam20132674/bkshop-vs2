@@ -4,29 +4,33 @@
 	<head>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">				
-		<title>{{$system->title}}</title>
+		<title>{{$products->title}}</title>
 		<!-- ================= Page description ================== -->
 		
-		<meta name="description" content="{{$system->seo_description}}">
+		<meta name="description" content="{{$products->seo_description}}">
 		
 		<!-- ================= Meta ================== -->
-		<meta name="keywords" content="{{$system->seo_keyword}}"/>		
+		<meta name="keywords" content="{{$products->seo_keyword}}"/>		
 		<link rel="canonical" href="/{{$system->website}}"/>
 		<meta name='revisit-after' content='1 days' />
 		<meta name="robots" content="noodp,index,follow" />
 		<!-- ================= Favicon ================== -->
 		
-		<link rel="icon" href="{{asset('uploads/images/systems/logo/'.$system->shortcut_logo)}}" type="image/x-icon" />
+		<link rel="icon" href="{{asset('uploads/images/icon/'.$system->shortcut_logo)}}" type="image/x-icon" />
 		
 		<!-- Facebook Open Graph meta tags -->
 		
 
 		<meta property="og:type" content="website">
-		<meta property="og:title" content="{{$system->title}}">
-		<meta property="og:image" content="{{asset('uploads/images/systems/share/'.$system->share_image)}}">
+		<meta property="og:title" content="{{$products->title}}">
+		<meta property="og:image" content="{{asset('uploads/images/products/image_share/'.$products->share_image)}}">
 
-		<meta property="og:description" content="{{$system->seo_description}}">
-		<meta property="og:url" content="/{{$system->website}}">
+		<meta property="og:description" content="{{$products->seo_description}}">
+		@if($system->id ==1)
+			<meta property="og:url" content="/{{$products->url}}">
+		@else
+			<meta property="og:url" content="/{{$system->website}}/{{$products->url}}">
+		@endif
 		<meta property="og:site_name" content="BKMART">
 		<meta name="twitter:card" content="summary">
 		<meta name="twitter:site" content="@">

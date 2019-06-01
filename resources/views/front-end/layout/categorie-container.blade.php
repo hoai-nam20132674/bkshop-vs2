@@ -7,14 +7,11 @@
 			<div class="category-products products">
 				<section class="products-view products-view-grid">
 					<div class="row">
-						<?php
-							$i=0;
-						?>
-						@for($i;$i<10;$i++)
+						@foreach($products as $pr)
 						<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
 							@include('front-end.layout.product-box')		
 						</div>
-						@endfor
+						@endforeach
 					</div>
 					<div class="text-xs-right">
 		

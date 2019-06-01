@@ -11,7 +11,8 @@
 				        
 				
 				<div class="col-xs-12">
-					<h1 class="title-head">Có 15 kết quả tìm kiếm phù hợp</h1>
+					<?php $count = count($products) ?>
+					<h1 class="title-head">Có {{$count}} kết quả tìm kiếm phù hợp</h1>
 
 				</div>
 

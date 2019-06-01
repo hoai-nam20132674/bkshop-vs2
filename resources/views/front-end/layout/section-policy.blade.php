@@ -61,7 +61,7 @@
             </div>
             <div class="info">
               <span>Hỗ trợ online 24/7</span>
-              <p>Gọi ngay (04) 5580 6780 để được tư vấn</p>
+              <p>Gọi ngay 0342911168 để được tư vấn</p>
             </div>
 
           </div><!-- /.policy -->

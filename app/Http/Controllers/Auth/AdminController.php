@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\addUserRequest;
 use App\Http\Requests\addProductRequest;
 use App\Http\Requests\addCategorieRequest;
+use App\Http\Requests\addSystemRequest;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
 use Illuminate\Support\Facades\Input;
@@ -34,7 +35,7 @@ class AdminController extends Controller
     public function addProduct() {
         $category = Categories::where('systems_id',Auth::user()->systems_id)->get();
         if(count($category)==0){
-            return redirect('auth/them-danh-muc')->with(['flash_level'=>'danger','flash_message'=>'Vui lòng tạo danh mục sản phẩm trước khi thêm sản phẩm cho hệ thống của quý khách']);
+            return redirect()->route('addCategorie')->with(['flash_level'=>'danger','flash_message'=>'Vui lòng tạo danh mục sản phẩm trước khi thêm sản phẩm cho hệ thống của quý khách']);
         }
         else{
             $properties_type = PropertiesType::where('systems_id',Auth::user()->systems_id)->get();
@@ -56,6 +57,9 @@ class AdminController extends Controller
         $systems = Systems::where('display',1)->get();
         $home_system = HomeSystems::select()->get();
         return view('auth.page-content.addHomeSystem',['systems'=>$systems, 'home_system'=>$home_system]);
+    }
+    public function addSystem(){
+        return view('auth.page-content.addSystem');
     }
     // -------------------
     public function listProducts() {
@@ -97,18 +101,18 @@ class AdminController extends Controller
     // ----------------------
     public function postAddUser(addUserRequest $request){
         if(Auth::user()->role == 0 && Auth::user()->parent_id !=1){
-            return redirect('auth/danh-sach-tai-khoan-quan-tri')->with(['flash_level'=>'danger','flash_message'=>'Bạn không có quyền thêm tài khoản']);
+            return redirect()->route('listUsers')->with(['flash_level'=>'danger','flash_message'=>'Bạn không có quyền thêm tài khoản']);
         }
         else{
             $user = new User;
             $user->addUser($request);
-            return redirect('auth/danh-sach-tai-khoan-quan-tri')->with(['flash_level'=>'success','flash_message'=>'Thêm tài khoản thành công']);
+            return redirect()->route('listUsers')->with(['flash_level'=>'success','flash_message'=>'Thêm tài khoản thành công']);
         }
     }
     public function postAddProduct(addProductRequest $request){
         $product = new Products;
         $product->addProduct($request);
-        return redirect('auth/danh-sach-san-pham')->with(['flash_level'=>'success','flash_message'=>'Thêm sản phẩm thành công']);
+        return redirect()->route('listProducts')->with(['flash_level'=>'success','flash_message'=>'Thêm sản phẩm thành công']);
         
     }
 
@@ -131,8 +135,13 @@ class AdminController extends Controller
     public function postAddHomeSystem(Request $request){
         $home_system = new HomeSystems;
         $home_system->addHomeSystem($request);
-        return redirect('auth/trang-chu')->with(['flash_level'=>'success','flash_message'=>'Cài đặt danh mục hệ thống nổi bật trang chủ thành công']);
+        return redirect()->route('authIndex')->with(['flash_level'=>'success','flash_message'=>'Cài đặt danh mục hệ thống nổi bật trang chủ thành công']);
 
+    }
+    public function postAddSystem(addSystemRequest $request){
+        $system=new Systems;
+        $system->addSystem($request);
+        return redirect()->route('authIndex');
     }
 
 

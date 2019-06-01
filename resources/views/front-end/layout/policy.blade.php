@@ -39,7 +39,7 @@
 						<div class="wrap_item_">
 							<div class="content_service">
 								<p>Đặt hàng online</p>
-								<span>Gọi ngay <a href='callto:(04)55806780'>(04) 5580 6780</a> để mua và đặt hàng nhanh chóng</span>
+								<span>Gọi ngay <a href='callto:0342911168'>0342911168</a> để mua và đặt hàng nhanh chóng</span>
 							</div>
 						</div>
 					</div>
