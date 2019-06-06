@@ -11,5 +11,8 @@
 @section('content')
 	@include('front-end.layout.section-hot-product')
 	@include('front-end.layout.section-categorie-product')
-	@include('front-end.layout.section-recommend-product')
+	@if(count($system_follow)!=0)
+		@include('front-end.layout.section-recommend-product')
+	@else
+	@endif
 @endsection

@@ -16,28 +16,37 @@ Route::get('test/test/test/{id}','AuthClient\ClientController@test');
 Route::get('/',['as'=>'trang-chu','uses'=>'AuthClient\ClientController@index']);
 
 //search text
-
+Route::get('check:{email}-{password}',['as'=>'checkLogin','uses'=>'AuthClient\LoginController@checkLogin']);
 Route::get('search:danh mục:{cate_id}.{cate_name}.tìm kiếm={search_text}',['as'=>'rootSearchText','uses'=>'AuthClient\ClientController@rootSearchText']);
 Route::get('/{system_url}/search:danh mục:{cate_id}.{cate_name}.tìm kiếm={search_text}',['as'=>'businessSearchText','uses'=>'AuthClient\ClientController@businessSearchText']);
 // end search text
-Route::get('/{url}',['as'=>'rootPageContent','uses'=>'AuthClient\ClientController@rootPageContent']);
-
-//End AuthClientRoute
+Route::get('/client-login',['as'=>'clientLogin','uses'=>'AuthClient\LoginController@getLogin']);
+Route::get('/client-logout',['as'=>'clientLogout','uses'=>'AuthClient\LoginController@logout']);
+Route::post('/clientPostLogin',['as'=>'clientPostLogin','uses'=>'AuthClient\LoginController@postLogin']);
 
 
 Route::get('admin/auth/master',['as'=>'admin','uses'=>'Auth\LoginController@getLogin']);
 Route::get('admin',['as'=>'login','uses'=>'Auth\LoginController@login']);
 Route::get('admin/auth/logout',['as'=>'logout','uses'=>'Auth\LoginController@logout']);
 Route::post('/postLogin',['as'=>'postLogin','uses'=>'Auth\LoginController@postLogin']);
-Route::get('/client-login',['as'=>'clientLogin','uses'=>'AuthClient\LoginController@getLogin']);
-Route::get('/client-logout',['as'=>'clientLogout','uses'=>'AuthClient\LoginController@logout']);
-Route::post('/clientPostLogin',['as'=>'clientPostLogin','uses'=>'AuthClient\LoginController@postLogin']);
+
+Route::get('account/{id}',['as'=>'account','uses'=>'AuthClient\ClientController@account']);
+Route::get('order/{id}',['as'=>'order','uses'=>'AuthClient\ClientController@order']);
+Route::get('cart',['as'=>'cart','uses'=>'AuthClient\ClientController@cart']);
+
 
 // login with social facebook
 Route::get('/login/facebook',['as' => 'loginFacebook','uses' => 'AuthClient\LoginController@redirectToProvider']);
 Route::get('/facebook/callback',['as' => 'loginFacebookCallback','uses' => 'AuthClient\LoginController@handleProviderCallback']);
 
 // end
+
+Route::get('/{url}',['as'=>'rootPageContent','uses'=>'AuthClient\ClientController@rootPageContent']);
+
+//End AuthClientRoute
+
+
+
 
 Route::get('getListUsersResponse',['as'=>'getListUsersResponse','uses'=>'Auth\AdminController@getListUsersResponse']);
 Route::group(['prefix'=>'auth/admin','middleware'=>'auth'], function(){

@@ -81,30 +81,26 @@
 				@endif
 			</div>
 
-			@include('front-end.layout.swatch')
+			
 			
 
 			<div class="form-product">
-				<form enctype="multipart/form-data" id="add-to-cart-form" action="/cart/add" method="post" class="form-inline margin-bottom-10 dqdt-form">
+				<form class="form-inline margin-bottom-10 dqdt-form">
+					<input type="hidden" name="_token" value="{{ csrf_token()}}">
+					@include('front-end.layout.swatch')
 					
-					<div class="box-variant clearfix ">
-
-						
-						<input type="hidden" name="variantId" value="14042109" />
-						
-
-					</div>
+					
 					<div class="form-group form-groupx form-detail-action clearfix">
 						<div class=" ">
 							<label class="hidden">Số lượng: </label>
 							<div class="custom custom-btn-number">																			
 								<span class="qtyminus" data-field="quantity">-</span>
-								<input type="text" class="input-text qty" data-field='quantity' title="Só lượng" value="1" maxlength="12" id="qty" name="quantity" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">									
+								<input type="text" class="input-text qty" data-field='quantity' title="Số lượng" value="1" maxlength="12" id="qty" name="quantity" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">									
 								<span class="qtyplus" data-field="quantity">+</span>										
 							</div>
 
 																
-							<button type="submit" class="btn btn-lg btn-primary btn-cart btn-cart2 add_to_cart btn_buy add_to_cart" title="Cho vào giỏ hàng">
+							<button id="add-to-cart" url="" class="btn btn-lg btn-primary " title="Cho vào giỏ hàng">
 								<span>Thêm vào giỏ hàng</span>
 							</button>									
 							

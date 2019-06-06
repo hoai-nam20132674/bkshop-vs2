@@ -13,6 +13,14 @@ use App\ProductsDetail;
 use App\Properties;
 use App\ProductsProperties;
 use App\PropertiesType;
+use App\FollowSystems;
+use App\Orders;
+use App\OrdersDetail;
+use Cart;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientController extends Controller
 {
@@ -20,32 +28,143 @@ class ClientController extends Controller
     public function index(){
     	$system = Systems::where('id',1)->get()->first();
         $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+        $cate_highlights = Categories::where('systems_id',$system->id)->where('display',1)->where('highlights',1)->orderBy('updated_at', 'ASC')->get();
+        $cateRoot = array();
+        $x = 0;
+        for($i=0;$i<count($cates);$i++){
+            if($cates[$i]->id == $cates[$i]->parent_id){
+                $cateRoot[$x]=$cates[$i];
+                $x++;
+            }
+            else{}
+        }
+        $cates = $cateRoot;
         $cate = $this->arrayColumn($cates,$col='id');
         $products = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->whereIn('products.categories_id',$cate)->where('products.display',1)->where('images_products.role',1)
             ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')
             ->get();
         $productsGroup = $this->groupProduct($products);
         $products = $this->filterProduct($productsGroup);
-    	return view('front-end.page-content.home',['system'=>$system,'cates'=>$cates,'products'=>$products]);
+        
+        
+        // lấy ds sản phẩm thuộc gian hàng được người dùng follow
+        $system_follow = array();
+        $products_recommend = array();
+        if(Auth::guard('users_client')->check()){
+            $system_follow = FollowSystems::where('users_clients_id',Auth::guard('users_client')->user()->id)->get();
+            $systemsId = $this->arrayColumn($system_follow,$col='systems_id');
+            $system_follow = Systems::whereIn('id',$systemsId)->get();
+            
+            for($i=0;$i<count($systemsId);$i++){
+                $array = Categories::where('systems_id',$systemsId[$i])->where('display',1)->get();
+                $array = $this->arrayColumn($array,$col='id');
+                $product = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->whereIn('products.categories_id',$array)->where('products.display',1)->where('images_products.role',1)
+                    ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')->orderBy('products.id', 'DESC')
+                    ->get();
+                $productsGroup = $this->groupProduct($product);
+                $product = $this->filterProduct($productsGroup);
+                if(count($product)==0){
+                    $products_recommend[$i][0]=null;
+                }
+                elseif(count($product)>10){
+                    for($j=0;$j<10;$j++){
+                        $products_recommend[$i][$j]=$product[$j];
+                    }
+                }
+                else{
+                    
+                    $products_recommend[$i]=$product;
+                    
+                }
+
+            }
+            
+        }
+        //end lấy ds sản phẩm thuộc gian hàng được người dùng follow
+        // --------------------------
+        // lọc sản phẩm nổi bật thuộc các danh mục đã chọn ra trả về mảng 2 chiều x,y. x là danh mục, y là sản phẩm
+        
+        $systems_highlights = Systems::where('highlights',1)->orderBy('updated_at','DESC')->get();
+        $products_highlights = array();
+        for($i=0;$i<count($systems_highlights);$i++){
+            $cate_system = Categories::where('systems_id',$systems_highlights[$i]->id)->get();
+            $cate_system_id = $this->arrayColumn($cate_system,$col='id');
+            $product = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->whereIn('products.categories_id',$cate_system_id)->where('products.display',1)->where('images_products.role',1)
+            ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')->orderBy('products.id', 'DESC')
+            ->get();
+            $productsGroup = $this->groupProduct($product);
+            $product = $this->filterProduct($productsGroup);
+            if(count($product)==0){
+                $products_highlights[$i][0]=null;
+
+            }
+            elseif(count($product)>10){
+                for($j=0;$j<10;$j++){
+                    $products_highlights[$i][$j]=$product[$j];
+                }
+            }
+            else{
+                for($j=0;$j<count($product);$j++){
+                    $products_highlights[$i][$j]=$product[$j];
+                }
+            }
+            
+        }
+        // lọc sản phẩm nổi bật thuộc các gian hàng nổi bật đã chọn ra trả về mảng 2 chiều x,y. x là danh mục, y là sản phẩm
+        // -----------------------------
+        $cate_news = array();
+        $products_news = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->where('products.display',1)->where('images_products.role',1)
+            ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')->orderBy('products.id', 'DESC')
+            ->get();
+        $products_news = $this->groupProduct($products_news);
+        $products_news = $this->filterProduct($products_news);
+        $products_news = collect($products_news);
+
+        $products_news = $this->paginateCustum($products_news, $perPage = 60, $page = null, $options = []);
+        //end lọc sản phẩm nổi bật thuộc các danh mục đã chọn ra trả về mảng 2 chiều x,y. x là danh mục, y là sản phẩm
+    	return view('front-end.page-content.home',['system'=>$system,'cates'=>$cates,'products_highlights'=>$products_highlights,'products_news'=>$products_news,'systems_highlights'=>$systems_highlights,'cate_news'=>$cate_news,'cateRoot'=>$cateRoot,'system_follow'=>$system_follow,'products_recommend'=>$products_recommend]);
+        
+        
+        
+    }
+    public function paginateCustum($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
     public function rootPageContent($url) {
     	$cates = Categories::where('url', $url)->get();
         $products = Products::where('url',$url)->get(); 
     	$systems = Systems::where('website',$url)->get();
-    	if($url == 'admin'){
-    		return view('auth.login');
-    	}
+
     	if(!$systems->isEmpty()){
     		$system = $systems->first();
             if($system->id ==1){
+
                 $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+                $cateRoot = array();
+                $x = 0;
+                for($i=0;$i<count($cates);$i++){
+                    if($cates[$i]->id == $cates[$i]->parent_id){
+                        $cateRoot[$x]=$cates[$i];
+                        $x++;
+                    }
+                    else{}
+                }
                 $cate = $this->arrayColumn($cates,$col='id');
                 $products = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->whereIn('products.categories_id',$cate)->where('products.display',1)->where('images_products.role',1)
                 ->select('products.*', 'images_products.url AS avatar')
                 ->get();
+                $products_highlights = array();
+                $products_news = array();
+                $cate_news = array();
+                $cate_highlights=array();
         		return view('front-end.page-content.home-business',['system'=>$system,'cates'=>$cates,'products'=>$products]);
+                // dd($cateRoot);
             }
             else{
+                $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
                 $cate_highlights = Categories::where('systems_id',$system->id)->where('display',1)->where('highlights',1)->orderBy('updated_at', 'ASC')->get();
                 
                 
@@ -64,7 +183,7 @@ class ClientController extends Controller
                         $products_highlights[$i][0]=null;
 
                     }
-                    elseif(count($product)>=10){
+                    elseif(count($product)>10){
                         for($j=0;$j<10;$j++){
                             $products_highlights[$i][$j]=$product[$j];
                         }
@@ -152,7 +271,42 @@ class ClientController extends Controller
                 }
 
                 //end lọc sản phẩm mới thuộc các danh mục đã chọn ra trả về mảng 2 chiều x,y. x là danh mục, y là sản phẩm
-                return view('front-end.page-content.home',['system'=>$system,'cates'=>$cates,'products_highlights'=>$products_highlights,'products_news'=>$products_news,'cate_highlights'=>$cate_highlights,'cate_news'=>$cate_news]);
+
+                // lấy ds sản phẩm thuộc gian hàng được người dùng follow
+                $system_follow = array();
+                $products_recommend = array();
+                if(Auth::guard('users_client')->check()){
+                    $system_follow = FollowSystems::where('users_clients_id',Auth::guard('users_client')->user()->id)->get();
+                    $systemsId = $this->arrayColumn($system_follow,$col='systems_id');
+                    $system_follow = Systems::whereIn('id',$systemsId)->get();
+                    
+                    for($i=0;$i<count($systemsId);$i++){
+                        $array = Categories::where('systems_id',$systemsId[$i])->where('display',1)->get();
+                        $array = $this->arrayColumn($array,$col='id');
+                        $product = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->whereIn('products.categories_id',$array)->where('products.display',1)->where('images_products.role',1)
+                            ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')->orderBy('products.id', 'DESC')
+                            ->get();
+                        $productsGroup = $this->groupProduct($product);
+                        $product = $this->filterProduct($productsGroup);
+                        if(count($product)==0){
+                            $products_recommend[$i][0]=null;
+                        }
+                        elseif(count($product)>10){
+                            for($j=0;$j<10;$j++){
+                                $products_recommend[$i][$j]=$product[$j];
+                            }
+                        }
+                        else{
+                            
+                            $products_recommend[$i]=$product;
+                            
+                        }
+
+                    }
+                    
+                }
+                 // lấy ds sản phẩm thuộc gian hàng được người dùng follow
+                return view('front-end.page-content.home',['system'=>$system,'cates'=>$cates,'products_highlights'=>$products_highlights,'products_news'=>$products_news,'cate_highlights'=>$cate_highlights,'cate_news'=>$cate_news,'system_follow'=>$system_follow,'products_recommend'=>$products_recommend]);
                 // $test =0;
                 // $tt = 0;
                 // foreach($products_highlights as $products_highlight){
@@ -161,7 +315,7 @@ class ClientController extends Controller
                 //     }
                 //     $tt++;
                 // }
-                // dd($products_news);
+                // dd($cate_highlights);
                 
             }
     	}
@@ -169,6 +323,16 @@ class ClientController extends Controller
             $system = Systems::where('id',1)->get()->first();
             $cate = Categories::where('url',$url)->get()->first();
             $cates = Categories::where('systems_id',1)->where('display',1)->get();
+            $cateRoot = array();
+            $x = 0;
+            for($i=0;$i<count($cates);$i++){
+                if($cates[$i]->id == $cates[$i]->parent_id){
+                    $cateRoot[$x]=$cates[$i];
+                    $x++;
+                }
+                else{}
+            }
+            $cates = $cateRoot;
             //lấy list danh mục các gian hàng có tag là danh mục root đang chọn 
             $arrayIdChild = $this->getCategorieChildRoot($cate->id);
             //end lấy danh mục con của danh mục root_categorie_id
@@ -197,13 +361,43 @@ class ClientController extends Controller
             $properties = Properties::whereIn('id',$arrayPropertiesId)->get();
             $arrayPropertiesTypeId = $this->arrayColumn($properties,$col='properties_type_id');
             $properties_type = PropertiesType::whereIn('id',$arrayPropertiesTypeId)->get();
-            // dd($properties);
+            $array = array();
+            for($i=0;$i<count($properties_type);$i++){
+                $x=0;
+                for($j=0;$j<count($properties);$j++){
+                    if($properties_type[$i]->id == $properties[$j]->properties_type_id){
+                        $array[$i][$x] = $properties[$j];
+                        $x++;
+                    }
+                }
+            }
+            $properties = $array;
+            
             $products = $products[0];
-            return view('front-end.page-content.product',['system'=>$system,'cates'=>$cates,'products'=>$products,'images'=>$images]);
+            // return view('front-end.page-content.product',['system'=>$system,'cates'=>$cates,'products'=>$products,'images'=>$images,'properties_type'=>$properties_type,'properties'=>$properties]);
+            // dd($content);
+            $string = '10-1-2-3';
+            $start = 0;
+            $array = array();
+            $x=0;
+            for($i=0;$i<strlen($string);$i++){
+                if($string[$i] == '-'){
+                    $substr = substr($string,$start,$i-$start);
+                    $array[$x]=$substr;
+                    $x++;
+                    $start = $i + 1;
+                }
+                elseif($i == strlen($string)-1){
+                    $substr = substr($string,$start,$i-$start+1);
+                    $array[$x]=$substr;
+                }
+                else{}
+            }
+            dd($array);
         }
     	
     }
-    public function arrayColumn($object,$col){
+    public static function arrayColumn($object,$col){
         $array = array();
         $i = 0;
         foreach($object as $cate){
@@ -406,5 +600,79 @@ class ClientController extends Controller
         $arrayIdChildCategorie = array();
         $array = $this->getIdChildCategorieAllLevel($id,$arrayIdChildCategorie);
         dd($array);
+    }
+    public function account($id){
+        if(Auth::guard('users_client')->user()){
+            if(Auth::guard('users_client')->user()->id == $id){
+                $system = Systems::where('id',1)->get()->first();
+                $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+                $cateRoot = array();
+                $x = 0;
+                for($i=0;$i<count($cates);$i++){
+                    if($cates[$i]->id == $cates[$i]->parent_id){
+                        $cateRoot[$x]=$cates[$i];
+                        $x++;
+                    }
+                    else{}
+                }
+                $cates = $cateRoot;
+                return view('front-end.page-content.account',['system'=>$system,'cates'=>$cates]);
+            }
+            else{
+                return redirect()->route('account',Auth::guard('users_client')->user()->id);
+            }
+        }
+        else{
+            return redirect()->route('clientLogin')->with(['flash_level'=>'danger','flash_message'=>'Vui lòng đăng nhập']);
+        }
+    }
+    public function order($id){
+        if(Auth::guard('users_client')->user()){
+            $order = Orders::where('id',$id)->get()->first();
+            if($order->email == Auth::guard('users_client')->user()->email){
+                $system = Systems::where('id',1)->get()->first();
+                $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+                $cateRoot = array();
+                $x = 0;
+                for($i=0;$i<count($cates);$i++){
+                    if($cates[$i]->id == $cates[$i]->parent_id){
+                        $cateRoot[$x]=$cates[$i];
+                        $x++;
+                    }
+                    else{}
+                }
+                $cates = $cateRoot;
+                $order_details = OrdersDetail::where('orders_id',$order->id)->get();
+                $order_details = $this->arrayColumn($order_details,$col='id');
+                $order_details = OrdersDetail::join('products_detail', 'orders_detail.products_detail_id', '=', 'products_detail.id')->join('products', 'products_detail.products_id', '=', 'products.id')->whereIn('orders_detail.id',$order_details)->select('products_detail.*', 'orders_detail.amount AS amountOrder','products.name','products.url')->get();
+                return view('front-end.page-content.order',['system'=>$system,'cates'=>$cates,'order'=>$order,'order_details'=>$order_details]);
+                // dd($order_details);
+            }
+            else{
+                return redirect()->route('account',Auth::guard('users_client')->user()->id);
+            }
+        }
+        else{
+            return redirect()->route('clientLogin')->with(['flash_level'=>'danger','flash_message'=>'Vui lòng đăng nhập']);
+        }
+    }
+    public function cart(){
+        
+        $system = Systems::where('id',1)->get()->first();
+        $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+        $cateRoot = array();
+        $x = 0;
+        for($i=0;$i<count($cates);$i++){
+            if($cates[$i]->id == $cates[$i]->parent_id){
+                $cateRoot[$x]=$cates[$i];
+                $x++;
+            }
+            else{}
+        }
+        $cates = $cateRoot;
+        
+        return view('front-end.page-content.cart',['system'=>$system,'cates'=>$cates]);
+        // dd($order_details);
+            
     }
 }

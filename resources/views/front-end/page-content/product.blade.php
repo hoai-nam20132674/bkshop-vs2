@@ -17,13 +17,22 @@
 @endsection
 
 @section('css-js-footer')
-	<script src="{{asset('js/zoom-image.js')}}" type="text/javascript"></script>
+	<!-- <script src="{{asset('js/zoom-image.js')}}" type="text/javascript"></script> -->
 	<!-- <script src="https://bizweb.dktcdn.net/100/266/879/themes/720483/assets/recentview.js?1558087405072" type="text/javascript"></script> -->
 	
 	<!-- <script src="{{asset('js/jquery.elevatezoom308.min.js')}}" type="text/javascript"></script> -->
 	
 	<script src="{{asset('js/jquery.prettyphoto.min005e.js')}}" type="text/javascript"></script>
 	<script src="{{asset('js/jquery.prettyphoto.init.min367a.js')}}" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).on('click', '#add-to-cart', function(event) {
+			event.preventDefault();
+			var url = $(this).attr("url");
+			if(url==''){
+				console.log('rỗng');
+			}
+		});
+	</script>
 
 @endsection
 

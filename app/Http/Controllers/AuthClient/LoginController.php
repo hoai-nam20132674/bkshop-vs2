@@ -69,7 +69,7 @@ class LoginController extends Controller
             return redirect('/');
         }
         else{
-            return redirect()->back()->with(['flash_level'=>'danger','flash_message'=>'Tài khoản hoặc mật khẩu không chính xác']);
+            return redirect()->route('clientLogin')->with(['flash_level'=>'danger','flash_message'=>'Tài khoản hoặc mật khẩu không chính xác']);
         }
     
     }
@@ -82,5 +82,17 @@ class LoginController extends Controller
         $request->session()->regenerate();
     
         return redirect('/');
+    }
+    public function checkLogin($email, $password){
+        $login =array(
+            'email'=>$email,
+            'password'=>$password
+        );
+        if(Auth::guard('users_client')->attempt($login)){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 }

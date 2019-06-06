@@ -15,18 +15,21 @@
               </li>
             </ul>
           </div>
-          <div class="col-md-6 col-sm-6 d-list col-xs-10  a-right hidden-sm hidden-xs">
-            <span><a href="/">Thông tin khuyến mãi</a></span>
-            <span><a href="/">Tra cứu đơn hàng</a></span>
-            <span><a href="javascript:;" data-customer-id="0" class="iWishView">
-              Yêu thích
-              </a>
-            </span>
-          </div>
-          <div class="col-md-6 col-sm-12 d-list col-xs-12 a-right a-center hidden-md hidden-lg">
-            <span><a href="/account/register">Đăng ký</a></span>
-            <span><a href="/account/login">Đăng nhập</a></span>
-          </div>
+          @if(Auth::guard('users_client')->user())
+            <div class="col-md-6 col-sm-6 d-list col-xs-10  a-right hidden-sm hidden-xs">
+              <span><a href="/">Thông tin khuyến mãi</a></span>
+              <span><a href="/">Tra cứu đơn hàng</a></span>
+              <span><a href="javascript:;" data-customer-id="0" class="iWishView">
+                Yêu thích
+                </a>
+              </span>
+            </div>
+          @else
+            <div class="col-md-6 col-sm-12 d-list col-xs-12 a-right a-center hidden-md hidden-lg">
+              <span><a href="/account/register">Đăng ký</a></span>
+              <span><a href="/account/login">Đăng nhập</a></span>
+            </div>
+          @endif
         </div>
       </div>    
     </div>
@@ -89,7 +92,10 @@
               <div class="heading-cart text-xs-left">
 
                 <p><a href="/cart">Giỏ hàng của bạn</a></p>
-                <p><b>(<span class="cartCount">0</span>) Sản phẩm</b></p>
+                @php
+                  $totalQuantity = Cart::getTotalQuantity();
+                @endphp
+                <p><b>(<span class="cartCount">{{$totalQuantity}}</span>) Sản phẩm</b></p>
 
               </div>
 
@@ -123,12 +129,26 @@
                   </li>
                 </ul>
 
-                <script>
-                  var count = $("ul.count_li > li.item").length;                  
-                </script>
               </div>
             </div>
           </div>
+          @if(Auth::guard('users_client')->check())
+            <div class="header-acount hidden-sm hidden-xs">
+              <a href="/account" class="icon-cart">
+                <img src="//bizweb.dktcdn.net/100/266/879/themes/720483/assets/user-icon.png?1558087405072" alt="Zomart">
+
+              </a>
+              <div class="heading-cart text-xs-left">
+                
+                <p><a href="/account">Tài khoản</a> - <a href="{{URL::route('clientLogout')}}">Đăng xuất</a></p>
+                <a href="/account">{{Auth::guard('users_client')->user()->name}}</a>
+                
+              </div>
+
+
+            </div>
+
+          @else
           <div class="header-acount hidden-sm hidden-xs">
             <a href="/account" class="icon-cart">
               <img src="https://bizweb.dktcdn.net/100/266/879/themes/720483/assets/user-icon.png?1558087405072" alt="Zomart" />
@@ -141,12 +161,14 @@
 
 
               
-              <a href="/account">Tài khoản</a>
+              <a href="/account/login" data-toggle="modal" data-target="#dangnhap">Tài khoản</a>
               
             </div>
 
 
           </div>
+          
+          @endif
         </div>
 
 
