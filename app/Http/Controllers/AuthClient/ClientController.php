@@ -374,26 +374,9 @@ class ClientController extends Controller
             $properties = $array;
             
             $products = $products[0];
-            // return view('front-end.page-content.product',['system'=>$system,'cates'=>$cates,'products'=>$products,'images'=>$images,'properties_type'=>$properties_type,'properties'=>$properties]);
+            return view('front-end.page-content.product',['system'=>$system,'cates'=>$cates,'products'=>$products,'images'=>$images,'properties_type'=>$properties_type,'properties'=>$properties]);
             // dd($content);
-            $string = '10-1-2-3';
-            $start = 0;
-            $array = array();
-            $x=0;
-            for($i=0;$i<strlen($string);$i++){
-                if($string[$i] == '-'){
-                    $substr = substr($string,$start,$i-$start);
-                    $array[$x]=$substr;
-                    $x++;
-                    $start = $i + 1;
-                }
-                elseif($i == strlen($string)-1){
-                    $substr = substr($string,$start,$i-$start+1);
-                    $array[$x]=$substr;
-                }
-                else{}
-            }
-            dd($array);
+            
         }
     	
     }
@@ -674,5 +657,116 @@ class ClientController extends Controller
         return view('front-end.page-content.cart',['system'=>$system,'cates'=>$cates]);
         // dd($order_details);
             
+    }
+    public function checkAddToCart($url){
+        // tách chuỗi từ url truyền về lấy ra mảng các thuộc tính của sản phẩm đặt hàng
+        $string = $url;
+        $start = 0;
+        $array = array();
+        $x=0;
+        for($i=0;$i<strlen($string);$i++){
+            if($string[$i] == '-'){
+                $substr = substr($string,$start,$i-$start);
+                $array[$x]=$substr;
+                $x++;
+                $start = $i + 1;
+            }
+            elseif($i == strlen($string)-1){
+                $substr = substr($string,$start,$i-$start+1);
+                $array[$x]=$substr;
+            }
+            else{}
+        }
+        //end tách chuỗi từ url truyền về lấy ra mảng các thuộc tính của sản phẩm đặt hàng
+        // ------------------------------
+        $products_id = $array[0];
+        $quantity = $array[1];
+        $properties_id = array();
+        for($i=2;$i<count($array);$i++){
+            $properties_id[$i-2] = $array[$i];
+        }
+        $products_detail = ProductsDetail::where('products_id',$products_id)->get();
+        $products_detail_id = $this->arrayColumn($products_detail,$col='id');
+        $products_detail_properties = ProductsProperties::whereIn('products_detail_id',$products_detail_id)->get();
+
+        if(count($products_detail_properties) == 0){
+            $products_detail = ProductsDetail::where('products_id',$products_id)->get()->first();
+            if($products_detail->amount ==0){
+                echo "hết hàng";
+                $check2 =1;
+            }
+            elseif($products_detail->amount < $quantity){
+                echo "không đủ hàng";
+            }
+            else{
+                echo $products_detail->id.":còn hàng";
+
+            }
+        }
+        else{
+
+            $group_products_detail_properties = array();
+            for($i=0;$i<count($products_detail_id);$i++){
+                $x=0;
+                for($j=0;$j<count($products_detail_properties);$j++){
+                    if($products_detail_id[$i]==$products_detail_properties[$j]->products_detail_id){
+                        $group_products_detail_properties[$i][$x]=$products_detail_properties[$j]->properties_id;
+                        $x++;
+                    }
+                }
+
+            }
+            $check2 = 0;
+            for($i=0;$i<count($group_products_detail_properties);$i++){
+                if(count($properties_id)!=count($group_products_detail_properties[$i])){
+                    echo "chưa chọn thuộc tính";
+                    $check2 =1;
+                    break;
+                }
+                else{
+                    $check =0;
+                    for($j=0;$j<count($group_products_detail_properties[$i]);$j++){
+                        for($k=0;$k<count($properties_id);$k++){
+                            if($group_products_detail_properties[$i][$j] == $properties_id[$k]){
+                                $check++;
+                            }
+                        }
+
+                    }
+                    if($check == count($group_products_detail_properties[$i])){
+                        $products_detail = ProductsDetail::where('id',$products_detail_id[$i])->get()->first();
+                        if($products_detail->amount ==0){
+                            echo "hết hàng";
+                            $check2 =1;
+                        }
+                        elseif($products_detail->amount < $quantity){
+                            echo "không đủ hàng";
+                            $check2 =1;
+                        }
+                        else{
+                            echo $products_detail->id.":còn hàng";
+                            $check2 =1;
+                        }
+                        break;
+                    }
+                }
+            }
+            if($check2 == 0){
+                echo "chưa chọn thuộc tính";
+            }
+            
+        }
+        
+        // $products_detail = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->join('products_properties', 'products_properties.products_detail_id', '=', 'products_detail.id')->where('products.id',$products_id)->whereIn('products_properties.properties_id',$properties_id)->where('images_products.role',1)->select('products_detail.*','images_products.url AS avatar','products.name')->get();
+        // dd($products_detail);
+
+    }
+    public function addToCart($id,$quantity){
+        // $products_detail = ProductsDetail::where('id',$id)->get()->first();
+        $products_detail = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->where('products_detail.id',$id)->where('images_products.role',1)->select('products_detail.*','images_products.url AS avatar','products.name')->get()->first();
+        Cart::add(array('id'=>$products_detail->id,'name'=>$products_detail->name,'quantity'=>$quantity,'price'=>$products_detail->price,'attributes'=>array('img'=>$products_detail->avatar)));
+        // $products_detail = ProductsDetail::where('id',$id)->get()->first();
+        // $products_detail->amount = $products_detail->amount - $quantity;
+        // $products_detail->save();
     }
 }

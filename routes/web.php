@@ -33,6 +33,8 @@ Route::post('/postLogin',['as'=>'postLogin','uses'=>'Auth\LoginController@postLo
 Route::get('account/{id}',['as'=>'account','uses'=>'AuthClient\ClientController@account']);
 Route::get('order/{id}',['as'=>'order','uses'=>'AuthClient\ClientController@order']);
 Route::get('cart',['as'=>'cart','uses'=>'AuthClient\ClientController@cart']);
+Route::get('check-add-to-cart/{url}',['as'=>'checkAddToCart','uses'=>'AuthClient\ClientController@checkAddToCart']);
+Route::get('add-to-cart/{id}-{quantity}',['as'=>'addToCart','uses'=>'AuthClient\ClientController@addToCart']);
 
 
 // login with social facebook

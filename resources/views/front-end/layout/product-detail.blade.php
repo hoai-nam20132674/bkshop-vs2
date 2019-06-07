@@ -91,7 +91,7 @@
 					
 					
 					<div class="form-group form-groupx form-detail-action clearfix">
-						<div class=" ">
+						<div class="">
 							<label class="hidden">Số lượng: </label>
 							<div class="custom custom-btn-number">																			
 								<span class="qtyminus" data-field="quantity">-</span>
@@ -100,7 +100,7 @@
 							</div>
 
 																
-							<button id="add-to-cart" url="" class="btn btn-lg btn-primary " title="Cho vào giỏ hàng">
+							<button id="add-to-cart" products_id="{{$products->id}}" url="check-add-to-cart/{{$products->id}}" class="btn btn-lg btn-primary " title="Cho vào giỏ hàng">
 								<span>Thêm vào giỏ hàng</span>
 							</button>									
 							
