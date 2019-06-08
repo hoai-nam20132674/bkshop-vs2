@@ -264,11 +264,11 @@
 		<script src="{{asset('js/cs.script.js')}}" type="text/javascript"></script>
 		<!-- Quick view -->
 		
-		<script src="{{asset('js/quickview.js')}}" type="text/javascript"></script>
+		<!-- <script src="{{asset('js/quickview.js')}}" type="text/javascript"></script> -->
 
 
-		<script src="{{asset('js/option-selectors.js')}}" type="text/javascript"></script>
-		<script src="{{asset('js/api.jquery.js')}}" type="text/javascript"></script>
+		<!-- <script src="{{asset('js/option-selectors.js')}}" type="text/javascript"></script> -->
+		<!-- <script src="{{asset('js/api.jquery.js')}}" type="text/javascript"></script> -->
 		<!-- Plugin JS -->
 		<script src="{{asset('js/owl.carousel.min.js')}}" type="text/javascript"></script>	
 		<script src="{{asset('js/bootstrap.min.js')}}"></script>

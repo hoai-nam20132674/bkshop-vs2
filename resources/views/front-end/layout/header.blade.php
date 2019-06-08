@@ -1,10 +1,10 @@
 <div class="header">  
   <div class="header-bar">
-    <div class="fix-height-img hidden-xs">
+    <!-- <div class="fix-height-img hidden-xs">
       <a href="#">
         <img src="{{asset('uploads/images/systems/topbar.png')}}" alt="Zomart">
       </a>
-    </div>
+    </div> -->
     <div class="header-bar-inner">
       <div class="container">
         <div class="row">
@@ -94,6 +94,7 @@
                 <p><a href="/cart">Giỏ hàng của bạn</a></p>
                 @php
                   $totalQuantity = Cart::getTotalQuantity();
+                  $content = Cart::getContent();
                 @endphp
                 <p><b>(<span class="cartCount">{{$totalQuantity}}</span>) Sản phẩm</b></p>
 
@@ -103,30 +104,35 @@
             <div>
               <div style="" class="top-cart-content arrow_box hidden-lg-down">
                 <ul id="cart-sidebar" class="mini-products-list count_li">
-                  <li class="list-item">
-                    <ul></ul>
-                  </li>
-                  <li class="action">
-                    <ul>
-                      <li class="li-fix-1">
-                        <div class="top-subtotal">
-                          Tổng tiền thanh toán: 
-                          <span class="price"></span>
+                  <ul class="list-item-cart">
+                    @foreach($content as $item)
+                    <li class="item productid-{{$item->id}}">
+                      <div class="border_list">
+                        <a class="product-image" href="/iphone-7-red" title="Iphone 7 Red">
+                          <img alt="{{$item->name}}" src="{{asset('uploads/images/products/avatar/'.$item->attributes->img)}}" width="100">
+                        </a>
+                        <div class="detail-item">
+                          <div class="product-details">
+                            <p class="product-name"> <a href="" title="{{$item->name}}">{{$item->name}}</a></p>
+                          </div>
+                          <div class="product-details-bottom">
+                            <span class="price pricechange">Giá: {!!number_format($item->price)!!} đ</span>
+                            <a href="javascript:;" data-id="14040562" title="Xóa" class="remove-item-cart fa fa-trash-o">&nbsp;</a>
+                            <div class="quantity-select qty_drop_cart">
+                              <p>Số Lượng: {{$item->quantity}}</p>
+                            </div>
+                          </div>
                         </div>
-                      </li>
-                      <li class="li-fix-2" style="">
-                        <div class="actions">
-
-                          <a href="/cart" class="view-cart">
-                            <span>Giỏ hàng</span>
-                          </a>
-                          <a href="/checkout" class="btn-checkout">
-                            <span>Thanh toán</span>
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
+                      </div>
+                    </li>
+                    @endforeach
+                  </ul>
+                  <div class="pd">
+                    <div class="top-subtotal">Tổng cộng: <span class="price">{!!number_format(Cart::getTotal())!!} đ</span></div>
+                  </div>
+                  <div class="pd right_ct">
+                    <a href="/cart" class="btn btn-primary"><span>Giỏ hàng</span></a>
+                  </div>
                 </ul>
 
               </div>

@@ -35,11 +35,15 @@
 							</div>
 						</div>
 					</div>
+					@php
+						$st = App\Categories::where('id',$products->categories_id)->get()->first();
+						$st = App\Systems::where('id',$st->systems_id)->get()->first();
+					@endphp
 					<div class="item_service">
 						<div class="wrap_item_">
 							<div class="content_service">
 								<p>Đặt hàng online</p>
-								<span>Gọi ngay <a href='callto:0342911168'>0342911168</a> để mua và đặt hàng nhanh chóng</span>
+								<span>Gọi ngay <a href='callto:{{$st->phone}}'>{{$st->phone}}</a> để mua và đặt hàng nhanh chóng</span>
 							</div>
 						</div>
 					</div>

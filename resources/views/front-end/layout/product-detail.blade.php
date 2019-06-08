@@ -48,22 +48,13 @@
 				<span id="comment" onclick="scrollToxx();">Viết nhận xét</span>
 			</div>
 			<div class="detail-header-info">
-				Thương hiệu: 
-				<span class="vendor">										
-					
-					
-					Đang cập nhật
-					
-
-				</span>
-				<span class="line">|</span>
-				Mã SP: 
-				<span class="masp">
-					
-					
-					Đang cập nhật
-					
-				</span>
+				Thương hiệu:
+				@php
+					$st = App\Categories::where('id',$products->categories_id)->get()->first();
+					$st = App\Systems::where('id',$st->systems_id)->get()->first();
+				@endphp
+				<span class="vendor" style="background-color:#fe3232; color: #fff; padding: 2px 5px; border-radius: 4px;">{{$st->name}}</span>
+				<span class="line">|</span>Mã SP:<span class="masp">{{$products->id}}</span>
 				<span class="line">|</span>
 				<span class="inline-block">
 					<div class="bizweb-product-reviews-badge" data-id="8829397">
@@ -127,7 +118,7 @@
 				
 				
 				
-				<div class="contact">Gọi <a href="tel:0342911168">0342911168</a> để được tư vấn miễn phí</div>
+				<div class="contact">Gọi <a href="tel:{{$st->phone}}">{{$st->phone}}</a> để được tư vấn miễn phí</div>
 
 				
 				

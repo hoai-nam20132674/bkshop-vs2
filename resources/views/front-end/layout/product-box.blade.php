@@ -23,7 +23,7 @@
 			
 			<div class="bizweb-product-reviews-badge" >
 				<div class="bizweb-product-reviews-star" data-score="0" data-number="5" title="Not rated yet!" style="color: rgb(255, 190, 0);">
-					<i data-alt="1" class="star-off-png" title="Not rated yet!">
+					<i data-alt="1" class="star-on-png" title="Not rated yet!">
 						
 					</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
 						
@@ -38,28 +38,7 @@
 			</div>
 		</div>
 		
-		<div class="product-action clearfix">
-			<form action="/cart/add" method="post" class="variants form-nut-grid" data-id="product-actions-8829397" enctype="multipart/form-data">			
-				<div>
-
-					
-					<input type="hidden" name="variantId" value="14042109" />
-					<button class="btn-buy btn-cart btn btn-primary left-to add_to_cart " data-title="Thêm vào giỏ hàng">
-						Mua ngay
-					</button>
-					
-					
-					<a data-title ="Yêu thích" class="btn btn-gray iWishAdd iwishAddWrapper" href="javascript:;" data-customer-id="0" data-product="8829397" data-variant="14042109"><i class="fa fa-heart"></i></a>
-					<a data-title = "Bỏ yêu thích" class="btn btn-gray iWishAdded iwishAddWrapper iWishHidden" href="javascript:;" data-customer-id="0" data-product="8829397" data-variant="14042109"><i class="fa fa-heart"></i></a>
-					
-					
-					<a data-title="Xem nhanh" href="/bo-kem-duong-da-vichy-green" data-handle="bo-kem-duong-da-vichy-green" class="btn-gray btn_view btn  right-to quick-view">
-						<i class="fa fa-search-plus"></i>
-					</a>
-					
-				</div>
-			</form>
-		</div>
+		
 
 	</div>
 @else
@@ -102,24 +81,7 @@
 			</div>
 		</div>
 		
-		<div class="product-action clearfix">
-			<form action="/cart/add" method="post" class="variants form-nut-grid" data-id="product-actions-8829397" enctype="multipart/form-data">			
-				<div>
-					<input type="hidden" name="variantId" value="14042109" />
-					<button class="btn-buy btn-cart btn btn-primary left-to add_to_cart " data-title="Thêm vào giỏ hàng">
-						Mua ngay
-					</button>
-					
-					<a data-title ="Yêu thích" class="btn btn-gray iWishAdd iwishAddWrapper" href="javascript:;" data-customer-id="0" data-product="8829397" data-variant="14042109"><i class="fa fa-heart"></i></a>
-					<a data-title = "Bỏ yêu thích" class="btn btn-gray iWishAdded iwishAddWrapper iWishHidden" href="javascript:;" data-customer-id="0" data-product="8829397" data-variant="14042109"><i class="fa fa-heart"></i></a>
-					
-					<a data-title="Xem nhanh" href="/bo-kem-duong-da-vichy-green" data-handle="bo-kem-duong-da-vichy-green" class="btn-gray btn_view btn  right-to quick-view">
-						<i class="fa fa-search-plus"></i>
-					</a>
-					
-				</div>
-			</form>
-		</div>
+		
 
 	</div>
 @endif	

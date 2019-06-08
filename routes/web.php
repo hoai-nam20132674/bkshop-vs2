@@ -10,8 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('test/test/test/{id}','AuthClient\ClientController@test');
 //AuthClientRoute
+Route::get('/test',['as'=>'test','uses'=>'AuthClient\ClientController@test']);
+
 
 Route::get('/',['as'=>'trang-chu','uses'=>'AuthClient\ClientController@index']);
 
@@ -43,12 +44,7 @@ Route::get('/facebook/callback',['as' => 'loginFacebookCallback','uses' => 'Auth
 
 // end
 
-Route::get('/{url}',['as'=>'rootPageContent','uses'=>'AuthClient\ClientController@rootPageContent']);
-
 //End AuthClientRoute
-
-
-
 
 Route::get('getListUsersResponse',['as'=>'getListUsersResponse','uses'=>'Auth\AdminController@getListUsersResponse']);
 Route::group(['prefix'=>'auth/admin','middleware'=>'auth'], function(){
@@ -95,3 +91,7 @@ Route::group(['prefix'=>'auth/admin','middleware'=>'auth'], function(){
 	Route::get('deleteCategorie/{id}',['as'=>'deleteCategorie','uses'=>'Auth\AdminController@deleteCategorie']);
 	Route::get('deleteSystem',['as'=>'deleteSystem','uses'=>'Auth\AdminController@deleteSystem']);
 });
+
+
+Route::get('/{url}',['as'=>'rootPageContent','uses'=>'AuthClient\ClientController@rootPageContent']);
+Route::get('/{system_url}/{url}',['as'=>'businessPageContent','uses'=>'AuthClient\ClientController@businessPageContent']);

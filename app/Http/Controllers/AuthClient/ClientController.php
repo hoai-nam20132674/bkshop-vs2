@@ -380,6 +380,70 @@ class ClientController extends Controller
         }
     	
     }
+    public function businessPageContent($system_url,$url){
+        $cates = Categories::where('url', $url)->get();
+        $products = Products::where('url',$url)->get();
+        if(!$cates->isEmpty()){
+            $system = Systems::where('website',$system_url)->get()->first();
+            $cate = Categories::where('url',$url)->get()->first();
+            $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+            $cateRoot = array();
+            $x = 0;
+            for($i=0;$i<count($cates);$i++){
+                if($cates[$i]->id == $cates[$i]->parent_id){
+                    $cateRoot[$x]=$cates[$i];
+                    $x++;
+                }
+                else{}
+            }
+            $cates = $cateRoot;
+            $arrayIdChild= array();
+            $arrayIdChild = $this->getIdChildCategorieAllLevel($cate->id,$arrayIdChild);
+            $arrayIdChild[count($arrayIdChild)]=$cate->id;
+
+            $products = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->whereIn('products.categories_id',$arrayIdChild)->where('products.display',1)->where('images_products.role',1)
+            ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')
+            ->get();
+            $productsGroup = $this->groupProduct($products);
+            $products = $this->filterProduct($productsGroup);
+            return view('front-end.page-content.categorie',['system'=>$system,'cates'=>$cates,'cate'=>$cate,'products'=>$products]);
+        }
+        if(!$products->isEmpty()){
+            $system = Systems::where('website',$system_url)->get()->first();
+            $cates = Categories::where('systems_id',$system->id)->where('display',1)->get();
+            $products = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->where('products.url',$url)->where('images_products.role',1)
+            ->select('products.*', 'images_products.url AS avatar','products_detail.price AS maxPrice','products_detail.products_id')
+            ->get();
+            $productsGroup = $this->groupProduct($products);
+            $products = $this->filterProduct($productsGroup);
+            $images = ImagesProducts::where('products_id',$products[0]->products_id)->where('role',0)->get();
+            $products_detail = ProductsDetail::where('products_id',$products[0]->products_id)->get();
+            $arrayProductsDetailId = $this->arrayColumn($products_detail,$col='id');
+            $products_properties = ProductsProperties::whereIn('products_detail_id',$arrayProductsDetailId)->get();
+            $arrayPropertiesId = $this->arrayColumn($products_properties,$col='properties_id');
+            $properties = Properties::whereIn('id',$arrayPropertiesId)->get();
+            $arrayPropertiesTypeId = $this->arrayColumn($properties,$col='properties_type_id');
+            $properties_type = PropertiesType::whereIn('id',$arrayPropertiesTypeId)->get();
+            $array = array();
+            for($i=0;$i<count($properties_type);$i++){
+                $x=0;
+                for($j=0;$j<count($properties);$j++){
+                    if($properties_type[$i]->id == $properties[$j]->properties_type_id){
+                        $array[$i][$x] = $properties[$j];
+                        $x++;
+                    }
+                }
+            }
+            $properties = $array;
+            
+            $products = $products[0];
+            return view('front-end.page-content.product',['system'=>$system,'cates'=>$cates,'products'=>$products,'images'=>$images,'properties_type'=>$properties_type,'properties'=>$properties]);
+            // dd($content);
+            
+        }
+
+
+    }
     public static function arrayColumn($object,$col){
         $array = array();
         $i = 0;
@@ -579,10 +643,9 @@ class ClientController extends Controller
         return $arrayIdChild;
     }
     // end trả về list danh mục của gian hàng thuộc danh mục cha root
-    public function test($id){
-        $arrayIdChildCategorie = array();
-        $array = $this->getIdChildCategorieAllLevel($id,$arrayIdChildCategorie);
-        dd($array);
+    public function test(){
+        $cart = Cart::getContent();
+        dd($cart);
     }
     public function account($id){
         if(Auth::guard('users_client')->user()){

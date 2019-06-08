@@ -22,38 +22,45 @@
 								<div style="width: 6%">Xoá</div>
 							</div>
 							<div class="cart-tbody">
-								<div class="item-cart productid-14040562">
-									<div style="width: 17%" class="image">
-										<a class="product-image" title="Iphone 7 Red" href="/iphone-7-red">
-											<img width="120" height="auto" alt="Iphone 7 Red" src="//bizweb.dktcdn.net/thumb/compact/100/266/879/products/24.jpg">
-										</a>
-									</div>
-									<div style="width: 33%" class="a-center">
-										<h2 class="product-name">
-											<a href="/iphone-7-red">Iphone 7 Red</a>
-											<span class="variant-title" style="display: none;"> - Default Title</span> 
-										</h2>
-									</div>
-									<div style="width: 15%" class="a-center">
-										<span class="item-price"> <span class="price pricechange">15.600.000₫</span></span>
-									</div>
-									<div style="width: 14%" class="a-center">
-										<div class="input_qty_pr relative">
-											<input class="variantID" type="hidden" name="variantId" value="14040562">
-											<button onclick="var result = document.getElementById('qtyItem14040562'); var qtyItem14040562 = result.value; if( !isNaN( qtyItem14040562 ) &amp;&amp; qtyItem14040562 > 1 ) result.value--;return false;" class="reduced_pop items-count btn-minus" type="button" disabled="">–</button>
-											<input type="text" maxlength="12" min="0" class="input-text number-sidebar input_pop input_pop qtyItem14040562" id="qtyItem14040562" name="Lines" size="4" value="1" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onchange="fixfun(this);">
-											<button onclick="var result = document.getElementById('qtyItem14040562'); var qtyItem14040562 = result.value; if( !isNaN( qtyItem14040562 )) result.value++;return false;" class="increase_pop items-count btn-plus" type="button">+</button>
+								@php
+									$content = Cart::getContent();
+								@endphp
+								@foreach($content as $item)
+									<div class="item-cart productid-{{$item->id}}">
+										<div style="width: 17%" class="image">
+											<a class="product-image" title="{{$item->name}}" href="/iphone-7-red">
+												<img width="120" height="auto" alt="{{$item->name}}" src="{{asset('uploads/images/products/avatar/'.$item->attributes->img)}}">
+											</a>
+										</div>
+										<div style="width: 33%" class="a-center">
+											<h2 class="product-name">
+												<a href="/iphone-7-red">{{$item->name}}</a>
+												<span class="variant-title" style="display: none;"> - Default Title</span> 
+											</h2>
+										</div>
+										<div style="width: 15%" class="a-center">
+											<span class="item-price"> <span class="price pricechange">{!!number_format($item->price)!!} đ</span></span>
+										</div>
+										<div style="width: 14%" class="a-center">
+											<div class="input_qty_pr relative">
+												<button class="item-count btn-minus qtyminus" data-field="quantity{{$item->id}}" type="button">–</button>
+												<input type="text" maxlength="12" min="0" id="qty" data-field='quantity{{$item->id}}' class="qty input-text number-sidebar input_pop " name="quantity" size="2" value="{{$item->quantity}}" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">
+												<button class="item-count btn-plus qtyplus" data-field="quantity{{$item->id}}" type="button">+</button>
+													<!-- <span class="qtyminus" data-field="quantity">-</span>
+													<input type="text" class="input-text qty" data-field='quantity' title="Số lượng" value="1" maxlength="12" id="qty" name="quantity" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">									
+													<span class="qtyplus" data-field="quantity">+</span> -->
+											</div>
+										</div>
+										<div style="width: 15%" class="a-center">
+											<span class="cart-price"> <span class="price">{!!number_format($item->price*$item->quantity)!!} đ</span></span>
+										</div>
+										<div style="width: 6%">
+											<a class="button remove-item remove-item-cart" title="Xóa" href="javascript:;" data-id="14040562">
+												<span><span>Xóa</span></span>
+											</a>
 										</div>
 									</div>
-									<div style="width: 15%" class="a-center">
-										<span class="cart-price"> <span class="price">15.600.000₫</span></span>
-									</div>
-									<div style="width: 6%">
-										<a class="button remove-item remove-item-cart" title="Xóa" href="javascript:;" data-id="14040562">
-											<span><span>Xóa</span></span>
-										</a>
-									</div>
-								</div>
+								@endforeach
 							</div>
 						</div>
 					</form>
