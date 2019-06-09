@@ -550,7 +550,7 @@ class ClientController extends Controller
     // end tìm kiếm bằng từ khóa trên gian hàng
     // ------------------------------
     // gom nhóm products_detail
-    public function groupProduct($products){
+    public static function groupProduct($products){
         $productsGroup = array();
         $i=0;
         foreach($products as $product){
@@ -580,7 +580,7 @@ class ClientController extends Controller
     // end gom nhóm products_detail
     // --------------------------------
     // lọc sản products_detail có giá cao nhất
-    public function filterProduct($productsGroup){
+    public static function filterProduct($productsGroup){
         $products =array();
         $i=0;
         foreach($productsGroup as $prg){
@@ -644,8 +644,15 @@ class ClientController extends Controller
     }
     // end trả về list danh mục của gian hàng thuộc danh mục cha root
     public function test(){
-        $cart = Cart::getContent();
-        dd($cart);
+        // $products_properties = ProductsProperties::where('products_detail_id',6);
+        // $properties_id = $this->arrayColumn($products_properties,$col='properties_id');
+        // $properties = Properties::join('properties_type','properties.properties_type_id','=','properties_type.id')->whereIn('properties.id',$properties_id)->select('properties.*','properties_type.name')->get();
+        // $str = '';
+        // foreach($properties as $pp){
+        //     $str=$str.$pp->name;
+        //     $str=$str.$pp->value;
+        // }
+        // dd($properties);
     }
     public function account($id){
         if(Auth::guard('users_client')->user()){
@@ -782,7 +789,7 @@ class ClientController extends Controller
             $check2 = 0;
             for($i=0;$i<count($group_products_detail_properties);$i++){
                 if(count($properties_id)!=count($group_products_detail_properties[$i])){
-                    echo "chưa chọn thuộc tính";
+                    echo "chưa chọn thuộc tính1";
                     $check2 =1;
                     break;
                 }
@@ -815,7 +822,7 @@ class ClientController extends Controller
                 }
             }
             if($check2 == 0){
-                echo "chưa chọn thuộc tính";
+                echo "hết hàng";
             }
             
         }
@@ -826,10 +833,87 @@ class ClientController extends Controller
     }
     public function addToCart($id,$quantity){
         // $products_detail = ProductsDetail::where('id',$id)->get()->first();
-        $products_detail = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->where('products_detail.id',$id)->where('images_products.role',1)->select('products_detail.*','images_products.url AS avatar','products.name')->get()->first();
-        Cart::add(array('id'=>$products_detail->id,'name'=>$products_detail->name,'quantity'=>$quantity,'price'=>$products_detail->price,'attributes'=>array('img'=>$products_detail->avatar)));
+        $products_detail = Products::join('images_products', 'products.id', '=', 'images_products.products_id')->join('products_detail', 'products.id', '=', 'products_detail.products_id')->where('products_detail.id',$id)->where('images_products.role',1)->select('products_detail.*','images_products.url AS avatar','products.name','products.url')->get()->first();
+        Cart::add(array('id'=>$products_detail->id,'name'=>$products_detail->name,'quantity'=>$quantity,'price'=>$products_detail->price,'attributes'=>array('img'=>$products_detail->avatar,'url'=>$products_detail->url)));
         // $products_detail = ProductsDetail::where('id',$id)->get()->first();
         // $products_detail->amount = $products_detail->amount - $quantity;
         // $products_detail->save();
+    }
+    public function removeCartItem($id){
+        Cart::remove($id);
+        echo "1";
+    }
+    public function getPriceProductDetail($url){
+        $string = $url;
+        $start = 0;
+        $array = array();
+        $x=0;
+        for($i=0;$i<strlen($string);$i++){
+            if($string[$i] == '-'){
+                $substr = substr($string,$start,$i-$start);
+                $array[$x]=$substr;
+                $x++;
+                $start = $i + 1;
+            }
+            elseif($i == strlen($string)-1){
+                $substr = substr($string,$start,$i-$start+1);
+                $array[$x]=$substr;
+            }
+            else{}
+        }
+        //end tách chuỗi từ url truyền về lấy ra mảng các thuộc tính của sản phẩm đặt hàng
+        // ------------------------------
+        $products_id = $array[0];
+        $properties_id = array();
+        for($i=1;$i<count($array);$i++){
+            $properties_id[$i-1] = $array[$i];
+        }
+        $products_detail = ProductsDetail::where('products_id',$products_id)->get();
+        $products_detail_id = $this->arrayColumn($products_detail,$col='id');
+        $products_detail_properties = ProductsProperties::whereIn('products_detail_id',$products_detail_id)->get();
+
+        if(count($products_detail_properties) == 0){
+            $products_detail = ProductsDetail::where('products_id',$products_id)->get()->first();
+            
+            echo $products_detail->price.':'.$products_detail->amount;
+        }
+        else{
+
+            $group_products_detail_properties = array();
+            for($i=0;$i<count($products_detail_id);$i++){
+                $x=0;
+                for($j=0;$j<count($products_detail_properties);$j++){
+                    if($products_detail_id[$i]==$products_detail_properties[$j]->products_detail_id){
+                        $group_products_detail_properties[$i][$x]=$products_detail_properties[$j]->properties_id;
+                        $x++;
+                    }
+                }
+
+            }
+            $check2 = 0;
+            for($i=0;$i<count($group_products_detail_properties);$i++){
+                $check =0;
+                for($j=0;$j<count($group_products_detail_properties[$i]);$j++){
+                    for($k=0;$k<count($properties_id);$k++){
+                        if($group_products_detail_properties[$i][$j] == $properties_id[$k]){
+                            $check++;
+                        }
+                    }
+
+                }
+                if($check == count($group_products_detail_properties[$i])){
+                    $products_detail = ProductsDetail::where('id',$products_detail_id[$i])->get()->first();
+                    $check2=1;
+                    echo $products_detail->price.':'.$products_detail->amount;
+                    
+                }
+                
+            }
+            if($check2 == 0){
+                echo "0:hết hàng";
+            }
+            
+        }
+
     }
 }

@@ -25,7 +25,7 @@
 
 					<div class="item">
 						<a class="thumb-link" href="javascript:void(0);" data-image="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" data-zoom-image="{{asset('uploads/images/products/avatar/'.$products->avatar)}}">
-							<img  src="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" alt="{{$products->title}}">
+							<img class="avatar" src="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" alt="{{$products->title}}">
 						</a>
 					</div>
 					
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 details-pro a-left">
-			<h1 class="title-head">Bộ kem dưỡng da Vichy Green</h1>
+			<h1 class="title-head" title="{{$products->name}}">{{$products->name}}</h1>
 			<div class="review hidden">
 				<div class="bizweb-product-reviews-badge" data-id="8829397"></div>
 				<span class="line"> | </span>
@@ -66,9 +66,10 @@
 
 			<div class="price-box">
 				@if($products->price != $products->maxPrice)
-					<span class="special-price"><span class="price product-price">{{$products->price}}₫ - {{$products->maxPrice}}₫</span> </span> <!-- Giá Khuyến mại -->
+					<span class="special-price"><span class="price price-detail product-price" price="">{{$products->price}} ₫ - {{$products->maxPrice}}₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span> <!-- Giá Khuyến mại -->
+
 				@else
-					<span class="old-price"><del class="price product-price-old" >790.000₫</del> </span> <!-- Giá gốc -->
+					<span class="special-price"><span class="price price-detail product-price" price="{{$products->price}}">{{$products->price}} ₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span>  <!-- Giá gốc -->
 				@endif
 			</div>
 

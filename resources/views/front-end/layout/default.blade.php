@@ -261,14 +261,14 @@
 				<a title="Close" class="quickview-close close-window" href="javascript:;"><i class="fa   fa-close"></i></a>
 			</div>    
 		</div>
-		<script src="{{asset('js/cs.script.js')}}" type="text/javascript"></script>
+		<!-- <script src="{{asset('js/cs.script.js')}}" type="text/javascript"></script> -->
 		<!-- Quick view -->
 		
 		<!-- <script src="{{asset('js/quickview.js')}}" type="text/javascript"></script> -->
 
 
 		<!-- <script src="{{asset('js/option-selectors.js')}}" type="text/javascript"></script> -->
-		<!-- <script src="{{asset('js/api.jquery.js')}}" type="text/javascript"></script> -->
+		<script src="{{asset('js/update-cart.js')}}" type="text/javascript"></script>
 		<!-- Plugin JS -->
 		<script src="{{asset('js/owl.carousel.min.js')}}" type="text/javascript"></script>	
 		<script src="{{asset('js/bootstrap.min.js')}}"></script>

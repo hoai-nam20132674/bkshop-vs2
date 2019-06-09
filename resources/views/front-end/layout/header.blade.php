@@ -96,7 +96,7 @@
                   $totalQuantity = Cart::getTotalQuantity();
                   $content = Cart::getContent();
                 @endphp
-                <p><b>(<span class="cartCount">{{$totalQuantity}}</span>) Sản phẩm</b></p>
+                <p><b>(<span class="cartCount" cart-count="{{$totalQuantity}}">{{$totalQuantity}}</span>) Sản phẩm</b></p>
 
               </div>
 
@@ -106,29 +106,38 @@
                 <ul id="cart-sidebar" class="mini-products-list count_li">
                   <ul class="list-item-cart">
                     @foreach($content as $item)
-                    <li class="item productid-{{$item->id}}">
+                      @php
+                        $products_properties = App\ProductsProperties::where('products_detail_id',$item->id)->get();
+                        $properties_id = App\Http\Controllers\AuthClient\ClientController::arrayColumn($products_properties,$col='properties_id');
+                        $properties = App\Properties::join('properties_type','properties.properties_type_id','=','properties_type.id')->whereIn('properties.id',$properties_id)->select('properties.*','properties_type.name')->get();
+                        
+                      @endphp
+                    <!-- không được sửa bất kỳ thuộc tính nào trong đoạn này -->
+                    <li class="item product-cart" data-id="{{$item->id}}">
                       <div class="border_list">
-                        <a class="product-image" href="/iphone-7-red" title="Iphone 7 Red">
+                        <a class="product-image" href="{{$item->attributes->url}}" title="Iphone 7 Red">
                           <img alt="{{$item->name}}" src="{{asset('uploads/images/products/avatar/'.$item->attributes->img)}}" width="100">
                         </a>
                         <div class="detail-item">
                           <div class="product-details">
-                            <p class="product-name"> <a href="" title="{{$item->name}}">{{$item->name}}</a></p>
+                            <p class="product-name"> <a href="{{$item->attributes->url}}" title="{{$item->name}}">{{$item->name}} @foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach</a></p>
                           </div>
                           <div class="product-details-bottom">
                             <span class="price pricechange">Giá: {!!number_format($item->price)!!} đ</span>
-                            <a href="javascript:;" data-id="14040562" title="Xóa" class="remove-item-cart fa fa-trash-o">&nbsp;</a>
+                            <a data-id="{{$item->id}}" title="Xóa" class="remove-item-cart fa fa-trash-o" price="{{$item->price*$item->quantity}}">&nbsp;</a>
                             <div class="quantity-select qty_drop_cart">
-                              <p>Số Lượng: {{$item->quantity}}</p>
+                              <p data-id="{{$item->id}}" value="{{$item->quantity}}">Số Lượng: {{$item->quantity}}</p>
+
                             </div>
                           </div>
                         </div>
                       </div>
                     </li>
+                    <!-- end -->
                     @endforeach
                   </ul>
                   <div class="pd">
-                    <div class="top-subtotal">Tổng cộng: <span class="price">{!!number_format(Cart::getTotal())!!} đ</span></div>
+                    <div class="top-subtotal">Tổng cộng: <span class="price totalPrice" price="{{Cart::getTotal()}}">{!!number_format(Cart::getTotal())!!} đ</span></div>
                   </div>
                   <div class="pd right_ct">
                     <a href="/cart" class="btn btn-primary"><span>Giỏ hàng</span></a>

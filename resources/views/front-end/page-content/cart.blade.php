@@ -3,6 +3,55 @@
 	<link href="{{asset('css/bpr.min.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{asset('css/productReviews.min.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{asset('css/lightbox.css')}}" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		.contact-form{
+		    background: #fff;
+
+		}
+		.contact-form .form-control{
+		    border-radius:1rem;
+		}
+		.contact-image{
+		    text-align: center;
+		}
+		.contact-image img{
+		    border-radius: 6rem;
+		    width: 11%;
+		    margin-top: -3%;
+		    transform: rotate(29deg);
+		}
+		.contact-form form{
+		}
+		.contact-form form .row{
+		    margin-bottom: -7%;
+		}
+		.contact-form h3{
+		    margin-bottom: 8%;
+		    margin-top: -10%;
+		    text-align: center;
+		    color: #0062cc;
+		}
+		.contact-form .btnContact {
+		    width: 100%;
+		    border: none;
+		    border-radius: 1rem;
+		    padding: 1.5%;
+		    background: #dc3545;
+		    font-weight: 600;
+		    color: #fff;
+		    cursor: pointer;
+		}
+		.btnContactSubmit
+		{
+		    width: 100%;
+		    border-radius: 1rem;
+		    padding: 1.5%;
+		    color: #fff;
+		    background-color: #0062cc;
+		    border: none;
+		    cursor: pointer;
+		}
+	</style>
 @endsection
 @section('content')
 	@include('front-end.layout.categorie-list')
@@ -24,17 +73,24 @@
 							<div class="cart-tbody">
 								@php
 									$content = Cart::getContent();
+
 								@endphp
 								@foreach($content as $item)
-									<div class="item-cart productid-{{$item->id}}">
+									@php
+										$products_properties = App\ProductsProperties::where('products_detail_id',$item->id)->get();
+										$properties_id = App\Http\Controllers\AuthClient\ClientController::arrayColumn($products_properties,$col='properties_id');
+										$properties = App\Properties::join('properties_type','properties.properties_type_id','=','properties_type.id')->whereIn('properties.id',$properties_id)->select('properties.*','properties_type.name')->get();
+										
+									@endphp
+									<div class="item-cart product-cart " data-id="{{$item->id}}">
 										<div style="width: 17%" class="image">
-											<a class="product-image" title="{{$item->name}}" href="/iphone-7-red">
-												<img width="120" height="auto" alt="{{$item->name}}" src="{{asset('uploads/images/products/avatar/'.$item->attributes->img)}}">
+											<a class="product-image" title="{{$item->name}}" href="{{$item->attributes->url}}">
+												<img width="100%" height="auto" alt="{{$item->name}}" src="{{asset('uploads/images/products/avatar/'.$item->attributes->img)}}">
 											</a>
 										</div>
 										<div style="width: 33%" class="a-center">
 											<h2 class="product-name">
-												<a href="/iphone-7-red">{{$item->name}}</a>
+												<a class="pr-name" pr-name="@foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach" href="{{$item->attributes->url}}">{{$item->name}} @foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach</a>
 												<span class="variant-title" style="display: none;"> - Default Title</span> 
 											</h2>
 										</div>
@@ -44,18 +100,15 @@
 										<div style="width: 14%" class="a-center">
 											<div class="input_qty_pr relative">
 												<button class="item-count btn-minus qtyminus" data-field="quantity{{$item->id}}" type="button">–</button>
-												<input type="text" maxlength="12" min="0" id="qty" data-field='quantity{{$item->id}}' class="qty input-text number-sidebar input_pop " name="quantity" size="2" value="{{$item->quantity}}" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">
+												<input type="text" maxlength="12" min="0" id="qty" data-id="{{$item->id}}" data-field='quantity{{$item->id}}' class="qty input-text number-sidebar input_pop " name="quantity" size="2" value="{{$item->quantity}}" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">
 												<button class="item-count btn-plus qtyplus" data-field="quantity{{$item->id}}" type="button">+</button>
-													<!-- <span class="qtyminus" data-field="quantity">-</span>
-													<input type="text" class="input-text qty" data-field='quantity' title="Số lượng" value="1" maxlength="12" id="qty" name="quantity" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">									
-													<span class="qtyplus" data-field="quantity">+</span> -->
 											</div>
 										</div>
 										<div style="width: 15%" class="a-center">
-											<span class="cart-price"> <span class="price">{!!number_format($item->price*$item->quantity)!!} đ</span></span>
+											<span class="cart-price"> <span class="price" >{!!number_format($item->price*$item->quantity)!!} đ</span></span>
 										</div>
 										<div style="width: 6%">
-											<a class="button remove-item remove-item-cart" title="Xóa" href="javascript:;" data-id="14040562">
+											<a class="button remove-item remove-item-cart" title="Xóa" data-id="{{$item->id}}" price="{{$item->price*$item->quantity}}">
 												<span><span>Xóa</span></span>
 											</a>
 										</div>
@@ -72,7 +125,7 @@
 										<span>Tiếp tục mua hàng</span>
 									</button>
 									<button class="btn  btn-gray f-right" title="Xóa toàn bộ đơn hàng" type="button" onclick="window.location.href='/cart/clear'">
-										<span>Xóa toàn bộ đơn hàng</span>
+										<span>Cập nhật đơn hàng</span>
 									</button>
 									<table class="table shopping-cart-table-total margin-bottom-0" id="shopping-cart-totals-table">
 										<colgroup>
@@ -82,20 +135,58 @@
 										<tfoot>
 											<tr>
 												<td colspan="20" class="a-left"><span>Tổng tiền:</span> </td>
-												<td class="a-right"><strong><span class="totals_price price">15.600.000₫</span></strong></td>
+												<td class="a-right"><strong><span class="totals_price price totalPrice" price="{{Cart::getTotal()}}">{!!number_format(Cart::getTotal())!!} đ</span></strong></td>
 											</tr>
 										</tfoot>
 									</table>
-									<ul class="checkout">
-										<li class="clearfix">
-											<button class="btn btn-primary button btn-proceed-checkout f-right" title="Tiến hành đặt hàng" type="button" onclick="window.location.href='/checkout'">
-												<span>Thanh toán</span>
-											</button>
-										</li>
-									</ul>
+									
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="container contact-form">
+			            
+			            <form action="{{URL::route('postAddOrder')}}" method="POST">
+			               <div class="row">
+			                    <div class="col-md-6">
+			                    	@if(Auth::guard('users_client')->check())
+				                        <div class="form-group">
+				                            <input type="text" name="name" class="form-control" placeholder="Họ tên" value="{{Auth::guard('users_client')->user()->name}}" />
+				                        </div>
+				                        <div class="form-group">
+				                            <input type="text" name="email" class="form-control" placeholder="Email" value="{{Auth::guard('users_client')->user()->email}}" />
+				                        </div>
+				                        <div class="form-group">
+				                            <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" value="{{Auth::guard('users_client')->user()->phone}}" />
+				                        </div>
+				                        <div class="form-group">
+				                            <input type="text" name="address" class="form-control" placeholder="Địa chỉ giao hàng" value="{{old('address')}}" />
+				                        </div>
+			                        @else
+			                        	<div class="form-group">
+				                            <input type="text" name="name" class="form-control" placeholder="Họ tên" value="{{old('name')}}" />
+				                        </div>
+				                        <div class="form-group">
+				                            <input type="text" name="email" class="form-control" placeholder="Email" value="{{old('email')}}" />
+				                        </div>
+				                        <div class="form-group">
+				                            <input type="text" name="phone" class="form-control" placeholder="Số điện thoại" value="{{old('phone')}}" />
+				                        </div>
+				                        <div class="form-group">
+				                            <input type="text" name="address" class="form-control" placeholder="Địa chỉ giao hàng" value="{{old('address')}}" />
+				                        </div>
+				                    @endif
+			                    </div>
+			                    <div class="col-md-6">
+			                        <div class="form-group">
+			                            <textarea name="message" class="form-control" placeholder="Lời nhắn" style="width: 100%; height: 150px;"></textarea>
+			                        </div>
+			                        <div class="form-group">
+			                            <input type="submit" name="btnSubmit" class="btnContact" value="ĐẶT HÀNG" />
+			                        </div>
+			                    </div>
+			                </div>
+			            </form>
 					</div>
 				</div>
 			</div>
@@ -113,32 +204,41 @@
 
 				<div class="header-cart-content" style="background:#fff;">
 					<div class="cart_page_mobile content-product-list">
-						<div class="item-product item productid-14040562 ">
-							<div class="item-product-cart-mobile">
-								<a href="/iphone-7-red">	</a>
-								<a class="product-images1" href="" title="Iphone 7 Red">
-									<img width="80" height="150" alt="" src="//bizweb.dktcdn.net/thumb/small/100/266/879/products/24.jpg">
-								</a>
-							</div>
-							<div class="title-product-cart-mobile">
-								<h3><a href="/iphone-7-red" title="Iphone 7 Red">Iphone 7 Red</a></h3>
-								<p>Giá: <span class="pricechange">15.600.000₫</span></p>
-							</div>
-							<div class="select-item-qty-mobile">
-								<div class="txt_center">
-									<input class="variantID" type="hidden" name="variantId" value="14040562">
-									<button onclick="var result = document.getElementById('qtyMobile14040562'); var qtyMobile14040562 = result.value; if( !isNaN( qtyMobile14040562 ) &amp;&amp; qtyMobile14040562 > 0 ) result.value--;return false;" class="reduced items-count btn-minus" type="button" disabled="">–</button>
-									<input type="text" maxlength="12" min="0" class="input-text number-sidebar qtyMobile14040562" id="qtyMobile14040562" name="Lines" size="4" value="1" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onchange="fixfun(this);">
-									<button onclick="var result = document.getElementById('qtyMobile14040562'); var qtyMobile14040562 = result.value; if( !isNaN( qtyMobile14040562 )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button>
+						@foreach($content as $item)
+
+							@php
+								$products_properties = App\ProductsProperties::where('products_detail_id',$item->id)->get();
+								$properties_id = App\Http\Controllers\AuthClient\ClientController::arrayColumn($products_properties,$col='properties_id');
+								$properties = App\Properties::join('properties_type','properties.properties_type_id','=','properties_type.id')->whereIn('properties.id',$properties_id)->select('properties.*','properties_type.name')->get();
+								
+							@endphp
+							<div class="item-product item product-cart " data-id="{{$item->id}}">
+								<div class="item-product-cart-mobile">
+									<a href="/iphone-7-red">	</a>
+									<a class="product-images1" href="{{$item->attributes->url}}" title="{{$item->name}}">
+										<img width="80" height="150" alt="" src="{{asset('uploads/images/products/avatar/'.$item->attributes->img)}}">
+									</a>
 								</div>
-								<a class="button remove-item remove-item-cart" href="javascript:;" data-id="14040562">Xoá</a>
+								<div class="title-product-cart-mobile">
+									<h3><a class="pr-name" pr-name="@foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach" href="{{$item->attributes->url}}" title="{{$item->name}}">{{$item->name}} @foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach</a></h3>
+									<p>Giá: <span class="pricechange">{!!number_format($item->price)!!} đ</span></p>
+								</div>
+								<div class="select-item-qty-mobile">
+									<div class="txt_center">
+
+										<button class="reduced item-count btn-minus qtyminus" data-field="quantity{{$item->id}}" type="button">–</button>
+										<input type="text" maxlength="12" min="0" id="qty" data-id="{{$item->id}}" data-field='quantity{{$item->id}}' class="qty input-text number-sidebar input_pop " name="quantity" size="2" value="{{$item->quantity}}" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onChange="if(this.value == '')this.value=1;">
+										<button class="increase item-count btn-plus qtyplus" data-field="quantity{{$item->id}}" type="button">+</button>
+									</div>
+									<a class="button remove-item remove-item-cart" data-id="{{$item->id}}" price="{{$item->price*$item->quantity}}">Xoá</a>
+								</div>
 							</div>
-						</div>
+						@endforeach
 					</div>
 					<div class="header-cart-price" style="">
 						<div class="title-cart ">
 							<h3 class="text-xs-left">Tổng tiền</h3>
-							<a class="text-xs-right totals_price_mobile">15.600.000₫</a>
+							<a class="text-xs-right totals_price_mobile totalPrice" price="{{Cart::getTotal()}}">{!!number_format(Cart::getTotal())!!} đ</a>
 						</div>
 						<div class="checkout">
 							<button class="btn-proceed-checkout-mobile" title="Tiến hành thanh toán" type="button" onclick="window.location.href='/checkout'">
@@ -153,4 +253,7 @@
 		</div>
 
 	</section>
+@endsection
+@section('css-js-footer')
+	
 @endsection

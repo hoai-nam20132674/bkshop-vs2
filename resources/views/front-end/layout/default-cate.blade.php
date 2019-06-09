@@ -268,7 +268,7 @@
 
 
 		<!-- <script src="{{asset('js/option-selectors.js')}}" type="text/javascript"></script> -->
-		<!-- <script src="{{asset('js/api.jquery.js')}}" type="text/javascript"></script> -->
+		<script src="{{asset('js/update-cart.js')}}" type="text/javascript"></script>
 		<!-- Plugin JS -->
 		<script src="{{asset('js/owl.carousel.min.js')}}" type="text/javascript"></script>	
 		<script src="{{asset('js/bootstrap.min.js')}}"></script>

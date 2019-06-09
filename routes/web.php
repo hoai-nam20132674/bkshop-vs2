@@ -36,12 +36,18 @@ Route::get('order/{id}',['as'=>'order','uses'=>'AuthClient\ClientController@orde
 Route::get('cart',['as'=>'cart','uses'=>'AuthClient\ClientController@cart']);
 Route::get('check-add-to-cart/{url}',['as'=>'checkAddToCart','uses'=>'AuthClient\ClientController@checkAddToCart']);
 Route::get('add-to-cart/{id}-{quantity}',['as'=>'addToCart','uses'=>'AuthClient\ClientController@addToCart']);
+Route::get('remove-cart-item/{id}',['as'=>'removeCartItem','uses'=>'AuthClient\ClientController@removeCartItem']);
 
+Route::get('get-price-product-detail/{url}',['as'=>'getPriceProductDetail','uses'=>'AuthClient\ClientController@getPriceProductDetail']);
 
 // login with social facebook
 Route::get('/login/facebook',['as' => 'loginFacebook','uses' => 'AuthClient\LoginController@redirectToProvider']);
 Route::get('/facebook/callback',['as' => 'loginFacebookCallback','uses' => 'AuthClient\LoginController@handleProviderCallback']);
 
+// end
+
+// order
+Route::post('postAddOrder',['as'=>'postAddOrder','uses'=>'Auth\LoginController@postAddOrder']);
 // end
 
 //End AuthClientRoute
