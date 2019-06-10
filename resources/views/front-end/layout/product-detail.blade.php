@@ -6,7 +6,7 @@
 				<div class="large-image">
 
 					<a href="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" data-rel="prettyPhoto[product-gallery]">
-						<img id="zoom_01" src="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" alt="{{$products->title}}">
+						<img width="100%" id="zoom_01" src="{{asset('uploads/images/products/avatar/'.$products->avatar)}}" alt="{{$products->title}}">
 					</a>							
 					<div class="hidden">
 						
@@ -53,7 +53,7 @@
 					$st = App\Categories::where('id',$products->categories_id)->get()->first();
 					$st = App\Systems::where('id',$st->systems_id)->get()->first();
 				@endphp
-				<span class="vendor" style="background-color:#fe3232; color: #fff; padding: 2px 5px; border-radius: 4px;">{{$st->name}}</span>
+				<a href="/{{$st->website}}"><span class="vendor" style="background-color:#fe3232; color: #fff; padding: 2px 5px; border-radius: 4px;">{{$st->name}}</span></a>
 				<span class="line">|</span>Mã SP:<span class="masp">{{$products->id}}</span>
 				<span class="line">|</span>
 				<span class="inline-block">
@@ -61,15 +61,21 @@
 						<div class="bizweb-product-reviews-star" data-score="0" data-number="5" title="Not rated yet!" style="color: rgb(255, 190, 0);"><i data-alt="1" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="2" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="3" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!"></i><input name="score" type="hidden" readonly=""></div><div><p>0</p></div><div><img src="https://productreviews.bizwebapps.vn//assets/images/user.png" width="18" height="17"></div>
 					</div>
 				</span>
+				<span class="line">|</span>
+				@if(Auth::guard('users_client')->user())
+					<a href="#" class="follow-system" system-id="{{$st->id}}" user-id="{{Auth::guard('users_client')->user()->id}}"><span class="vendor" style="background-color:#00b3b3; color: #fff; padding: 2px 5px; border-radius: 4px;"><i class="fa fa-user-plus font-some" aria-hidden="true"></i>Theo dõi gian hàng</span></a>
+				@else
+					<a href="#" class="follow-system" system-id="{{$st->id}}" user-id=""><span class="vendor" style="background-color:#00b3b3; color: #fff; padding: 2px 5px; border-radius: 4px;"><i class="fa fa-user-plus font-some" aria-hidden="true"></i>Theo dõi gian hàng</span></a>
+				@endif
 			</div>
 
 
 			<div class="price-box">
 				@if($products->price != $products->maxPrice)
-					<span class="special-price"><span class="price price-detail product-price" price="">{{$products->price}} ₫ - {{$products->maxPrice}}₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span> <!-- Giá Khuyến mại -->
+					<span class="special-price"><span class="price price-detail product-price" price="">{!!number_format($products->price)!!} ₫ - {!!number_format($products->maxPrice)!!}₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span> <!-- Giá Khuyến mại -->
 
 				@else
-					<span class="special-price"><span class="price price-detail product-price" price="{{$products->price}}">{{$products->price}} ₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span>  <!-- Giá gốc -->
+					<span class="special-price"><span class="price price-detail product-price" price="{{$products->price}}">{!!number_format($products->price)!!} ₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span>  <!-- Giá gốc -->
 				@endif
 			</div>
 

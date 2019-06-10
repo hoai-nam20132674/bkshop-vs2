@@ -13,6 +13,11 @@
 				<div class="col-xs-12 col-sm-12 col-md-12 col-main-acount">
 					<div id="parent" class="row">
 						<div id="a" class="col-xs-12 col-sm-12 col-lg-9 col-left-account">
+							@if( Session::has('flash_message'))
+				                <div class="alert alert-{{ Session::get('flash_level')}}">
+				                    {{ Session::get('flash_message')}}
+				                </div>
+				            @endif
 							<div class="page-title m992">
 								<h1 class="title-head margin-top-0"><a href="#">Thông tin tài khoản</a></h1>
 							</div>
@@ -37,23 +42,36 @@
 															<th>Trạng thái</th>
 														</tr>
 													</thead>
+													@php
+														$orders = App\Orders::where('email',Auth::guard('users_client')->user()->email)->get();
 
-													<tbody>
-													
-													
-													<tr class="first odd">
-														<td><a href="/account/orders/5845452">#1027</a></td>
-														<td>05/06/2019</td>
-														<td>Hà Nội, Việt Nam</td>
+													@endphp
+													@foreach($orders as $order)
+														@php
+															$orders_detail = App\OrdersDetail::where('orders_id',$order->id)->get();
+															$price=0;
+															foreach($orders_detail as $od){
+																$product = App\ProductsDetail::where('id',$od->products_detail_id)->get()->first();
+																$price = $price + $od->amount * $product->price;
 
-														<td><span class="price">640.000₫</span></td>
-														<td><em>Chưa thanh toán</em></td>
-														<td>Bình thường</td>
-													</tr>
-													
-													
-												</tbody>
+															}
+														@endphp
+														<tbody>
+														
+														
+															<tr class="first odd">
+																<td><a href="{{URL::route('order',$order->id)}}">#20132674{{$order->id}}</a></td>
+																<td>{{$order->created_at->format('d-m-Y')}}</td>
+																<td>{{$order->address}}</td>
 
+																<td><span class="price">{!!number_format($price)!!} ₫</span></td>
+																<td><em>Chưa thanh toán</em></td>
+																<td>Bình thường</td>
+															</tr>
+															
+															
+														</tbody>
+													@endforeach
 
 												</table>
 

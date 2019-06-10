@@ -7,29 +7,38 @@
 						<div class="content a-center">
 							<h5 class="title-modal"><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#dangnhap">Đăng nhập tài khoản</a> <a href="#" class="active">Đăng ký tài khoản mới</a></h5>
 							
-							<form accept-charset="UTF-8" action="/account/register" id="customer_register" method="post">
-								<input name="FormType" type="hidden" value="customer_register" />
-								<input name="utf8" type="hidden" value="true" /><input type="hidden" id="Token-62c72dd84b4e458db37ea1f03320d947" name="Token" />
+							<form accept-charset="UTF-8" action="{{URL::route('postAddUserClient')}}" id="customer_register" method="POST">
+								{{ csrf_field() }}
+								
 								<div class="form-signup" >
 									
 								</div>
 								<div class="form-signup a-left clearfix">
 									<fieldset class="form-group">
 										<label> Họ tên<span class="required">*</span></label>
-										<input type="text" class="form-control form-control-lg" value="" name="firstName" id="firstName"  placeholder="Họ tên*" required >
+										<input type="text" class="form-control form-control-lg" value="" name="name" id="firstName"  placeholder="Họ tên*" required >
 									</fieldset>
 									<fieldset class="form-group">
 										<label> Email <span class="required">*</span></label>
-										<input type="email" class="form-control form-control-lg" value="" name="email" id="email"  placeholder="Email" required="">
+										<input type="email" class="form-control form-control-lg" value="" name="email" id="email"  placeholder="Email" required>
+									</fieldset>
+									<fieldset class="form-group">
+										<label> Số điện thoại <span class="required">*</span></label>
+										<input type="phone" class="form-control form-control-lg" value="" name="phone" id="phone"  placeholder="Email" required>
 									</fieldset>
 									<fieldset class="form-group">
 										<label> Mật khẩu <span class="required">*</span></label>
-										<input type="password" class="form-control form-control-lg" value="" name="password" id="password" placeholder="Mật khẩu*" required >
+										<input type="password" class="form-control form-control-lg password-register" value="" name="password" id="password" placeholder="Mật khẩu*" required >
+									</fieldset>
+									<fieldset class="form-group">
+										<label> Xác thực mật khẩu <span class="required">*</span></label>
+										<input type="password" class="form-control form-control-lg cf-password-register" value="" name="confirm-password" id="password" placeholder="Mật khẩu*" required >
 									</fieldset>
 
 									<fieldset class="form-group">
-										<button  value="Đăng ký" class="btn btn-primary btn-full">Đăng ký</button>
+										<button type="submit" value="Đăng ký" class="btn btn-primary btn-full check-register">Đăng ký</button>
 									</fieldset>
+
 
 								</div>
 							</form>

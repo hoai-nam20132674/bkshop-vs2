@@ -14,7 +14,7 @@ class SystemsTableSeeder extends Seeder
         //
         DB::table('systems')->insert([
         	[ 
-                'name' =>'Root',
+                'name' =>'BKMART',
         		'logo' =>'root.jpg',
         		'shortcut_logo' =>'nam.jpg',
         		'share_image' =>'nam.jpg',
@@ -32,27 +32,7 @@ class SystemsTableSeeder extends Seeder
                 'display' =>1,
         		'script' => 'javascript',
                 'highlights'=>0
-        	],
-            [ 
-                'name' =>'Giầy nike',
-                'logo' =>'nike.jpg',
-                'shortcut_logo' =>'nam.jpg',
-                'share_image' =>'nam.jpg',
-                'title' => 'nike',
-                'seo_description' => 'mô tả',
-                'seo_keyword' => 'từ khóa',
-                'facebook' => 'https://',
-                'instagram' => 'https://',
-                'zalo' => 'https://',
-                'youtube' => 'https://',
-                'website' => 'https://',
-                'address' => 'địa chỉ',
-                'phone' => 'số điện thoại',
-                'email' => 'namnguyen20132674@gmail.com',
-                'display' =>1,
-                'script' => 'javascript',
-                'highlights'=>0
-            ]
+        	]            
         	
         	]
         );

@@ -73,6 +73,19 @@ class LoginController extends Controller
         }
     
     }
+    public function loginWithRegister($request){
+        $login =array(
+            'email'=>$request->email,
+            'password'=>$request->password
+        );
+        if(Auth::guard('users_client')->attempt($login)){
+            return redirect('/');
+        }
+        else{
+            return redirect()->route('clientLogin')->with(['flash_level'=>'danger','flash_message'=>'Tài khoản hoặc mật khẩu không chính xác']);
+        }
+    
+    }
     public function logout(Request $request)
     {
         $this->guard()->logout();

@@ -34,6 +34,22 @@
       </div>    
     </div>
   </div>
+  <div class="container">
+    @if( count($errors) > 0)
+    <div class="alert alert-danger">
+      <ul>
+        @foreach($errors->all() as $error)
+          <li>{{$error}}</li>
+        @endforeach
+      </ul>
+    </div>
+    @endif
+    @if( Session::has('flash_message'))
+        <div class="alert alert-{{ Session::get('flash_level')}}">
+            {{ Session::get('flash_message')}}
+        </div>
+    @endif
+  </div>
   <header class="site-header ">
     <div class="container">
       <div class="site-header-inner">
@@ -149,14 +165,14 @@
           </div>
           @if(Auth::guard('users_client')->check())
             <div class="header-acount hidden-sm hidden-xs">
-              <a href="/account" class="icon-cart">
+              <a href="{{URL::route('account',Auth::guard('users_client')->user()->id)}}" class="icon-cart">
                 <img src="//bizweb.dktcdn.net/100/266/879/themes/720483/assets/user-icon.png?1558087405072" alt="Zomart">
 
               </a>
               <div class="heading-cart text-xs-left">
                 
-                <p><a href="/account">Tài khoản</a> - <a href="{{URL::route('clientLogout')}}">Đăng xuất</a></p>
-                <a href="/account">{{Auth::guard('users_client')->user()->name}}</a>
+                <p><a href="{{URL::route('account',Auth::guard('users_client')->user()->id)}}">Tài khoản</a> - <a href="{{URL::route('clientLogout')}}">Đăng xuất</a></p>
+                <a href="{{URL::route('account',Auth::guard('users_client')->user()->id)}}">{{Auth::guard('users_client')->user()->name}}</a>
                 
               </div>
 
@@ -237,17 +253,8 @@
                         
             
             <li class="nav-item ">
-              <a href="#" class="nav-link">Về Zomart <i class="fa fa-angle-down" data-toggle="dropdown"></i></a>
-              <ul class="dropdown-menu">
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/huong-dan-su-dung">Hướng dẫn sử dụng</a>
-                </li>
-                
-                
-
-              </ul>
+              <a href="#" class="nav-link">Giới thiệu<i class="fa fa-angle-down" data-toggle="dropdown"></i></a>
+              
 
             </li>
 
@@ -256,57 +263,7 @@
             
             <li class="nav-item ">
               <a href="/collections/all" class="nav-link">Sản phẩm <i class="fa fa-angle-down" data-toggle="dropdown"></i></a>
-              <ul class="dropdown-menu">
-                
-                
-                <li class="dropdown-submenu nav-item-lv2">
-                  <a class="nav-link" href="/smartphone">Mobile & Tablet <i class="fa fa-angle-right"></i></a>
-
-                  <ul class="dropdown-menu">
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/smartphone">Smartphone</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/may-tinh-bang">Máy tính bảng</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/laptop">Laptop</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/thiet-bi-khac">Máy ảnh</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/thiet-bi-khac">Iphone</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/thiet-bi-khac">Phụ kiện điện thoại</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/thiet-bi-khac">Phụ kiện máy tính</a>
-                    </li>           
-                                
-                    <li class="nav-item-lv3">
-                      <a class="nav-link" href="/thiet-bi-khac">Thiết bị khác</a>
-                    </li>           
-                    
-                  </ul>                      
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/smartphone">Điện thoại thông minh</a>
-                </li>
-                
-                
-                
+              <!-- <ul class="dropdown-menu">
                 <li class="dropdown-submenu nav-item-lv2">
                   <a class="nav-link" href="/thoi-trang-nam">Thời trang <i class="fa fa-angle-right"></i></a>
 
@@ -330,52 +287,8 @@
                     
                   </ul>                      
                 </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/laptop">Máy tính & Laptop</a>
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/san-pham-noi-bat">Sức khỏe & Sắc đẹp</a>
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/collections/all">Mẹ & Bé</a>
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/collections/all">Nội thất & Gia dụng</a>
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/collections/all">Ô tô & Xe máy</a>
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/collections/all">Thực phẩm & Đồ uống</a>
-                </li>
-                
-                
-                
-                <li class="nav-item-lv2">
-                  <a class="nav-link" href="/collections/all">Sản phẩm & Dịch vụ</a>
-                </li>
-                
-                
 
-              </ul>
+              </ul> -->
 
             </li>
 
@@ -389,10 +302,7 @@
             
             <li class="nav-item ">
               <a href="/lien-he" class="nav-link">Liên hệ <i class="fa fa-angle-down" data-toggle="dropdown"></i></a>
-              <ul class="dropdown-menu">
-                
-
-              </ul>
+              
 
             </li>
 

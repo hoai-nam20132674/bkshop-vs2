@@ -5,10 +5,13 @@
 	<link href="{{asset('css/lightbox.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('section-slide')
+	@include('front-end.layout.categorie-list')
 	@include('front-end.layout.section-slide')
 @endsection
 
 @section('content')
+
+
 	@include('front-end.layout.section-hot-product')
 	@include('front-end.layout.section-categorie-product')
 	@if(count($system_follow)!=0)

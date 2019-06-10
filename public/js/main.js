@@ -447,15 +447,6 @@ jQuery(document).ready(function ($) {
 
 });
 
-$(document).on('click','.overlay, .close-popup, .btn-continue, .fancybox-close', function() {   
-	hidePopup('.awe-popup'); 	
-	setTimeout(function(){
-		$('.loading').removeClass('loaded-content');
-	},500);
-	return false;
-})
-
-
 
 $('.search-icon.inline-block.hidden-md.hidden-sm.hidden-lg .btn').click(function(e){
 	$('.header>.relative form').slideToggle();
@@ -578,8 +569,12 @@ function searchCollection() {
 	var system_url = $('.list_search .search_item.active').attr('system-url');
 	var searchVal = $('.header_search input[type="search"]').val();
 	var url = '';
-
-	url = system_url+'/search:danh mục:'+cate_id+'.'+cate_name+'.tìm kiếm='+searchVal;
+	if(system_url == ''){
+		url = '/search:danh mục:'+cate_id+'.'+cate_name+'.tìm kiếm='+searchVal;
+	}
+	else{
+		url = '/'+system_url+'/search:danh mục:'+cate_id+'.'+cate_name+'.tìm kiếm='+searchVal;
+	}
 
 	// console.log(url);
 	window.location=url;

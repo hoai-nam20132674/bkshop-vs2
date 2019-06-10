@@ -16,6 +16,10 @@ use App\PropertiesType;
 use App\FollowSystems;
 use App\Orders;
 use App\OrdersDetail;
+use App\UsersClient;
+use App\Feedbacks;
+use App\Http\Requests\addUserClientRequest;
+use App\Http\Controllers\AuthClient\LoginController;
 use Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
@@ -596,6 +600,15 @@ class ClientController extends Controller
         return $products;
     }
     // end lọc sản products_detail có giá cao nhất
+    
+    public static function countRate($feedback){
+        $countRate = 0;
+        foreach($feedback as $item){
+            $countRate = $countRate + $item->rate;
+        }
+        return $countRate;
+    }
+
     // trả về list danh mục của gian hàng thuộc danh mục cha root
     public function getCategorieChildRoot($cateRootId){
         $tag_categorie = TagCategories::where('root_categorie_id',$cateRootId)->get();
@@ -915,5 +928,72 @@ class ClientController extends Controller
             
         }
 
+    }
+    public function followSystem($system_id,$user_id){
+        $follow = FollowSystems::where('users_clients_id',$user_id)->where('systems_id',$system_id)->get();
+        if(count($follow) != 0){
+            
+        }
+        else{
+            $follow = new FollowSystems;
+            $follow->users_clients_id =$user_id;
+            $follow->systems_id = $system_id;
+            $follow->save();
+            
+        }
+        
+    }
+    public function unFollowSystem($system_id,$user_id){
+        $follow = FollowSystems::where('users_clients_id',$user_id)->where('systems_id',$system_id)->get();
+        $follow->delete();
+    }
+    public function checkFeedback($product_id,$user_id){
+        $product_detail = ProductsDetail::where('products_id',$product_id)->get();
+        $products_detail_id = $this->arrayColumn($product_detail,$col='id');
+        $user= UsersClient::where('id',$user_id)->get()->first();
+        $order_detail = OrdersDetail::join('products_detail','products_detail.id','=','orders_detail.products_detail_id')->join('orders','orders.id','=','orders_detail.orders_id')->whereIn('products_detail.id',$products_detail_id)->where('orders.email',$user->email)->select('orders_detail.*')->get();
+        if(count($order_detail)==0){
+            echo "chưa mua hàng";
+        }
+        else{
+            echo "đã mua hàng";
+        }
+
+    }
+    public function postAddOrder(Request $request){
+        $id = Auth::guard('users_client')->user()->id;
+        $cart = Cart::getContent();
+        $order = new Orders;
+        $order->addOrder($cart,$request);
+        Cart::clear();
+        return redirect()->route('account',$id)->with(['flash_level'=>'success','flash_message'=>'đặt hàng thành công']);
+
+    }
+    public function postAddFeedback(Request $request){
+        $feedback = Feedbacks::where('products_id',$request->product_id)->where('users_id',$request->user_id)->get();
+        if(count($feedback) ==0){
+            $feedback= new Feedbacks;
+            $feedback->products_id = $request->product_id;
+            $feedback->users_id = $request->user_id;
+            $feedback->rate = $request->rate;
+            $feedback->messages =$request->messages;
+            $feedback->save();
+            return redirect()->back();
+        }
+        else{
+            $feedback = Feedbacks::where('products_id',$request->product_id)->where('users_id',$request->user_id)->get()->first();
+            $feedback->rate = $request->rate;
+            $feedback->messages =$request->messages;
+            $feedback->save();
+            return redirect()->back();
+        }
+        // dd($request->name);
+    }
+    public function postAddUserClient(addUserClientRequest $request){
+        $user = new UsersClient;
+        $user->addUser($request);
+        $login = new LoginController;
+        $login->loginWithRegister($request);
+        return redirect()->back();
     }
 }

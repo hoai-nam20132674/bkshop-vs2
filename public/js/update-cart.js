@@ -17,7 +17,7 @@ $(document).on('click', '.remove-item-cart', function(event) {
 	$(".cartCount").empty();
 	$(".cartCount").append(cartCount - input);
 	$(".cartCount").attr('cart-count',cartCount - input);
-	url = 'remove-cart-item/'+data_id;
+	url = '/remove-cart-item/'+data_id;
 	$.ajax({
 		type: 'GET',
 		url: url,

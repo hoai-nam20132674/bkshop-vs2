@@ -46,20 +46,26 @@
 					<tbody>
 						@foreach($category as $cate)
 						<tr>
-							<td>{{$cate->name}}</td>
+							<td>
+								@if(Auth::user()->systems_id == 1)
+								<a href="{{URL::route('addTagCategorie',$cate->id)}}">{{$cate->name}}</a>
+								@else
+								{{$cate->name}}
+								@endif
+							</td>
 							<td>{{$cate->url}}</td>
 							@if($cate->display==0)
 								<td class="text-center">
 									<div class="checkbox">
 										<label>
-											<input onclick="enable1()" class="enable_categorie" value="1" id="enable1" type="checkbox">
+											<input onclick="enable{{$cate->id}}()" class="enable_categorie" value="{{$cate->id}}" id="enable{{$cate->id}}" type="checkbox">
 										</label>
 									</div>
 								</td>
 								<td class="text-center">
 									<div class="checkbox">
 										<label>
-											<input onclick="disable1()" class="disable_categorie" value="1" id="disable1" type="checkbox" checked>
+											<input onclick="disable{{$cate->id}}()" class="disable_categorie" value="{{$cate->id}}" id="disable{{$cate->id}}" type="checkbox" checked>
 										</label>
 									</div>
 								</td>
@@ -67,27 +73,27 @@
 								<td class="text-center">
 									<div class="checkbox">
 										<label>
-											<input onclick="enable1()" class="enable_categorie" value="1" id="enable1" type="checkbox" checked>
+											<input onclick="enable{{$cate->id}}()" class="enable_categorie" value="{{$cate->id}}" id="enable{{$cate->id}}" type="checkbox" checked>
 										</label>
 									</div>
 								</td>
 								<td class="text-center">
 									<div class="checkbox">
 										<label>
-											<input onclick="disable1()" class="disable_categorie" value="1" id="disable1" type="checkbox">
+											<input onclick="disable{{$cate->id}}()" class="disable_categorie" value="{{$cate->id}}" id="disable{{$cate->id}}" type="checkbox">
 										</label>
 									</div>
 								</td>
 							@endif
 							<script type="text/javascript">
 								function enable1() {
-								    document.getElementById("enable1").checked = true;
-								    document.getElementById("disable1").checked = false;
+								    document.getElementById("enable{{$cate->id}}").checked = true;
+								    document.getElementById("disable{{$cate->id}}").checked = false;
 								}
 
 								function disable1() {
-								    document.getElementById("disable1").checked = true;
-								    document.getElementById("enable1").checked = false;
+								    document.getElementById("disable{{$cate->id}}").checked = true;
+								    document.getElementById("enable{{$cate->id}}").checked = false;
 								}
 							</script>
 							
@@ -133,4 +139,30 @@
 	<script type="text/javascript" src="{{asset('auth/js/demo.js')}}"></script>
 	<script type="text/javascript" src="{{asset('auth/js/tables-datatable.js')}}"></script>
 	<script type="text/javascript" src="{{asset('auth/js/display_categorie.js')}}"></script>
+	<script type="text/javascript">
+		$(document).on('click', '.enable_categorie', function(event) {
+			var cate_id = $(this).attr('value');
+			url = '/auth/admin/enable-categorie/'+cate_id;
+			$.ajax({
+				type: 'GET',
+				url: url,
+				dataType: 'html',
+				success: function(data) {
+					
+				}
+			});
+		});
+		$(document).on('click', '.disable_categorie', function(event) {
+			var cate_id = $(this).attr('value');
+			url = '/auth/admin/disable-categorie/'+cate_id;
+			$.ajax({
+				type: 'GET',
+				url: url,
+				dataType: 'html',
+				success: function(data) {
+					
+				}
+			});
+		});
+	</script>
 @endsection()

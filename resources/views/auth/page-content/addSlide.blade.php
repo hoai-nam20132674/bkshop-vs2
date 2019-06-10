@@ -1,21 +1,21 @@
-@extends('frontEndAdmin.layout.default')
+@extends('auth.layout.default')
 @section('css')
-	<link rel="stylesheet" href="{{asset('admin/vendor/bootstrap4/css/bootstrap.min.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/vendor/themify-icons/themify-icons.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/vendor/font-awesome/css/font-awesome.min.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/vendor/animate.css/animate.min.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/vendor/jscrollpane/jquery.jscrollpane.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/vendor/waves/waves.min.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/vendor/switchery/dist/switchery.min.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/css/upload-image.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/bootstrap4/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/themify-icons/themify-icons.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/font-awesome/css/font-awesome.min.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/animate.css/animate.min.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/jscrollpane/jquery.jscrollpane.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/waves/waves.min.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/vendor/switchery/dist/switchery.min.css')}}">
+	<link rel="stylesheet" href="{{asset('auth/css/upload-image.css')}}">
 @endsection()
 @section('content')
 	<div class="content-area py-1">
 		<div class="container-fluid">
 			<h4>Thêm mới slide</h4>
 			<ol class="breadcrumb no-bg mb-1">
-				<li class="breadcrumb-item"><a href="{{URL::route('index')}}">Trang chủ</a></li>
-				<li class="breadcrumb-item"><a href="{{URL::route('getListBlogs')}}">Danh sách slide</a></li>
+				<li class="breadcrumb-item"><a href="{{URL::route('authIndex')}}">Trang chủ</a></li>
+				<li class="breadcrumb-item"><a href="{{URL::route('listSlides')}}">Danh sách slide</a></li>
 				<li class="breadcrumb-item active">Thêm slide</li>
 			</ol>
 			<div class="box box-block bg-white">
@@ -32,13 +32,10 @@
 					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
 						<div class="col-md-9">
-							<div class="form-group">
-								<label for="exampleInputEmail1">Tiêu đề</label>
-								<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề slide" value="{{old('title')}}" required>
-							</div>
+							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Link bài viết</label>
-								<input type="text" class="form-control" name="blog_url" placeholder="nhập link bài tin tức" value="{{old('blog_url')}}" required>
+								<input type="text" class="form-control" name="url" placeholder="nhập link bài tin tức" value="{{old('url')}}" required>
 							</div>
 						
 							<div class="file-upload">
@@ -70,19 +67,19 @@
 @endsection()
 @section('js')
 	<!-- Vendor JS -->
-		<script type="text/javascript" src="{{asset('admin/vendor/jquery/jquery-1.12.3.min.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/tether/js/tether.min.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/bootstrap4/js/bootstrap.min.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/detectmobilebrowser/detectmobilebrowser.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/jscrollpane/jquery.mousewheel.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/jscrollpane/mwheelIntent.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/jscrollpane/jquery.jscrollpane.min.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/jquery-fullscreen-plugin/jquery.fullscreen-min.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/waves/waves.min.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/vendor/switchery/dist/switchery.min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/jquery/jquery-1.12.3.min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/tether/js/tether.min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/bootstrap4/js/bootstrap.min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/detectmobilebrowser/detectmobilebrowser.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/jscrollpane/jquery.mousewheel.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/jscrollpane/mwheelIntent.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/jscrollpane/jquery.jscrollpane.min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/jquery-fullscreen-plugin/jquery.fullscreen-min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/waves/waves.min.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/vendor/switchery/dist/switchery.min.js')}}"></script>
 
 		<!-- Neptune JS -->
-		<script type="text/javascript" src="{{asset('admin/js/app.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/js/demo.js')}}"></script>
-		<script type="text/javascript" src="{{asset('admin/js/upload-image.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/js/app.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/js/demo.js')}}"></script>
+		<script type="text/javascript" src="{{asset('auth/js/upload-image.js')}}"></script>
 @endsection

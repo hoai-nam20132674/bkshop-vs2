@@ -60,7 +60,7 @@
 		<div class="main container hidden-xs">
 			<div class="col-main cart_desktop_page cart-page">
 				<div class="cart page_cart hidden-xs">
-					<form action="/cart" method="post" novalidate="" class="margin-bottom-0">
+					<form action="/cart" novalidate="" class="margin-bottom-0">
 						<div class="bg-scroll">
 							<div class="cart-thead">
 								<div style="width: 17%;">Hình ảnh</div>
@@ -147,7 +147,8 @@
 					<div class="container contact-form">
 			            
 			            <form action="{{URL::route('postAddOrder')}}" method="POST">
-			               <div class="row">
+							<input type="hidden" name="_token" value="{{ csrf_token()}}">
+			               	<div class="row">
 			                    <div class="col-md-6">
 			                    	@if(Auth::guard('users_client')->check())
 				                        <div class="form-group">
@@ -179,7 +180,7 @@
 			                    </div>
 			                    <div class="col-md-6">
 			                        <div class="form-group">
-			                            <textarea name="message" class="form-control" placeholder="Lời nhắn" style="width: 100%; height: 150px;"></textarea>
+			                            <textarea name="messages" class="form-control" placeholder="Lời nhắn" style="width: 100%; height: 150px;"></textarea>
 			                        </div>
 			                        <div class="form-group">
 			                            <input type="submit" name="btnSubmit" class="btnContact" value="ĐẶT HÀNG" />

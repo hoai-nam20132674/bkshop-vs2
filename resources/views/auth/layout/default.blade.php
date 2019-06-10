@@ -48,8 +48,11 @@
 			<div class="site-header">
 				<nav class="navbar navbar-light">
 					<div class="navbar-left">
+						@php
+							$system = App\Systems::where('id',Auth::user()->systems_id)->get()->first();
+						@endphp
 						<a class="navbar-brand" href="{{URL::route('authIndex')}}">
-							<div class="logo"><img src="{{asset('uploads/images/logo/logo-bkshop.png')}}" width="100%"></div>
+							<div class="logo"><img src="{{asset('uploads/images/systems/logo/'.$system->logo)}}" width="100%"></div>
 						</a>
 						<div class="toggle-button dark sidebar-toggle-first float-xs-left hidden-md-up">
 							<span class="hamburger"></span>

@@ -117,10 +117,14 @@
 								</div>
 
 								<br>
+								@php
+									$categorie = App\Categories::where('systems_id',Auth::user()->systems_id)->where('id','!=',$cate->id)->get();
+								@endphp
 								<div class="form-group">
 									<select class="form-control" name="parent_id">
 										<option value="0">Thư Mục Gốc</option>
-										@foreach($category as $cate)
+
+										@foreach($categorie as $cate)
 											<option value="{{$cate->id}}">$cate->name</option>
 										@endforeach
 									</select>

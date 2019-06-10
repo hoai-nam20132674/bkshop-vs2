@@ -25,7 +25,7 @@
 												<img src="https://bizweb.dktcdn.net/100/266/879/themes/720483/assets/cate1_icon.png?1558087405072" alt="Mobile & Tablet">
 												<img src="https://bizweb.dktcdn.net/100/266/879/themes/720483/assets/cate1_w_icon.png?1558087405072" alt=" Mobile & Tablet">
 											</div>
-											<a href="/smartphone">
+											<a href="{{$cate->url}}">
 												<span>{{$cate->name}} 
 												<i class="label new">new</i>
 												</span>

@@ -13,7 +13,54 @@
 	@include('front-end.layout.breadcrumb')
 	@include('front-end.layout.product-container')
 	@include('front-end.layout.section-hot-sale')
-	
+	@if(Auth::guard('users_client')->user())
+		<div class="feedback fancybox-overlay fancybox-overlay-fixed" style=" background-color: #000000a8; width: auto;height: auto;display: none"><div class="fancybox-wrap fancybox-desktop fancybox-type-inline fancybox-opened" tabindex="-1" style="width: 330px; height: auto; position: absolute; top: 42px; left: 786px; opacity: 1; overflow: visible;"><div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;"><div class="fancybox-outer"><div class="fancybox-inner" style="overflow: auto; width: 300px; height: auto;"><div class="bizweb-product-reviews-form" id="bpr-form_8828371" style="">
+	        <form method="POST" action="{{URL::route('postAddFeedback')}}" id="bizweb-product-reviews-frm" name="bizweb-product-reviews-frm">
+	            <input type="hidden" name="_token" value="{{ csrf_token()}}">
+	            <h4>Đánh giá sản phẩm</h4>
+	            <fieldset class="bpr-form-rating">
+	                <div id="dvRating" style="cursor: pointer; color: rgb(255, 190, 0);"><i data-alt="1" class="star star-on-png" title="bad"></i>&nbsp;<i data-alt="2" class="star star-off-png" title="poor"></i>&nbsp;<i data-alt="3" class="star star-off-png" title="regular"></i>&nbsp;<i data-alt="4" class="star star-off-png" title="good"></i>&nbsp;<i data-alt="5" class="star star-off-png" title="gorgeous"></i><input name="score" type="hidden"></div>
+	                <input type="hidden" name="rating" id="review_rate" value="0">
+	                <span class="bpr-form-message-error"></span>
+	            </fieldset>
+	            <fieldset class="bpr-form-contact">
+	                <div class="bpr-form-contact-name require">
+	                    <input type="text" maxlength="128" id="review_author" name="name" value="{{Auth::guard('users_client')->user()->name}}" placeholder="Nhập tên của bạn" disabled>
+	                    <span class="bpr-form-message-error"></span>
+	                </div>
+	                <div class="bpr-form-contact-email require">
+	                    <input type="text" maxlength="128" id="review_email" name="email" value="{{Auth::guard('users_client')->user()->email}}" placeholder="nguyenvan@gmail.com" disabled>
+	                    <span class="bpr-form-message-error"></span>
+	                </div>
+	                <div class="bpr-form-contact-email require" style="opacity: 0;position: absolute; z-index: -1;">
+	                    <input type="text" maxlength="128" id="review_email" name="rate" value="1" >
+	                    <span class="bpr-form-message-error"></span>
+	                </div>
+	                <div class="bpr-form-contact-email require" style="opacity: 0;position: absolute; z-index: -1;">
+	                    <input type="text" maxlength="128" id="review_email" name="user_id" value="{{Auth::guard('users_client')->user()->id}}" >
+	                    <span class="bpr-form-message-error"></span>
+	                </div>
+	                <div class="bpr-form-contact-email require" style="opacity: 0;position: absolute; z-index: -1;">
+	                    <input type="text" maxlength="128" id="review_email" name="product_id" value="{{$products->id}}" >
+	                    <span class="bpr-form-message-error"></span>
+	                </div>
+	            </fieldset>
+	            <fieldset class="bpr-form-review">
+	                
+	                <div class="bpr-form-review-body">
+	                    <textarea maxlength="1500" id="review_body" name="messages" rows="5" placeholder="Nội dung" required></textarea>
+	                    <span class="bpr-form-message-error"></span>
+	                </div>
+	            </fieldset>
+	            <fieldset class="bpr-form-review-error">
+	                <p class="error"></p>
+	            </fieldset>
+	            <fieldset class="bpr-form-actions">
+	                <input type="submit" value="Gửi" class="bpr-button-submit" style="width: 100%">
+	            </fieldset>
+	        </form>
+	    </div></div></div><a title="Close" class="fancybox-item fancybox-close close-feedback"></a></div></div></div>
+	@endif
 @endsection
 
 @section('css-js-footer')
@@ -25,168 +72,7 @@
 	<script src="{{asset('js/jquery.prettyphoto.min005e.js')}}" type="text/javascript"></script>
 	<script src="{{asset('js/jquery.prettyphoto.init.min367a.js')}}" type="text/javascript"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script type="text/javascript">
-		$(document).on('click', '.check', function(event) {
-			// event.preventDefault();
-			var swatch = $(this).parent();
-			swatch.children(".check").attr('check',0);
-			$(this).attr('check',1);
-			count_properties = $(".swatch").length;
-			check = $(".check[check=1]").length;
-			var products_id = $("#add-to-cart").attr('products_id');
-			var properties_select = '';
-			for(var i=0;i<count_properties;i++){
-				var selector = $(".swatch[id="+i+"]");
-				properties_select = properties_select+'-'+selector.children(".check[check=1]").attr('properties_id');
-			}
-			var url = 'get-price-product-detail/'+products_id+''+properties_select;
-			if(check == count_properties){
-				$.ajax({
-				  type: "GET",
-				  url: url,
-				  dataType: 'html',
-				  success: function(data){
-				  	for(var i=0;i<data.length;i++){
-						if(data[i] == ':'){
-							var price = data.substring(0,i);
-							var j = i;
-							j++;
-							var length = data.length;
-							length++;
-							var quantity = data.substring(j,length);
-						}
-					}
-				    $(".price-detail").attr('price',price);
-				    price = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')+' đ';
-				    $(".price-detail").empty();
-				    $(".price-detail").append(price);
-				    $(".count-product-detail").empty();
-				    $(".count-product-detail").append(quantity);
-				  }
-				});
-			}
-			
-		});
-		$(document).on('click', '#add-to-cart', function(event) {
-			event.preventDefault();
-			count_properties = $(".swatch").length;
-			check = $(".check[check=1]").length;
-			if(check!=count_properties){
-				swal("Không thành công", "Vui lòng chọn thuộc tính cho sản phẩm", "warning");
-			}
-			else{
-				var properties_select = '';
-				var text = '';
-				for(var i=0;i<count_properties;i++){
-					var selector = $(".swatch[id="+i+"]");
-					properties_select = properties_select+'-'+selector.children(".check[check=1]").attr('properties_id');
-					text = text+' '+selector.children(".check[check=1]").attr('properties_type')+' '+selector.children(".check[check=1]").attr('data-value');
-
-				}
-				var products_id = $(this).attr('products_id');
-				var quantity = $(this).parent().children().children("input").val();
-				var url = 'check-add-to-cart/'+products_id+'-'+quantity+''+properties_select;
-				$.ajax({
-					type: 'GET',
-					url: url,
-					dataType: 'html',
-					success: function(data) {
-						if(data=='hết hàng'){
-							swal(text+" đã hết hàng", "Vui lòng chọn thuộc tính khác cho sản phẩm này", "warning");
-						}
-						else if(data=='không đủ hàng'){
-							swal(text+" không đủ ", "Vui lòng chọn số lượng it hơn " +quantity+  " sản phẩm", "warning");
-						}
-						else{
-							for(var i=0;i<data.length;i++){
-								if(data[i] == ':'){
-									var products_detail_id = data.substring(0,i);
-								}
-							}
-							url = 'add-to-cart/'+products_detail_id+'-'+quantity;
-							$.ajax({
-								type: 'GET',
-								url: url,
-								dataType: 'html',
-								success: function(data) {
-									swal({
-									  title: "Thêm vào giỏ hàng thành công",
-									  text: "",
-									  icon: "success",
-									  buttons: true,
-									  buttons: ["Giỏ hàng", true],
-									})
-									.then((willDelete) => {
-									  if (willDelete) {
-									  	//cập nhật số lượng sản phẩm giỏ hàng
-									  	cartCount = $(".cartCount").attr('cart-count');
-									  	cartCount = parseInt(cartCount);
-									  	quantity = parseInt(quantity);
-										$(".cartCount").empty();
-										$(".cartCount").append(cartCount+quantity);
-										$(".cartCount").attr('cart-count',cartCount+quantity);
-										//end
-										// --------------
-										// cập nhật item giỏ hàng
-										var element = $(".product-cart[data-id="+products_detail_id+"]");
-										//kiểm tra sản phẩm đã có trong giỏ hàng chưa
-									    if( element.length ==0){ //chưa có
-									    	var product_url = location.href;
-									    	var title = $(".title-head").attr('title');
-									    	var avatar = $("img.avatar").attr('src');
-									    	var price = $(".price-detail").attr('price');
-									    	var totalPrice = price*quantity;
-									    	price = price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')+' đ';
-									    	var html = '<li class="item product-cart" data-id="'+products_detail_id+'"><div class="border_list"><a class="product-image" href="'+product_url+'" title="'+title+'"><img alt="'+title+'" src="'+avatar+'" width="100"></a><div class="detail-item"><div class="product-details"><p class="product-name"><a href="'+product_url+'" title="'+title+'">'+title+' '+text+'</a></p></div><div class="product-details-bottom"><span class="price pricechange">Giá: '+price+'</span><a data-id="'+products_detail_id+'" title="Xóa" class="remove-item-cart fa fa-trash-o" price="'+totalPrice+'">&nbsp;</a><div class="quantity-select qty_drop_cart"><p data-id="'+products_detail_id+'" value="'+quantity+'">Số Lượng: '+quantity+'</p></div></div></div></div></li>';
-									    	$(".list-item-cart").append(html);
-									    	var price_plus = parseInt(totalPrice);
-											var old_total_price = parseInt($(".totalPrice").attr('price'));
-											var new_total_price = old_total_price + price_plus;
-											$(".totalPrice").empty();
-											$(".totalPrice").attr('price',new_total_price);
-											new_total_price = new_total_price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')+' đ';
-											$(".totalPrice").append(new_total_price);
-									    }
-
-									    else{ //chưa có sản phẩm trong giỏ hàng
-									    	var old_quantity = parseInt($("p[data-id="+products_detail_id+"]").attr('value'));
-									    	var new_quantity = old_quantity + quantity;
-									    	$("p[data-id="+products_detail_id+"]").attr('value',new_quantity);
-									    	$("p[data-id="+products_detail_id+"]").empty();
-									    	$("p[data-id="+products_detail_id+"]").append('Số lượng: '+new_quantity);
-									    	var price = $(".price-detail").attr('price');
-									    	var price_plus = parseInt(price*quantity);
-									    	var old_total_price = parseInt($(".totalPrice").attr('price'));
-									    	var new_total_price = old_total_price + price_plus;
-									    	$(".totalPrice").empty();
-											$(".totalPrice").attr('price',new_total_price);
-											$(".remove-item-cart[data-id="+products_detail_id+"]").attr('price',new_total_price);
-											new_total_price = new_total_price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')+' đ';
-											$(".totalPrice").append(new_total_price);
-
-									    }
-
-									  } else {
-									    window.location='cart';
-									  }
-									});
-								}
-								
-							});
-
-						}
-						
-					}
-					
-				});
-				
-			}
-			
-			
-			
-			
-		});
-	</script>
+	<script src="{{asset('js/product.js')}}" type="text/javascript"></script>
 
 @endsection
 

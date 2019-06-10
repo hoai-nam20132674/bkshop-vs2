@@ -24,7 +24,17 @@ class addUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            
+            'email' => 'unique:users,email',
+            'email' => 'unique:users_clients,email'
+            
+            
+        ];
+    }
+    public function messages(){
+        return [
+            'email.unique' => 'Email này đã được sử dụng',
+            
         ];
     }
 }
