@@ -10,7 +10,8 @@
 	
 @endphp
 @if($system->id ==1)
-	<div class="product-box">	
+
+	<div class="product-box" style="">	
 		<div class="product-thumbnail">		
 			<!-- <div class="sale-flash">Sale</div> -->
 			<a href="/{{$pr->url}}" title="{{$pr->name}}">
@@ -18,7 +19,7 @@
 			</a>
 		</div>
 		<div class="product-info a-left">		
-			<h3 class="product-name"><a href="/{{$pr->url}}" title="{{$pr->name}}">{{$pr->name}}</a></h3>
+			<h3 class="product-name"><a href="/{{$pr->url}}" title="{{$pr->name}}">{!! \Illuminate\Support\Str::words($pr->name, 4,'...')  !!}</a></h3>
 			<div class="price-box clearfix">			
 				@if($pr->price == $pr->maxPrice)
 					<div class="special-price f-left">
@@ -136,8 +137,10 @@
 		
 
 	</div>
+
 @else
-	<div class="product-box">	
+
+	<div class="product-box" style="">	
 		<div class="product-thumbnail">		
 			<!-- <div class="sale-flash">Sale</div> -->
 			<a href="/{{$system->website}}/{{$pr->url}}" title="{{$pr->name}}">
@@ -145,7 +148,7 @@
 			</a>
 		</div>
 		<div class="product-info a-left">		
-			<h3 class="product-name"><a href="/{{$system->website}}/{{$pr->url}}" title="{{$pr->name}}">{{$pr->name}}</a></h3>
+			<h3 class="product-name"><a href="/{{$system->website}}/{{$pr->url}}" title="{{$pr->name}}">{!! \Illuminate\Support\Str::words($pr->name, 4,'...')  !!}</a></h3>
 			<div class="price-box clearfix">
 				@if($pr->price == $pr->maxPrice)
 					<div class="special-price f-left">
@@ -264,4 +267,5 @@
 		
 
 	</div>
+
 @endif	

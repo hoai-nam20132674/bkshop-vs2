@@ -52,13 +52,114 @@
 				@php
 					$st = App\Categories::where('id',$products->categories_id)->get()->first();
 					$st = App\Systems::where('id',$st->systems_id)->get()->first();
+
+					$feedback = App\Feedbacks::where('products_id',$products->id)->get();
+					$countRate = App\Http\Controllers\AuthClient\ClientController::countRate($feedback);
+					if(count($feedback)==0){
+						$rate=0;
+					}
+					else{
+						$rate = $countRate/count($feedback);
+					}
+					
+				
 				@endphp
 				<a href="/{{$st->website}}"><span class="vendor" style="background-color:#fe3232; color: #fff; padding: 2px 5px; border-radius: 4px;">{{$st->name}}</span></a>
 				<span class="line">|</span>Mã SP:<span class="masp">{{$products->id}}</span>
 				<span class="line">|</span>
 				<span class="inline-block">
 					<div class="bizweb-product-reviews-badge" data-id="8829397">
-						<div class="bizweb-product-reviews-star" data-score="0" data-number="5" title="Not rated yet!" style="color: rgb(255, 190, 0);"><i data-alt="1" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="2" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="3" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!"></i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!"></i><input name="score" type="hidden" readonly=""></div><div><p>0</p></div><div><img src="https://productreviews.bizwebapps.vn//assets/images/user.png" width="18" height="17"></div>
+						<div class="bizweb-product-reviews-star" data-score="0" data-number="5" title="Not rated yet!" style="color: rgb(255, 190, 0);">
+							@if($rate == 0)				
+		    					<i data-alt="1" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+		                	@elseif($rate == 1)
+				    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+
+		    				@elseif($rate > 1 && $rate < 2)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-half-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    				
+			    			@elseif($rate == 2)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    			
+			    			@elseif($rate > 2 && $rate < 3)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-half-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    				
+			    			@elseif($rate == 3)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-off-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    			
+			    			@elseif($rate > 3 && $rate < 4)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-half-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    					
+			    			@elseif($rate == 4)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-off-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+
+			    			@elseif($rate > 4 && $rate < 5)
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-half-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    				
+			    			@else
+			    				
+		    					<i data-alt="1" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="2" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="3" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="4" class="star-on-png" title="Not rated yet!">
+								</i>&nbsp;<i data-alt="5" class="star-on-png" title="Not rated yet!">
+								</i><input name="score" type="hidden" readonly="">
+			    				
+			    			@endif
+							<input name="score" type="hidden" readonly=""></div><div><p>{{count($feedback)}}</p></div><div><img src="https://productreviews.bizwebapps.vn//assets/images/user.png" width="18" height="17"></div>
 					</div>
 				</span>
 				<span class="line">|</span>
@@ -72,10 +173,10 @@
 
 			<div class="price-box">
 				@if($products->price != $products->maxPrice)
-					<span class="special-price"><span class="price price-detail product-price" price="">{!!number_format($products->price)!!} ₫ - {!!number_format($products->maxPrice)!!}₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span> <!-- Giá Khuyến mại -->
+					<span class="special-price"><span class="price price-detail product-price" price="">{!!number_format($products->price)!!} ₫ - {!!number_format($products->maxPrice)!!}₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail">{{$products->amount}}</span></span> <!-- Giá Khuyến mại -->
 
 				@else
-					<span class="special-price"><span class="price price-detail product-price" price="{{$products->price}}">{!!number_format($products->price)!!} ₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail"></span></span>  <!-- Giá gốc -->
+					<span class="special-price"><span class="price price-detail product-price" price="{{$products->price}}">{!!number_format($products->price)!!} ₫</span> <span style="font-size: 20px; padding: 0px 10px;">Số Lượng: <span class="count-product-detail">{{$products->amount}}</span></span>  <!-- Giá gốc -->
 				@endif
 			</div>
 

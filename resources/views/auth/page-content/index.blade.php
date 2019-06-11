@@ -37,12 +37,18 @@
 						</div>
 					</div>
 				</div>
+				@php
+					$system = App\Systems::where('id',Auth::user()->systems_id)->get()->first();
+					$cates = App\Categories::where('systems_id',$system->id)->get();
+					$cate_id = App\Http\Controllers\AuthClient\ClientController::arrayColumn($cates,$col='id');
+					$products = App\Products::whereIn('categories_id',$cate_id)->get();
+				@endphp
 				<div class="col-lg-3 col-md-6 col-xs-12">
 					<div class="box box-block bg-white tile tile-1 mb-2">
 						<div class="t-icon right"><span class="bg-primary"></span><i class="ti-package"></i></div>
 						<div class="t-content">
 							<h6 class="text-uppercase mb-1">Sản phẩm</h6>
-							<h1 class="mb-1">50</h1>
+							<h1 class="mb-1">{{count($products)}}</h1>
 							<span class="tag tag-primary mr-0-5">+125</span>
 							<span class="text-muted font-90">arraving today</span>
 						</div>

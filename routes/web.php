@@ -74,20 +74,25 @@ Route::group(['prefix'=>'auth/admin','middleware'=>'auth'], function(){
 	Route::get('danh-sach-tai-khoan-quan-tri',['as'=>'listUsers','uses'=>'Auth\AdminController@listUsers']);
 	Route::get('danh-sach-tai-khoan-nguoi-dung',['as'=>'listUsersClient','uses'=>'Auth\AdminController@listUsersClient']);
 	Route::get('danh-sach-san-pham',['as'=>'listProducts','uses'=>'Auth\AdminController@listProducts']);
+	Route::get('danh-sach-san-pham-chi-tiet/{id}',['as'=>'listProductsDetail','uses'=>'Auth\AdminController@listProductsDetail']);
 	Route::get('danh-sach-danh-muc',['as'=>'listCategories','uses'=>'Auth\AdminController@listCategories']);
 	Route::get('danh-sach-he-thong',['as'=>'listSystems','uses'=>'Auth\AdminController@listSystems']);
 	Route::get('danh-sach-slide',['as'=>'listSlides','uses'=>'Auth\AdminController@listSlides']);
+	Route::get('danh-sach-don-hang',['as'=>'listOrder','uses'=>'Auth\AdminController@listOrder']);
+	Route::get('danh-sach-don-hang-chi-tiet/{id}',['as'=>'listOrderDetail','uses'=>'Auth\AdminController@listOrderDetail']);
 
 	Route::get('sua-tai-khoan-quan-tri/{id}',['as'=>'editUser','uses'=>'Auth\AdminController@editUser']);
 	// Route::get('sua-tai-khoan-nguoi-dung',['as'=>'editUserClient','uses'=>'Auth\AdminController@editUserClient']);
-	Route::get('sua-san-pham',['as'=>'editProduct','uses'=>'Auth\AdminController@editProduct']);
+	Route::get('sua-san-pham/{id}',['as'=>'editProduct','uses'=>'Auth\AdminController@editProduct']);
+	Route::get('sua-san-pham-chi-tiet/{id}',['as'=>'editProductDetail','uses'=>'Auth\AdminController@editProductDetail']);
 	Route::get('sua-danh-muc/{systems_id}/{id}',['as'=>'editCategorie','uses'=>'Auth\AdminController@editCategorie']);
 	Route::get('sua-thong-tin-he-thong/{id}',['as'=>'editSystem','uses'=>'Auth\AdminController@editSystem']);
 	Route::get('sua-slide/{id}',['as'=>'editSlide','uses'=>'Auth\AdminController@editSlide']);
 
 	Route::get('xoa-tai-khoan-quan-tri',['as'=>'deleteUser','uses'=>'Auth\AdminController@deleteUser']);
 	Route::get('xoa-tai-khoan-nguoi-dung',['as'=>'deleteUserClient','uses'=>'Auth\AdminController@deleteUserClient']);
-	Route::get('xoa-san-pham',['as'=>'deleteProduct','uses'=>'Auth\AdminController@deleteProduct']);
+	Route::get('xoa-san-pham/{id}',['as'=>'deleteProduct','uses'=>'Auth\AdminController@deleteProduct']);
+	Route::get('xoa-san-pham-chi-tiet/{id}',['as'=>'deleteProductDetail','uses'=>'Auth\AdminController@deleteProductDetail']);
 	Route::get('xoa-danh-muc',['as'=>'deleteCategorie','uses'=>'Auth\AdminController@deleteCategorie']);
 	Route::get('xoa-he-thong',['as'=>'deleteSystem','uses'=>'Auth\AdminController@deleteSystem']);
 
@@ -105,11 +110,7 @@ Route::group(['prefix'=>'auth/admin','middleware'=>'auth'], function(){
 	Route::post('postAddTagCategorie/{id}',['as'=>'postAddTagCategorie','uses'=>'Auth\AdminController@postAddTagCategorie']);
 	Route::post('postAddPropertie',['as'=>'postAddPropertie','uses'=>'Auth\AdminController@postAddPropertie']);
 
-	Route::get('deleteUser',['as'=>'deleteUser','uses'=>'Auth\AdminController@deleteUser']);
-	Route::get('deleteUserClient',['as'=>'deleteUserClient','uses'=>'Auth\AdminController@deleteUserClient']);
-	Route::get('deleteProduct',['as'=>'deleteProduct','uses'=>'Auth\AdminController@deleteProduct']);
-	Route::get('deleteCategorie/{id}',['as'=>'deleteCategorie','uses'=>'Auth\AdminController@deleteCategorie']);
-	Route::get('deleteSystem/{id}',['as'=>'deleteSystem','uses'=>'Auth\AdminController@deleteSystem']);
+
 	Route::get('system-highlights/{id}',['as'=>'systemHighlight','uses'=>'Auth\AdminController@systemHighlight']);
 	Route::get('system-unhighlights/{id}',['as'=>'systemUnHighlight','uses'=>'Auth\AdminController@systemUnHighlight']);
 	Route::get('system-enable/{id}',['as'=>'systemEnable','uses'=>'Auth\AdminController@systemEnable']);

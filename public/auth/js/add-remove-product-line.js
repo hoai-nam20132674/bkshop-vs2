@@ -5,7 +5,7 @@
 
 // thêm một thuộc tính sản phẩm
 $(document).on('click', '.tag-swatch[display="block"]', function(event) {
-// $('.tag-properties-type').on('click', '.tag-swatch[display="block"]', function(event) {
+
 	event.preventDefault();
 	var tag_id = $(this).attr("swatch-recoment");
 	// $(this).css("display","none");
@@ -19,7 +19,7 @@ $(document).on('click', '.tag-swatch[display="block"]', function(event) {
 	$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('product-with-swatch-select',product_detail_number);
 	$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('id',count_swatch_select);
 	$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").attr('swatch-select',count_swatch_select);
-	$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "properties["+product_detail_number+"][" +count_swatch_select+ "]");
+	$(".swatches[product-detail="+product_detail_number+"]").children(".swatch[swatch-recoment="+tag_id+"]").children().children("input").attr("name", "products_detail["+product_detail_number+"][" +count_swatch_select+ "]");
 	var i=1;
 	var j = count_input_swatch_focus;
 	var k = count_input;
@@ -63,7 +63,7 @@ $(document).on('click', '.close-swatch', function(event) {
   		}
   		swatch.attr('id', i);
   		swatch.attr('swatch-select', i);
-  		swatch.find('input').attr("name", "properties["+product_detail_number+"][" +i+ "]");
+  		swatch.find('input').attr("name", "products_detail["+product_detail_number+"][" +i+ "]");
   	}
   	$(".tag-swatch[swatch-recoment="+swatch_recoment_number+"]").attr('display','block');
   	
@@ -97,7 +97,7 @@ $(document).on('click', '.add-product-line', function(event) {
 		for(i;i<count_swatch_select;i++){
 	  		
 	  		var swatch = swatches.children(".swatch[id="+i+"]");
-	  		swatch.children().children("input").attr("name", "properties["+count_product_detail+"][" +i+ "]");
+	  		swatch.children().children("input").attr("name", "products_detail["+count_product_detail+"][" +i+ "]");
 	  		
 	  	}
 
@@ -149,7 +149,7 @@ $(document).on('click', '.close-product-detail', function(event) {
 		  		for(j;j<=count_input;j++){
 		  			var z = j;
 		  			z--;
-			  		$(".swatches[product-detail=" +product_detail_number+ "]").children(".swatch[swatch-select="+r+"]").children().children("input").attr("name","properties["+i+"]["+r+"]");
+			  		$(".swatches[product-detail=" +product_detail_number+ "]").children(".swatch[swatch-select="+r+"]").children().children("input").attr("name","products_detail["+i+"]["+r+"]");
 			  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("input[id=input"+j+"for"+product_detail_number+"]").attr("id","input"+j+"for"+i);
 			  		$(".swatches[product-detail=" +product_detail_number+ "]").children().children().children("label[for=input"+j+"for"+product_detail_number+"]").attr("for","input"+j+"for"+i);
 			  	}

@@ -53,7 +53,7 @@
 					
 				</li>
 				<li class="with-sub">
-					<a href="" class="waves-effect  waves-light">
+					<a href="{{URL::route('listOrder')}}" class="waves-effect  waves-light">
 						<span class="s-caret"><i class="fa fa-angle-down"></i></span>
 						<span class="tag tag-success"></span>
 						<span class="s-icon"><i class="ti-gallery"></i></span>

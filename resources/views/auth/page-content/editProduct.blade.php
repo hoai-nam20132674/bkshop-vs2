@@ -30,85 +30,44 @@
 		    	@endif
 				<h5>Form controls</h5>
 				
-				<form action="{{URL::route('postEditProduct')}}" method="POST" enctype="multipart/form-data">
+				<form action="{{URL::route('postEditProduct',$product->id)}}" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_token" value="{{ csrf_token()}}">
 					<div class="row">
 						<div class="col-md-9">
 							<div class="row">
 
 								<div class="col-md-3">
-									<a href="http://slux.vn/" target="_blank"><button class="btn btn-primary" style="width: 100%;">http://bkshop.vn/</button></a>
+									<a href="https://bkmart.vn/" target="_blank"><button class="btn btn-primary" style="width: 100%;">https://bkmart.vn/</button></a>
 								</div>
 								<div class="col-md-9">
 									<div class="form-group">	
-										<input type="text" class="form-control" name="url" placeholder="Nhập Url" value="cuong.vn">
+										<input type="text" class="form-control" name="url" placeholder="Nhập Url" value="{{$product->url}}">
 									</div>
 								</div>
 							</div>
 							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Tên sản phẩm</label>
-								<input type="text" class="form-control" name="name" placeholder="Nhập tiêu đề danh mục" value="nokia 8800">
+								<input type="text" class="form-control" name="name" placeholder="Nhập tiêu đề danh mục" value="{{$product->name}}">
 							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Giá</label>
-								<input type="text" class="form-control" name="price" placeholder="Nhập tiêu đề danh mục" value="10.000.000">
-							</div>
+							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Tiêu đề</label>
-								<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="title">
+								<input type="text" class="form-control" name="title" placeholder="Nhập tiêu đề danh mục" value="{{$product->title}}">
 							</div>
 							
 							<div class="form-group">
 								<label for="exampleInputEmail1">Seo keywords</label>
-								<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="seo_keyword">
+								<input type="text" class="form-control" name="seo_keyword" placeholder="Keywords Seo" value="{{$product->seo_keyword}}">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Seo description</label>
-								<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="seo_description">
+								<input type="text" class="form-control" name="seo_description" placeholder="Description Seo" value="{{$product->seo_description}}">
 							</div>
-							<div class="form-group">
-								<label for="exampleTextarea">Thông tin khuyến mãi</label>
-								<textarea class="form-control" name="sale" rows="3">content</textarea>
-								<script type="text/javascript">
-							      var editor = CKEDITOR.replace('sale',{
-							       language:'vi',
-							       filebrowserImageBrowseUrl : '../../../auth/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../../../auth/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../../../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../../../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-							       });
-							     </script>﻿
-							</div>
-							<div class="form-group">
-								<label for="exampleTextarea">Thông tin sản phẩm</label>
-								<textarea class="form-control" name="ttsp" rows="3">thông tin sản phẩm</textarea>
-								<script type="text/javascript">
-							      var editor = CKEDITOR.replace('ttsp',{
-							       language:'vi',
-							       filebrowserImageBrowseUrl : '../../../auth/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../../../auth/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../../../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../../../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-							       });
-							     </script>﻿
-							</div>
-							<div class="form-group">
-								<label for="exampleTextarea">Thông số kỹ thuật</label>
-								<textarea class="form-control" name="tskt" rows="3">thông tin kỹ thuật</textarea>
-								<script type="text/javascript">
-							      var editor = CKEDITOR.replace('tskt',{
-							       language:'vi',
-							       filebrowserImageBrowseUrl : '../auth/ckfinder/ckfinder.html?type=Images',
-							       filebrowserFlashBrowseUrl : '../auth/ckfinder/ckfinder.html?type=Flash',
-							       filebrowserImageUploadUrl : '../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-							       filebrowserFlashUploadUrl : '../auth/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-							       });
-							     </script>﻿
-							</div>
+							
 							<div class="form-group">
 								<label for="exampleTextarea">Mô tả</label>
-								<textarea class="form-control" name="content" rows="3">mô tả</textarea>
+								<textarea class="form-control" name="content" rows="3">{{$product->content}}</textarea>
 								<script type="text/javascript">
 							      var editor = CKEDITOR.replace('content',{
 							       language:'vi',
@@ -120,19 +79,23 @@
 							     </script>﻿
 							</div>
 						</div>
+						@php
+							$categorie = App\Categories::where('id',$product->categories_id)->get()->first();
+							$cates = App\Categories::where('systems_id',Auth::user()->systems_id)->where('id','!=',$categorie->id)->get();
+
+						@endphp
 						<div class="col-md-3">
 							<div class="form-group">
 								<select class="form-control" name="categorie_id">
-									<option value="id">danh mục cha</option>
-									
-									<option value="id">danh mục cha 1</option>
-									<option value="id">danh mục cha 2</option>
-									<option value="id">danh mục cha 3</option>
+									<option value="{{$categorie->id}}">{{$categorie->name}}</option>
+									@foreach($cates as $cate)
+										<option value="{{$cate->id}}">{{$cate->name}}</option>
+									@endforeach
 									
 								</select>
 							</div>
 							<div class="checkbox">
-								@if(0)
+								@if($product->display==0)
 									<label>
 										<input type="radio"  name="display" value="1" >Hiển thị
 									</label>
@@ -152,28 +115,35 @@
 							<div class="all-image-product">
 								<div class="row">
 									<div class="col-md-12">
+										<div class="row">
 										<?php 
 											$i=0;
-											// $product_image = App\Products_Images::where('product_id',$pr->id)->get();
+											$product_image = App\ImagesProducts::where('products_id',$product->id)->get();
 										?>
-										
+										@foreach($product_image as $image)
 																		
-											@if($i==0 || $i ==2)
-												<div class="image-product{{$i}}" style="width: 50%; float: left;" >
-													<img class="img-thumbnail" width="100%" src="">
+											@if($image->role ==1)
+												<div class="col-md-3">
+												<div class="image-product{{$i}}" style="" >
+													<img class="img-thumbnail" width="100%" src="{{asset('uploads/images/products/avatar/'.$image->url)}}">
+												</div>
 												</div>
 												<?php
 													$i++;
 												?>
 											@else
-												<div class="image-product{{$i}}" style="width: 50%;float: right;" >
-													<img class="img-thumbnail" width="100%" src="">
+												<div class="col-md-3">
+												<div class="image-product{{$i}}" style="" >
+													<img class="img-thumbnail" width="100%" src="{{asset('uploads/images/products/detail/'.$image->url)}}">
+												</div>
 												</div>
 												<?php
 													$i++;
 												?>
 											@endif
-										
+
+										@endforeach
+										</div>
 									</div>
 								</div>
 							</div>

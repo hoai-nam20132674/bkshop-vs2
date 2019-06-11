@@ -15,6 +15,10 @@ use App\ImageShare;
 use App\HomeSystems;
 use App\Slides;
 use App\TagCategories;
+use App\ProductsDetail;
+use App\OrdersDetail;
+use App\Orders;
+use App\Http\Controllers\AuthClient\ClientController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\addUserRequest;
 use App\Http\Requests\addProductRequest;
@@ -87,6 +91,11 @@ class AdminController extends Controller
     	return view('auth.page-content.listProducts',['products'=>$products]);
         
     }
+    public function listProductsDetail($id){
+        $products_detail = ProductsDetail::where('products_id',$id)->get();
+        $products = Products::where('id',$id)->get()->first();
+        return view('auth.page-content.listProductsDetail',['products_detail'=>$products_detail,'products'=>$products]);
+    }
     public function listCategories() {
         $category = Categories::where('systems_id', Auth::user()->systems_id)->get();
     	return view('auth.page-content.listCategories',['category'=>$category]);
@@ -105,13 +114,53 @@ class AdminController extends Controller
         return view('auth.page-content.listSystems',['systems'=>$systems]);
 
     }
+
+    public function listOrder(){
+        $cates = Categories::where('systems_id',Auth::user()->systems_id)->get();
+        $cate_id = ClientController::arrayColumn($cates,$col='id');
+        $products = Products::whereIn('categories_id',$cate_id)->get();
+        $products_id = ClientController::arrayColumn($products,$col='id');
+        $products_detail = ProductsDetail::whereIn('products_id',$products_id)->get();
+        $products_detail_id = ClientController::arrayColumn($products_detail,$col='id');
+        $orders_detail = OrdersDetail::whereIn('products_detail_id',$products_detail_id)->get();
+        $orders_id = ClientController::arrayColumn($orders_detail,$col='orders_id');
+        $orders = Orders::whereIn('id',$orders_id)->orderBy('id','DESC')->get();
+        $totalPrice = 0;
+        foreach($orders as $order){
+            $orders_detail = OrdersDetail::where('orders_id',$order->id)->get();
+            $products_detail_id = ClientController::arrayColumn($orders_detail,$col='products_detail_id');
+            $cates = Categories::where('systems_id',Auth::user()->systems_id)->get();
+            $cate_id = ClientController::arrayColumn($cates,$col='id');
+            $products = Products::whereIn('categories_id',$cate_id)->get();
+            $products_id = ClientController::arrayColumn($products,$col='id');
+            $products_detail = ProductsDetail::whereIn('products_id',$products_id)->whereIn('id',$products_detail_id)->get();
+                foreach($products_detail as $pr){
+                    $order_detail = OrdersDetail::where('orders_id',$order->id)->where('products_detail_id',$pr->id)->get()->first();
+                    $totalPrice = $totalPrice + $order_detail->amount*$pr->price;
+                }
+        }
+        return view('auth.page-content.listOrder',['orders'=>$orders,'totalPrice'=>$totalPrice]);
+        
+    }
+    public function listOrderDetail($id){
+        $orders_detail = OrdersDetail::where('orders_id',$id)->get();
+        $products_detail_id = ClientController::arrayColumn($orders_detail,$col='products_detail_id');
+        $cates = Categories::where('systems_id',Auth::user()->systems_id)->get();
+        $cate_id = ClientController::arrayColumn($cates,$col='id');
+        $products = Products::whereIn('categories_id',$cate_id)->get();
+        $products_id = ClientController::arrayColumn($products,$col='id');
+        $products_detail = ProductsDetail::whereIn('products_id',$products_id)->whereIn('id',$products_detail_id)->get();
+        
+        return view('auth.page-content.listOrderDetail',['products_detail'=>$products_detail,'id'=>$id]);
+    }
     // --------------------
     public function editUser($id) {
         $user=User::where('id',$id)->get()->first();
         return view('auth.page-content.editUser',['user'=>$user]);
     }
-    public function editProduct() {
-        return view('auth.page-content.editProduct');
+    public function editProduct($id) {
+        $product = Products::where('id',$id)->get()->first();
+        return view('auth.page-content.editProduct',['product'=>$product]);
     }
     public function editCategorie($id) {
         $cate = Categories::where('id',$id)->get()->first();
@@ -270,6 +319,24 @@ class AdminController extends Controller
         $system->delete();
         return redirect()->route('listSystems')->with(['flash_level'=>'success','flash_message'=>'Xóa gian hàng thành công']);
     }
+
+    public function deleteProduct($id){
+        $product = Products::where('id',$id)->get()->first();
+        $product->delete();
+        return redirect()->back()->with(['flash_level'=>'success','flash_message'=>'Xóa sản phẩm thành công']);
+    }
+    public function deleteProductDetail($id){
+        $product_detail = ProductsDetail::where('id',$id)->get()->first();
+        $product = Products::where('id',$product_detail->products_id)->get()->first();
+        $product ->amount = $product->amount-$product_detail->amount;
+        $product->save();
+        $product_detail->delete();
+
+        return redirect()->back()->with(['flash_level'=>'success','flash_message'=>'Xóa sản phẩm chi tiết thành công']);
+    }
+
+
+
     public function systemHighlight($id){
         $system = Systems::where('id',$id)->get()->first();
         $system->highlights =1;

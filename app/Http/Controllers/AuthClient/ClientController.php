@@ -961,12 +961,18 @@ class ClientController extends Controller
 
     }
     public function postAddOrder(Request $request){
-        $id = Auth::guard('users_client')->user()->id;
+        
         $cart = Cart::getContent();
         $order = new Orders;
         $order->addOrder($cart,$request);
         Cart::clear();
-        return redirect()->route('account',$id)->with(['flash_level'=>'success','flash_message'=>'đặt hàng thành công']);
+        if(Auth::guard('users_client')->user()){
+            $id = Auth::guard('users_client')->user()->id;
+            return redirect()->route('account',$id)->with(['flash_level'=>'success','flash_message'=>'đặt hàng thành công']);
+        }
+        else{
+            return redirect()->back()->with(['flash_level'=>'success','flash_message'=>'đặt hàng thành công']);
+        }
 
     }
     public function postAddFeedback(Request $request){

@@ -22,7 +22,7 @@
 			<h4>Sản phẩm</h4>
 			<ol class="breadcrumb no-bg mb-1">
 				<li class="breadcrumb-item"><a href="{{URL::route('authIndex')}}">Trang chủ</a></li>
-				<li class="breadcrumb-item active">Danh sách sản phẩm</li>
+				<li class="breadcrumb-item active">Danh sách sản phẩm chi tiết</li>
 			</ol>
 			<div class="box box-block bg-white overflow-x">
 				<table class="table table-striped table-bordered dataTable" id="table-1">
@@ -33,8 +33,10 @@
 		            @endif
 					<thead>
 						<tr>
-							<th width="8%">Hình ảnh</th>
+							
 							<th>Tên sản phẩm</th>
+							<th>Thuộc tính</th>
+							<th width="10%">Giá</th>
 							
 							<th class="text-center">Enable</th>
 							<th class="text-center">Disible</th>
@@ -45,12 +47,18 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($products as $pr)
+						@foreach($products_detail as $pr)
+							@php
+		                        $products_properties = App\ProductsProperties::where('products_detail_id',$pr->id)->get();
+		                        $properties_id = App\Http\Controllers\AuthClient\ClientController::arrayColumn($products_properties,$col='properties_id');
+		                        $properties = App\Properties::join('properties_type','properties.properties_type_id','=','properties_type.id')->whereIn('properties.id',$properties_id)->select('properties.*','properties_type.name')->get();
+		                        
+		                    @endphp
 							<tr>
-								
-								<td><img src="{{asset('/uploads/images/products/avatar/'.$pr["avatar"])}}"  width="100%" /></td>
-										
-								<td><a href="{{URL::route('listProductsDetail',$pr->id)}}">{{$pr->name}}</a></td>
+
+								<td>{{$products->name}} </td>
+								<td>@foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach</td>
+								<td>{{$pr->price}} đ</td>
 								
 								@if($pr->display==0)
 									<td class="text-center">
@@ -96,8 +104,8 @@
 								</script>
 								
 								<td class="text-center">
-									<a onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="{{URL::route('deleteProduct',$pr->id)}}" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
-									<a href="{{URL::route('editProduct',$pr->id)}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
+									<a onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="{{URL::route('deleteProductDetail',$pr->id)}}" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
+									<a href="{{URL::route('editProductDetail',$pr->id)}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
 								</td>
 								
 							</tr>

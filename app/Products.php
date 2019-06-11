@@ -34,24 +34,24 @@ class Products extends Model
         $pr->views = 0;
         $pr->orders = 0;
         $pr->highlights = $request->highlights;
-        $properties = $request->properties;
+        $products_detail = $request->products_detail;
         $price = $request->price;
-        if(isset($properties)){
+        if(isset($products_detail)){
             $pr->price = $this->minPrice(count($price),$request);
-            $pr->amount = $this->countAmount(count($properties),$request);
+            $pr->amount = $this->countAmount(count($products_detail),$request);
             $pr->save();
-            for($i=0;$i<count($properties);$i++){
-                if(isset($properties[$i])){
+            for($i=0;$i<count($products_detail);$i++){
+                if(isset($products_detail[$i])){
                     $productDetail = new ProductsDetail;
                     $productDetail->price = $request->price[$i];
                     $productDetail->amount = $request->amount[$i];
                     $productDetail->products_id = $pr->id;
                     $productDetail->save();
-                    $countPropertiesDetail = count($properties[$i]);
+                    $countPropertiesDetail = count($products_detail[$i]);
                     for($j=0;$j<$countPropertiesDetail;$j++){
                         $productsProperties = new productsProperties;
                         $productsProperties->products_detail_id = $productDetail->id;
-                        $productsProperties->properties_id = $properties[$i][$j];
+                        $productsProperties->properties_id = $products_detail[$i][$j];
                         $productsProperties->save();
                     }
                 }

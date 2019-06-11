@@ -22,7 +22,7 @@
 			<h4>Sản phẩm</h4>
 			<ol class="breadcrumb no-bg mb-1">
 				<li class="breadcrumb-item"><a href="{{URL::route('authIndex')}}">Trang chủ</a></li>
-				<li class="breadcrumb-item active">Danh sách sản phẩm</li>
+				<li class="breadcrumb-item active">Danh sách sản phẩm chi tiết</li>
 			</ol>
 			<div class="box box-block bg-white overflow-x">
 				<table class="table table-striped table-bordered dataTable" id="table-1">
@@ -33,77 +33,53 @@
 		            @endif
 					<thead>
 						<tr>
-							<th width="8%">Hình ảnh</th>
-							<th>Tên sản phẩm</th>
 							
-							<th class="text-center">Enable</th>
-							<th class="text-center">Disible</th>
+							<th>Tên sản phẩm</th>
+							<th>Thuộc tính</th>
+							<th>Số lượng</th>
+							<th width="10%">Giá</th>
+							<th>Tổng tiền</th>
+							
+							
 							<th class="text-center" style="padding: 0px; background: green;">
-								<a href="{{URL::route('addProduct')}}" title="Thêm sản phẩm" style="color: green;"><i class="ion-android-add" style=" font-size:30px; color:#fff;"></i></a>
+								<!-- <a href="{{URL::route('addProduct')}}" title="Thêm sản phẩm" style="color: green;"><i class="ion-android-add" style=" font-size:30px; color:#fff;"></i></a> -->
 							</th>
 
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($products as $pr)
+						
+						@foreach($products_detail as $pr)
+							@php
+								$order_detail = App\OrdersDetail::where('orders_id',$id)->where('products_detail_id',$pr->id)->get()->first();
+		                        $products_properties = App\ProductsProperties::where('products_detail_id',$pr->id)->get();
+		                        $properties_id = App\Http\Controllers\AuthClient\ClientController::arrayColumn($products_properties,$col='properties_id');
+		                        $properties = App\Properties::join('properties_type','properties.properties_type_id','=','properties_type.id')->whereIn('properties.id',$properties_id)->select('properties.*','properties_type.name')->get();
+		                        $products = App\Products::where('id',$pr->products_id)->get()->first();
+		                        
+		                    @endphp
 							<tr>
-								
-								<td><img src="{{asset('/uploads/images/products/avatar/'.$pr["avatar"])}}"  width="100%" /></td>
-										
-								<td><a href="{{URL::route('listProductsDetail',$pr->id)}}">{{$pr->name}}</a></td>
-								
-								@if($pr->display==0)
-									<td class="text-center">
-										<div class="checkbox">
-											<label>
-												<input onclick="enable1()" value="1" class="enable_product" id="enable1" type="checkbox">
-											</label>
-										</div>
-									</td>
-									<td class="text-center">
-										<div class="checkbox">
-											<label>
-												<input onclick="disable1()" class="disable_product" value="1" id="disable1" type="checkbox" checked>
-											</label>
-										</div>
-									</td>
-								@else
-									<td class="text-center">
-										<div class="checkbox">
-											<label>
-												<input onclick="enable1()" class="enable_product" value="1" id="enable1" type="checkbox" checked>
-											</label>
-										</div>
-									</td>
-									<td class="text-center">
-										<div class="checkbox">
-											<label>
-												<input onclick="disable1()" value="1" class="disable_product" id="disable1" type="checkbox">
-											</label>
-										</div>
-									</td>
-								@endif
-								<script type="text/javascript">
-									function enable1() {
-									    document.getElementById("enable1").checked = true;
-									    document.getElementById("disable1").checked = false;
-									}
 
-									function disable1() {
-									    document.getElementById("disable1").checked = true;
-									    document.getElementById("enable1").checked = false;
-									}
-								</script>
+								<td><a href="http://localhost:8000/{{$products->url}}" target="_blank">{{$products->name}}</a> </td>
+								<td>@foreach($properties as $pp) {{$pp->name}} {{$pp->value}},@endforeach</td>
+								<td>{{$order_detail->amount}}</td>
+								<td>{!!number_format($pr->price)!!} đ</td>
+								<td>{!!number_format($pr->price*$order_detail->amount)!!} đ</td>
+								
+								
 								
 								<td class="text-center">
-									<a onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="{{URL::route('deleteProduct',$pr->id)}}" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
-									<a href="{{URL::route('editProduct',$pr->id)}}" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
+									<a onclick="return confirmDelete('Bạn có chắc muốn xóa sản phẩm này không')" href="" title="Xóa sản phẩm"><i class="ion-trash-a" style="width: 100%; font-size: 18px; color: red; margin-right: 5px;"></i></a>
+									<a href="" title="Sửa danh mục"><i class="ion-compose" style="width: 100%; font-size: 18px;"></i></a>
 								</td>
 								
 							</tr>
+							
 						@endforeach
+							
 					</tbody>
 				</table>
+				
 			</div>
 		</div>
 	</div>
